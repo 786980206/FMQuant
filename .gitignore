@@ -2,8 +2,9 @@
 *.pyc
 .idea/
 DataMod/GetDataByGTA_QTApi/log/
-
-
+*/__pycache__/
+Log/
+Strategy/*_BackTestResult/
 
 # 以下为Python的忽略文件模版
 # Byte-compiled / optimized / DLL files
