@@ -1,4 +1,10 @@
-# 以下为Python的忽略文件
+# 项目忽略文件
+*.pyc
+.idea/
+
+
+
+# 以下为Python的忽略文件模版
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

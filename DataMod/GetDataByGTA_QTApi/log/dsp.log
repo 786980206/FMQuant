@@ -28256,3 +28256,23 @@
 11156  INFO  [06-23 09:50:08.820][QtAPI.cpp:230] FT::QtAPI::QtLogin: success! 
 11156  INFO  [06-23 09:50:09.704][QuoteAPI.cpp:2226] FT::QtAPI::GetDataByTime: success! 
 11156  INFO  [06-23 09:50:09.721][QuoteAPI.cpp:2229] FT::QtAPI::GetDataByTime: finished! 
+6596   INFO  [06-23 13:50:54.308][QtAPI.cpp:103] QtAPI: Started! 
+6596   WARN  [06-23 13:50:54.308][ApiCfg.cpp:270] FT::QtAPI::CApiCfg::LoadAPICfg: dll_path,dll_name=QtAPI.dll 
+6596   WARN  [06-23 13:50:54.308][ApiCfg.cpp:276] FT::QtAPI::CApiCfg::LoadAPICfg: dll_pathQtAPI.xml 
+6596   FATAL [06-23 13:50:54.324][ApiCfg.cpp:320] FT::QtAPI::CApiCfg::LoadBrokerInfos: can't find any broker config file in ./brokers! 
+6596   INFO  [06-23 13:50:56.433][QtAuth.cpp:140] FT::QtAPI::UpdateAuthInfo: SimTrade authorized! 
+6596   INFO  [06-23 13:50:56.433][QtAuth.cpp:152] FT::QtAPI::UpdateAuthInfo: RtTrade authorized! 
+6596   INFO  [06-23 13:50:56.433][QtAuth.cpp:163] FT::QtAPI::UpdateAuthInfo: RtQuote authorized! 
+6596   INFO  [06-23 13:50:56.433][QtAuth.cpp:174] FT::QtAPI::UpdateAuthInfo: ArQuote authorized! 
+6596   INFO  [06-23 13:50:56.574][QtAPI.cpp:223] OnAuthChanged Started! 
+6596   INFO  [06-23 13:50:56.574][QtAPI.cpp:230] FT::QtAPI::QtLogin: success! 
+5376   INFO  [06-23 13:50:58.743][QtAPI.cpp:103] QtAPI: Started! 
+5376   WARN  [06-23 13:50:58.743][ApiCfg.cpp:270] FT::QtAPI::CApiCfg::LoadAPICfg: dll_path,dll_name=QtAPI.dll 
+5376   WARN  [06-23 13:50:58.743][ApiCfg.cpp:276] FT::QtAPI::CApiCfg::LoadAPICfg: dll_pathQtAPI.xml 
+5376   FATAL [06-23 13:50:58.743][ApiCfg.cpp:320] FT::QtAPI::CApiCfg::LoadBrokerInfos: can't find any broker config file in ./brokers! 
+5376   INFO  [06-23 13:51:00.102][QtAuth.cpp:140] FT::QtAPI::UpdateAuthInfo: SimTrade authorized! 
+5376   INFO  [06-23 13:51:00.102][QtAuth.cpp:152] FT::QtAPI::UpdateAuthInfo: RtTrade authorized! 
+5376   INFO  [06-23 13:51:00.102][QtAuth.cpp:163] FT::QtAPI::UpdateAuthInfo: RtQuote authorized! 
+5376   INFO  [06-23 13:51:00.102][QtAuth.cpp:174] FT::QtAPI::UpdateAuthInfo: ArQuote authorized! 
+5376   INFO  [06-23 13:51:06.746][QtAPI.cpp:223] OnAuthChanged Started! 
+5376   INFO  [06-23 13:51:06.746][QtAPI.cpp:230] FT::QtAPI::QtLogin: success! 
