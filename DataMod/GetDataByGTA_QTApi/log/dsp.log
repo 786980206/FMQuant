@@ -28276,3 +28276,35 @@
 5376   INFO  [06-23 13:51:00.102][QtAuth.cpp:174] FT::QtAPI::UpdateAuthInfo: ArQuote authorized! 
 5376   INFO  [06-23 13:51:06.746][QtAPI.cpp:223] OnAuthChanged Started! 
 5376   INFO  [06-23 13:51:06.746][QtAPI.cpp:230] FT::QtAPI::QtLogin: success! 
+1816   INFO  [06-23 13:51:46.672][QtAPI.cpp:103] QtAPI: Started! 
+1816   WARN  [06-23 13:51:46.672][ApiCfg.cpp:270] FT::QtAPI::CApiCfg::LoadAPICfg: dll_path,dll_name=QtAPI.dll 
+1816   WARN  [06-23 13:51:46.672][ApiCfg.cpp:276] FT::QtAPI::CApiCfg::LoadAPICfg: dll_pathQtAPI.xml 
+1816   FATAL [06-23 13:51:46.672][ApiCfg.cpp:320] FT::QtAPI::CApiCfg::LoadBrokerInfos: can't find any broker config file in ./brokers! 
+1816   INFO  [06-23 13:51:47.703][QtAuth.cpp:140] FT::QtAPI::UpdateAuthInfo: SimTrade authorized! 
+1816   INFO  [06-23 13:51:47.703][QtAuth.cpp:152] FT::QtAPI::UpdateAuthInfo: RtTrade authorized! 
+1816   INFO  [06-23 13:51:47.703][QtAuth.cpp:163] FT::QtAPI::UpdateAuthInfo: RtQuote authorized! 
+1816   INFO  [06-23 13:51:47.703][QtAuth.cpp:174] FT::QtAPI::UpdateAuthInfo: ArQuote authorized! 
+1816   INFO  [06-23 13:51:53.080][QtAPI.cpp:223] OnAuthChanged Started! 
+1816   INFO  [06-23 13:51:53.080][QtAPI.cpp:230] FT::QtAPI::QtLogin: success! 
+1812   INFO  [06-23 13:51:55.064][QtAPI.cpp:103] QtAPI: Started! 
+1812   WARN  [06-23 13:51:55.064][ApiCfg.cpp:270] FT::QtAPI::CApiCfg::LoadAPICfg: dll_path,dll_name=QtAPI.dll 
+1812   WARN  [06-23 13:51:55.080][ApiCfg.cpp:276] FT::QtAPI::CApiCfg::LoadAPICfg: dll_pathQtAPI.xml 
+1812   FATAL [06-23 13:51:55.080][ApiCfg.cpp:320] FT::QtAPI::CApiCfg::LoadBrokerInfos: can't find any broker config file in ./brokers! 
+1812   INFO  [06-23 13:51:56.097][QtAuth.cpp:140] FT::QtAPI::UpdateAuthInfo: SimTrade authorized! 
+1812   INFO  [06-23 13:51:56.097][QtAuth.cpp:152] FT::QtAPI::UpdateAuthInfo: RtTrade authorized! 
+1812   INFO  [06-23 13:51:56.097][QtAuth.cpp:163] FT::QtAPI::UpdateAuthInfo: RtQuote authorized! 
+1812   INFO  [06-23 13:51:56.097][QtAuth.cpp:174] FT::QtAPI::UpdateAuthInfo: ArQuote authorized! 
+1812   INFO  [06-23 13:51:56.222][QtAPI.cpp:223] OnAuthChanged Started! 
+1812   INFO  [06-23 13:51:56.222][QtAPI.cpp:230] FT::QtAPI::QtLogin: success! 
+6544   WARN  [06-23 13:56:57.030][QtAuth.cpp:195] FT::QtAPI::OnAuthChanged: token expired or invalid! 
+6544   INFO  [06-23 13:56:57.046][QtAuth.cpp:140] FT::QtAPI::UpdateAuthInfo: SimTrade authorized! 
+6544   INFO  [06-23 13:56:57.046][QtAuth.cpp:152] FT::QtAPI::UpdateAuthInfo: RtTrade authorized! 
+6544   INFO  [06-23 13:56:57.046][QtAuth.cpp:163] FT::QtAPI::UpdateAuthInfo: RtQuote authorized! 
+6544   INFO  [06-23 13:56:57.046][QtAuth.cpp:174] FT::QtAPI::UpdateAuthInfo: ArQuote authorized! 
+6544   WARN  [06-23 13:56:57.046][QtAuth.cpp:205] FT::QtAPI::OnAuthChanged: authority changed! 
+6544   WARN  [06-23 14:02:00.537][QtAuth.cpp:195] FT::QtAPI::OnAuthChanged: token expired or invalid! 
+6544   INFO  [06-23 14:02:00.553][QtAuth.cpp:140] FT::QtAPI::UpdateAuthInfo: SimTrade authorized! 
+6544   INFO  [06-23 14:02:00.553][QtAuth.cpp:152] FT::QtAPI::UpdateAuthInfo: RtTrade authorized! 
+6544   INFO  [06-23 14:02:00.553][QtAuth.cpp:163] FT::QtAPI::UpdateAuthInfo: RtQuote authorized! 
+6544   INFO  [06-23 14:02:00.553][QtAuth.cpp:174] FT::QtAPI::UpdateAuthInfo: ArQuote authorized! 
+6544   WARN  [06-23 14:02:00.553][QtAuth.cpp:205] FT::QtAPI::OnAuthChanged: authority changed! 

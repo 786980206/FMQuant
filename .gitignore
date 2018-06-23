@@ -1,6 +1,7 @@
 # 项目忽略文件
 *.pyc
 .idea/
+DataMod/GetDataByGTA_QTApi/log/
 
 
 
