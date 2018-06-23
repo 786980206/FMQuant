@@ -1,0 +1,800 @@
+20180423103304 Info network.c:_client_kernel_cb 2697 Begin
+20180423103304 Info network.c:_reconnect_cb 2787 Begin
+20180423103304 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180423103304 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180423103304 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180423103304 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180423103304 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180423103304 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180423103304 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180423103304 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180423103304 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180423103304 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423103304 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423103304 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423150642 Info network.c:_client_kernel_cb 2697 Begin
+20180423150642 Info network.c:_reconnect_cb 2787 Begin
+20180423150642 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180423150642 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180423150642 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180423150642 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180423150642 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180423150642 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180423150642 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180423150642 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180423150642 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180423150642 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423150642 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423150642 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151208 Info network.c:_client_kernel_cb 2697 Begin
+20180423151208 Info network.c:_reconnect_cb 2787 Begin
+20180423151208 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180423151208 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180423151208 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180423151208 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180423151208 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180423151208 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180423151208 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180423151208 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180423151208 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180423151209 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151209 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151209 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151609 Info network.c:_client_kernel_cb 2697 Begin
+20180423151609 Info network.c:_reconnect_cb 2787 Begin
+20180423151609 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180423151609 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180423151609 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180423151609 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180423151609 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180423151609 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180423151609 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180423151609 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180423151609 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180423151609 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151609 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151609 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151614 Info connect success, ID=4,ip=119.147.211.206,port=8181
+20180423151614 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(4) reconnect(0)
+20180423151614 Error ID=1,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151614 Info connect success, ID=5,ip=119.147.211.207,port=8181
+20180423151614 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(5) reconnect(0)
+20180423151614 Info connect success, ID=6,ip=119.147.211.206,port=9999
+20180423151614 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(6) reconnect(0)
+20180423151614 Info connect success, ID=7,ip=119.147.211.207,port=9999
+20180423151614 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(7) reconnect(0)
+20180423151614 Error ID=5,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151614 Error ID=6,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151614 Error ID=7,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151620 Error ID=4,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151620 Info connect success, ID=8,ip=119.147.211.206,port=8181
+20180423151620 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(8) reconnect(0)
+20180423151620 Info connect success, ID=9,ip=119.147.211.207,port=8181
+20180423151620 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(9) reconnect(0)
+20180423151620 Info connect success, ID=10,ip=119.147.211.206,port=9999
+20180423151620 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(10) reconnect(0)
+20180423151620 Info connect success, ID=11,ip=119.147.211.207,port=9999
+20180423151620 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(11) reconnect(0)
+20180423151621 Error ID=9,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151621 Error ID=10,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151621 Error ID=11,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151627 Error ID=8,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151627 Info connect success, ID=12,ip=119.147.211.206,port=8181
+20180423151627 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(12) reconnect(0)
+20180423151627 Info connect success, ID=13,ip=119.147.211.207,port=8181
+20180423151627 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(13) reconnect(0)
+20180423151627 Info connect success, ID=14,ip=119.147.211.206,port=9999
+20180423151627 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(14) reconnect(0)
+20180423151627 Info connect success, ID=15,ip=119.147.211.207,port=9999
+20180423151627 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(15) reconnect(0)
+20180423151627 Error ID=13,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151627 Error ID=14,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151627 Error ID=15,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151633 Error ID=12,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151633 Info connect success, ID=16,ip=119.147.211.206,port=8181
+20180423151633 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(16) reconnect(0)
+20180423151633 Info connect success, ID=17,ip=119.147.211.207,port=8181
+20180423151633 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(17) reconnect(0)
+20180423151633 Info connect success, ID=18,ip=119.147.211.206,port=9999
+20180423151633 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(18) reconnect(0)
+20180423151633 Info connect success, ID=19,ip=119.147.211.207,port=9999
+20180423151633 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(19) reconnect(0)
+20180423151633 Error ID=17,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151633 Error ID=18,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151633 Error ID=19,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151639 Error ID=16,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151639 Info connect success, ID=20,ip=119.147.211.206,port=8181
+20180423151639 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(20) reconnect(0)
+20180423151639 Info connect success, ID=21,ip=119.147.211.207,port=8181
+20180423151639 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(21) reconnect(0)
+20180423151639 Info connect success, ID=22,ip=119.147.211.206,port=9999
+20180423151639 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(22) reconnect(0)
+20180423151639 Info connect success, ID=23,ip=119.147.211.207,port=9999
+20180423151639 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(23) reconnect(0)
+20180423151639 Error ID=21,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151639 Error ID=22,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151639 Error ID=23,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151645 Error ID=20,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151645 Info connect success, ID=24,ip=119.147.211.206,port=8181
+20180423151645 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(24) reconnect(0)
+20180423151645 Info connect success, ID=25,ip=119.147.211.207,port=8181
+20180423151645 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(25) reconnect(0)
+20180423151645 Info connect success, ID=26,ip=119.147.211.206,port=9999
+20180423151645 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(26) reconnect(0)
+20180423151645 Info connect success, ID=27,ip=119.147.211.207,port=9999
+20180423151645 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(27) reconnect(0)
+20180423151645 Error ID=25,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151645 Error ID=26,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151645 Error ID=27,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151651 Error ID=24,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151651 Info connect success, ID=28,ip=119.147.211.206,port=8181
+20180423151651 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(28) reconnect(0)
+20180423151651 Info connect success, ID=29,ip=119.147.211.207,port=8181
+20180423151651 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(29) reconnect(0)
+20180423151651 Info connect success, ID=30,ip=119.147.211.206,port=9999
+20180423151651 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(30) reconnect(0)
+20180423151651 Info connect success, ID=31,ip=119.147.211.207,port=9999
+20180423151651 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(31) reconnect(0)
+20180423151651 Error ID=29,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151651 Error ID=30,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151651 Error ID=31,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151657 Error ID=28,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151657 Info connect success, ID=32,ip=119.147.211.206,port=8181
+20180423151657 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(32) reconnect(0)
+20180423151657 Info connect success, ID=33,ip=119.147.211.207,port=8181
+20180423151657 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(33) reconnect(0)
+20180423151657 Info connect success, ID=34,ip=119.147.211.206,port=9999
+20180423151657 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(34) reconnect(0)
+20180423151657 Info connect success, ID=35,ip=119.147.211.207,port=9999
+20180423151657 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(35) reconnect(0)
+20180423151657 Error ID=33,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151657 Error ID=34,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151657 Error ID=35,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151703 Error ID=32,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151703 Info connect success, ID=36,ip=119.147.211.206,port=8181
+20180423151703 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(36) reconnect(0)
+20180423151703 Info connect success, ID=37,ip=119.147.211.207,port=8181
+20180423151703 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(37) reconnect(0)
+20180423151703 Info connect success, ID=38,ip=119.147.211.206,port=9999
+20180423151703 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(38) reconnect(0)
+20180423151703 Info connect success, ID=39,ip=119.147.211.207,port=9999
+20180423151703 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(39) reconnect(0)
+20180423151703 Error ID=37,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151703 Error ID=38,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151703 Error ID=39,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151709 Error ID=36,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151709 Info connect success, ID=40,ip=119.147.211.206,port=8181
+20180423151709 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(40) reconnect(0)
+20180423151709 Info connect success, ID=41,ip=119.147.211.207,port=8181
+20180423151709 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(41) reconnect(0)
+20180423151709 Info connect success, ID=42,ip=119.147.211.206,port=9999
+20180423151709 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(42) reconnect(0)
+20180423151709 Info connect success, ID=43,ip=119.147.211.207,port=9999
+20180423151709 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(43) reconnect(0)
+20180423151709 Error ID=41,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151709 Error ID=42,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151709 Error ID=43,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151715 Error ID=40,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151715 Info connect success, ID=44,ip=119.147.211.206,port=8181
+20180423151715 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(44) reconnect(0)
+20180423151715 Info connect success, ID=45,ip=119.147.211.207,port=8181
+20180423151715 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(45) reconnect(0)
+20180423151715 Info connect success, ID=46,ip=119.147.211.206,port=9999
+20180423151715 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(46) reconnect(0)
+20180423151715 Info connect success, ID=47,ip=119.147.211.207,port=9999
+20180423151715 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(47) reconnect(0)
+20180423151715 Error ID=45,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151715 Error ID=46,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151715 Error ID=47,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151721 Error ID=44,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151721 Info connect success, ID=48,ip=119.147.211.206,port=8181
+20180423151721 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(48) reconnect(0)
+20180423151721 Info connect success, ID=49,ip=119.147.211.207,port=8181
+20180423151721 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(49) reconnect(0)
+20180423151721 Info connect success, ID=50,ip=119.147.211.206,port=9999
+20180423151721 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(50) reconnect(0)
+20180423151721 Info connect success, ID=51,ip=119.147.211.207,port=9999
+20180423151721 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(51) reconnect(0)
+20180423151721 Error ID=49,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151721 Error ID=50,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151721 Error ID=51,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151727 Error ID=48,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151727 Info connect success, ID=52,ip=119.147.211.206,port=8181
+20180423151727 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(52) reconnect(0)
+20180423151727 Info connect success, ID=53,ip=119.147.211.207,port=8181
+20180423151727 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(53) reconnect(0)
+20180423151727 Info connect success, ID=54,ip=119.147.211.206,port=9999
+20180423151727 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(54) reconnect(0)
+20180423151727 Info connect success, ID=55,ip=119.147.211.207,port=9999
+20180423151727 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(55) reconnect(0)
+20180423151727 Error ID=53,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151727 Error ID=54,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151727 Error ID=55,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151733 Error ID=52,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151733 Info connect success, ID=56,ip=119.147.211.206,port=8181
+20180423151733 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(56) reconnect(0)
+20180423151733 Info connect success, ID=57,ip=119.147.211.207,port=8181
+20180423151733 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(57) reconnect(0)
+20180423151733 Info connect success, ID=58,ip=119.147.211.206,port=9999
+20180423151733 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(58) reconnect(0)
+20180423151733 Info connect success, ID=59,ip=119.147.211.207,port=9999
+20180423151733 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(59) reconnect(0)
+20180423151733 Error ID=57,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151733 Error ID=58,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151733 Error ID=59,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151739 Error ID=56,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151739 Info connect success, ID=60,ip=119.147.211.206,port=8181
+20180423151739 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(60) reconnect(0)
+20180423151739 Info connect success, ID=61,ip=119.147.211.207,port=8181
+20180423151739 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(61) reconnect(0)
+20180423151739 Info connect success, ID=62,ip=119.147.211.206,port=9999
+20180423151739 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(62) reconnect(0)
+20180423151739 Info connect success, ID=63,ip=119.147.211.207,port=9999
+20180423151739 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(63) reconnect(0)
+20180423151739 Error ID=61,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151739 Error ID=62,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151739 Error ID=63,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151745 Error ID=60,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151745 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180423151745 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180423151745 Info connect success, ID=2,ip=119.147.211.207,port=8181
+20180423151745 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(2) reconnect(0)
+20180423151745 Info connect success, ID=3,ip=119.147.211.206,port=9999
+20180423151745 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(3) reconnect(0)
+20180423151745 Info connect success, ID=1,ip=119.147.211.207,port=9999
+20180423151745 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(1) reconnect(0)
+20180423151745 Error ID=2,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151745 Error ID=3,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151745 Error ID=1,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151751 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151751 Info connect success, ID=5,ip=119.147.211.206,port=8181
+20180423151751 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(5) reconnect(0)
+20180423151751 Info connect success, ID=6,ip=119.147.211.207,port=8181
+20180423151751 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(6) reconnect(0)
+20180423151751 Info connect success, ID=7,ip=119.147.211.206,port=9999
+20180423151751 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(7) reconnect(0)
+20180423151751 Info connect success, ID=4,ip=119.147.211.207,port=9999
+20180423151751 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(4) reconnect(0)
+20180423151751 Error ID=6,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151751 Error ID=7,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151751 Error ID=4,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151757 Error ID=5,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151757 Info connect success, ID=9,ip=119.147.211.206,port=8181
+20180423151757 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(9) reconnect(0)
+20180423151757 Info connect success, ID=10,ip=119.147.211.207,port=8181
+20180423151757 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(10) reconnect(0)
+20180423151757 Info connect success, ID=11,ip=119.147.211.206,port=9999
+20180423151757 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(11) reconnect(0)
+20180423151757 Info connect success, ID=8,ip=119.147.211.207,port=9999
+20180423151757 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(8) reconnect(0)
+20180423151757 Error ID=10,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151757 Error ID=11,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151757 Error ID=8,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151803 Error ID=9,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151803 Info connect success, ID=13,ip=119.147.211.206,port=8181
+20180423151803 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(13) reconnect(0)
+20180423151803 Info connect success, ID=14,ip=119.147.211.207,port=8181
+20180423151803 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(14) reconnect(0)
+20180423151803 Info connect success, ID=15,ip=119.147.211.206,port=9999
+20180423151803 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(15) reconnect(0)
+20180423151803 Info connect success, ID=12,ip=119.147.211.207,port=9999
+20180423151803 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(12) reconnect(0)
+20180423151803 Error ID=14,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151803 Error ID=15,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151803 Error ID=12,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151809 Error ID=13,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151809 Info connect success, ID=17,ip=119.147.211.206,port=8181
+20180423151809 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(17) reconnect(0)
+20180423151809 Info connect success, ID=18,ip=119.147.211.207,port=8181
+20180423151809 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(18) reconnect(0)
+20180423151809 Info connect success, ID=19,ip=119.147.211.206,port=9999
+20180423151809 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(19) reconnect(0)
+20180423151809 Info connect success, ID=16,ip=119.147.211.207,port=9999
+20180423151809 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(16) reconnect(0)
+20180423151809 Error ID=18,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151809 Error ID=19,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151809 Error ID=16,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151815 Error ID=17,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151815 Info connect success, ID=21,ip=119.147.211.206,port=8181
+20180423151815 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(21) reconnect(0)
+20180423151815 Info connect success, ID=22,ip=119.147.211.207,port=8181
+20180423151815 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(22) reconnect(0)
+20180423151815 Info connect success, ID=23,ip=119.147.211.206,port=9999
+20180423151815 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(23) reconnect(0)
+20180423151815 Info connect success, ID=20,ip=119.147.211.207,port=9999
+20180423151815 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(20) reconnect(0)
+20180423151815 Error ID=22,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151815 Error ID=23,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151815 Error ID=20,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151821 Error ID=21,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151821 Info connect success, ID=25,ip=119.147.211.206,port=8181
+20180423151821 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(25) reconnect(0)
+20180423151821 Info connect success, ID=26,ip=119.147.211.207,port=8181
+20180423151821 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(26) reconnect(0)
+20180423151821 Info connect success, ID=27,ip=119.147.211.206,port=9999
+20180423151821 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(27) reconnect(0)
+20180423151821 Info connect success, ID=24,ip=119.147.211.207,port=9999
+20180423151821 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(24) reconnect(0)
+20180423151821 Error ID=26,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151821 Error ID=27,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151821 Error ID=24,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151827 Error ID=25,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151827 Info connect success, ID=29,ip=119.147.211.206,port=8181
+20180423151827 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(29) reconnect(0)
+20180423151827 Info connect success, ID=30,ip=119.147.211.207,port=8181
+20180423151827 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(30) reconnect(0)
+20180423151827 Info connect success, ID=31,ip=119.147.211.206,port=9999
+20180423151827 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(31) reconnect(0)
+20180423151827 Info connect success, ID=28,ip=119.147.211.207,port=9999
+20180423151827 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(28) reconnect(0)
+20180423151827 Error ID=30,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151827 Error ID=31,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151827 Error ID=28,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151833 Error ID=29,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151833 Info connect success, ID=33,ip=119.147.211.206,port=8181
+20180423151833 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(33) reconnect(0)
+20180423151833 Info connect success, ID=34,ip=119.147.211.207,port=8181
+20180423151833 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(34) reconnect(0)
+20180423151833 Info connect success, ID=35,ip=119.147.211.206,port=9999
+20180423151833 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(35) reconnect(0)
+20180423151833 Info connect success, ID=32,ip=119.147.211.207,port=9999
+20180423151833 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(32) reconnect(0)
+20180423151833 Error ID=34,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151833 Error ID=35,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151833 Error ID=32,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151839 Error ID=33,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151839 Info connect success, ID=37,ip=119.147.211.206,port=8181
+20180423151839 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(37) reconnect(0)
+20180423151839 Info connect success, ID=38,ip=119.147.211.207,port=8181
+20180423151839 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(38) reconnect(0)
+20180423151839 Info connect success, ID=39,ip=119.147.211.206,port=9999
+20180423151839 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(39) reconnect(0)
+20180423151839 Info connect success, ID=36,ip=119.147.211.207,port=9999
+20180423151839 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(36) reconnect(0)
+20180423151839 Error ID=38,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151839 Error ID=39,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151839 Error ID=36,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151845 Error ID=37,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151845 Info connect success, ID=41,ip=119.147.211.206,port=8181
+20180423151845 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(41) reconnect(0)
+20180423151846 Info connect success, ID=42,ip=119.147.211.207,port=8181
+20180423151846 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(42) reconnect(0)
+20180423151846 Info connect success, ID=43,ip=119.147.211.206,port=9999
+20180423151846 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(43) reconnect(0)
+20180423151846 Info connect success, ID=40,ip=119.147.211.207,port=9999
+20180423151846 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(40) reconnect(0)
+20180423151846 Error ID=42,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151846 Error ID=43,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151846 Error ID=40,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151852 Error ID=41,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151852 Info connect success, ID=45,ip=119.147.211.206,port=8181
+20180423151852 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(45) reconnect(0)
+20180423151852 Info connect success, ID=46,ip=119.147.211.207,port=8181
+20180423151852 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(46) reconnect(0)
+20180423151852 Info connect success, ID=47,ip=119.147.211.206,port=9999
+20180423151852 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(47) reconnect(0)
+20180423151852 Info connect success, ID=44,ip=119.147.211.207,port=9999
+20180423151852 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(44) reconnect(0)
+20180423151852 Error ID=46,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151852 Error ID=47,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151852 Error ID=44,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151858 Error ID=45,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151858 Info connect success, ID=49,ip=119.147.211.206,port=8181
+20180423151858 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(49) reconnect(0)
+20180423151858 Info connect success, ID=50,ip=119.147.211.207,port=8181
+20180423151858 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(50) reconnect(0)
+20180423151858 Info connect success, ID=51,ip=119.147.211.206,port=9999
+20180423151858 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(51) reconnect(0)
+20180423151858 Info connect success, ID=48,ip=119.147.211.207,port=9999
+20180423151858 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(48) reconnect(0)
+20180423151858 Error ID=50,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151858 Error ID=51,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151858 Error ID=48,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151904 Error ID=49,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151904 Info connect success, ID=53,ip=119.147.211.206,port=8181
+20180423151904 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(53) reconnect(0)
+20180423151904 Info connect success, ID=54,ip=119.147.211.207,port=8181
+20180423151904 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(54) reconnect(0)
+20180423151904 Info connect success, ID=55,ip=119.147.211.206,port=9999
+20180423151904 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(55) reconnect(0)
+20180423151904 Info connect success, ID=52,ip=119.147.211.207,port=9999
+20180423151904 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(52) reconnect(0)
+20180423151904 Error ID=54,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151904 Error ID=55,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151904 Error ID=52,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151910 Error ID=53,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151910 Info connect success, ID=57,ip=119.147.211.206,port=8181
+20180423151910 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(57) reconnect(0)
+20180423151910 Info connect success, ID=58,ip=119.147.211.207,port=8181
+20180423151910 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(58) reconnect(0)
+20180423151910 Info connect success, ID=59,ip=119.147.211.206,port=9999
+20180423151910 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(59) reconnect(0)
+20180423151910 Info connect success, ID=56,ip=119.147.211.207,port=9999
+20180423151910 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(56) reconnect(0)
+20180423151910 Error ID=58,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151910 Error ID=59,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151910 Error ID=56,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151916 Error ID=57,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151916 Info connect success, ID=61,ip=119.147.211.206,port=8181
+20180423151916 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(61) reconnect(0)
+20180423151916 Info connect success, ID=62,ip=119.147.211.207,port=8181
+20180423151916 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(62) reconnect(0)
+20180423151916 Info connect success, ID=63,ip=119.147.211.206,port=9999
+20180423151916 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(63) reconnect(0)
+20180423151916 Info connect success, ID=60,ip=119.147.211.207,port=9999
+20180423151916 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(60) reconnect(0)
+20180423151916 Error ID=62,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151916 Error ID=63,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151916 Error ID=60,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151922 Error ID=61,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151922 Info connect success, ID=2,ip=119.147.211.206,port=8181
+20180423151922 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(2) reconnect(0)
+20180423151922 Info connect success, ID=3,ip=119.147.211.207,port=8181
+20180423151922 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(3) reconnect(0)
+20180423151922 Info connect success, ID=1,ip=119.147.211.206,port=9999
+20180423151922 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(1) reconnect(0)
+20180423151922 Info connect success, ID=0,ip=119.147.211.207,port=9999
+20180423151922 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(0) reconnect(0)
+20180423151922 Error ID=3,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151922 Error ID=1,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151922 Error ID=0,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151928 Error ID=2,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151928 Info connect success, ID=6,ip=119.147.211.206,port=8181
+20180423151928 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(6) reconnect(0)
+20180423151928 Info connect success, ID=7,ip=119.147.211.207,port=8181
+20180423151928 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(7) reconnect(0)
+20180423151928 Info connect success, ID=4,ip=119.147.211.206,port=9999
+20180423151928 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(4) reconnect(0)
+20180423151928 Info connect success, ID=5,ip=119.147.211.207,port=9999
+20180423151928 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(5) reconnect(0)
+20180423151928 Error ID=7,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151928 Error ID=4,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151928 Error ID=5,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151934 Error ID=6,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151934 Info connect success, ID=10,ip=119.147.211.206,port=8181
+20180423151934 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(10) reconnect(0)
+20180423151934 Info connect success, ID=11,ip=119.147.211.207,port=8181
+20180423151934 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(11) reconnect(0)
+20180423151934 Info connect success, ID=8,ip=119.147.211.206,port=9999
+20180423151934 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(8) reconnect(0)
+20180423151934 Info connect success, ID=9,ip=119.147.211.207,port=9999
+20180423151934 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(9) reconnect(0)
+20180423151934 Error ID=11,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151934 Error ID=8,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151934 Error ID=9,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151940 Error ID=10,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151940 Info connect success, ID=14,ip=119.147.211.206,port=8181
+20180423151940 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(14) reconnect(0)
+20180423151940 Info connect success, ID=15,ip=119.147.211.207,port=8181
+20180423151940 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(15) reconnect(0)
+20180423151940 Info connect success, ID=12,ip=119.147.211.206,port=9999
+20180423151940 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(12) reconnect(0)
+20180423151940 Info connect success, ID=13,ip=119.147.211.207,port=9999
+20180423151940 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(13) reconnect(0)
+20180423151940 Error ID=15,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151940 Error ID=12,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151940 Error ID=13,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151946 Error ID=14,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151946 Info connect success, ID=18,ip=119.147.211.206,port=8181
+20180423151946 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(18) reconnect(0)
+20180423151946 Info connect success, ID=19,ip=119.147.211.207,port=8181
+20180423151946 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(19) reconnect(0)
+20180423151946 Info connect success, ID=16,ip=119.147.211.206,port=9999
+20180423151946 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(16) reconnect(0)
+20180423151946 Info connect success, ID=17,ip=119.147.211.207,port=9999
+20180423151946 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(17) reconnect(0)
+20180423151946 Error ID=19,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151946 Error ID=16,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151946 Error ID=17,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151952 Error ID=18,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151952 Info connect success, ID=22,ip=119.147.211.206,port=8181
+20180423151952 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(22) reconnect(0)
+20180423151952 Info connect success, ID=23,ip=119.147.211.207,port=8181
+20180423151952 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(23) reconnect(0)
+20180423151952 Info connect success, ID=20,ip=119.147.211.206,port=9999
+20180423151952 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(20) reconnect(0)
+20180423151952 Info connect success, ID=21,ip=119.147.211.207,port=9999
+20180423151952 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(21) reconnect(0)
+20180423151952 Error ID=23,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151952 Error ID=20,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151952 Error ID=21,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423151958 Error ID=22,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423151958 Info connect success, ID=26,ip=119.147.211.206,port=8181
+20180423151958 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(26) reconnect(0)
+20180423151958 Info connect success, ID=27,ip=119.147.211.207,port=8181
+20180423151958 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(27) reconnect(0)
+20180423151958 Info connect success, ID=24,ip=119.147.211.206,port=9999
+20180423151958 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(24) reconnect(0)
+20180423151958 Info connect success, ID=25,ip=119.147.211.207,port=9999
+20180423151958 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(25) reconnect(0)
+20180423151958 Error ID=27,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423151958 Error ID=24,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423151958 Error ID=25,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152004 Error ID=26,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152004 Info connect success, ID=30,ip=119.147.211.206,port=8181
+20180423152004 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(30) reconnect(0)
+20180423152004 Info connect success, ID=31,ip=119.147.211.207,port=8181
+20180423152004 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(31) reconnect(0)
+20180423152004 Info connect success, ID=28,ip=119.147.211.206,port=9999
+20180423152004 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(28) reconnect(0)
+20180423152004 Info connect success, ID=29,ip=119.147.211.207,port=9999
+20180423152004 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(29) reconnect(0)
+20180423152004 Error ID=31,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152004 Error ID=28,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152004 Error ID=29,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152010 Error ID=30,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152010 Info connect success, ID=34,ip=119.147.211.206,port=8181
+20180423152010 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(34) reconnect(0)
+20180423152010 Info connect success, ID=35,ip=119.147.211.207,port=8181
+20180423152010 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(35) reconnect(0)
+20180423152010 Info connect success, ID=32,ip=119.147.211.206,port=9999
+20180423152010 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(32) reconnect(0)
+20180423152010 Info connect success, ID=33,ip=119.147.211.207,port=9999
+20180423152010 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(33) reconnect(0)
+20180423152010 Error ID=35,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152010 Error ID=32,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152010 Error ID=33,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152016 Error ID=34,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152016 Info connect success, ID=38,ip=119.147.211.206,port=8181
+20180423152016 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(38) reconnect(0)
+20180423152016 Info connect success, ID=39,ip=119.147.211.207,port=8181
+20180423152016 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(39) reconnect(0)
+20180423152016 Info connect success, ID=36,ip=119.147.211.206,port=9999
+20180423152016 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(36) reconnect(0)
+20180423152018 Error client connect timeout fault
+20180423152018 Error ID=37,ip=119.147.211.207,port=9999 closed, erorcode:0
+20180423152018 Error network.c:add_connect 3288 add_connect(ip:119.147.211.207 port:9999) failed id(37)
+20180423152018 Error ID=39,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152018 Error ID=36,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152024 Error ID=38,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152024 Info connect success, ID=42,ip=119.147.211.206,port=8181
+20180423152024 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(42) reconnect(0)
+20180423152024 Info connect success, ID=43,ip=119.147.211.207,port=8181
+20180423152024 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(43) reconnect(0)
+20180423152024 Info connect success, ID=40,ip=119.147.211.206,port=9999
+20180423152024 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(40) reconnect(0)
+20180423152024 Info connect success, ID=41,ip=119.147.211.207,port=9999
+20180423152024 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(41) reconnect(0)
+20180423152024 Error ID=43,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152024 Error ID=40,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152024 Error ID=41,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152030 Error ID=42,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152030 Info connect success, ID=46,ip=119.147.211.206,port=8181
+20180423152030 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(46) reconnect(0)
+20180423152030 Info connect success, ID=47,ip=119.147.211.207,port=8181
+20180423152030 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(47) reconnect(0)
+20180423152030 Info connect success, ID=44,ip=119.147.211.206,port=9999
+20180423152030 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(44) reconnect(0)
+20180423152030 Info connect success, ID=45,ip=119.147.211.207,port=9999
+20180423152030 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(45) reconnect(0)
+20180423152030 Error ID=47,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152030 Error ID=44,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152030 Error ID=45,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152036 Error ID=46,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152036 Info connect success, ID=50,ip=119.147.211.206,port=8181
+20180423152036 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(50) reconnect(0)
+20180423152036 Info connect success, ID=51,ip=119.147.211.207,port=8181
+20180423152036 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(51) reconnect(0)
+20180423152036 Info connect success, ID=48,ip=119.147.211.206,port=9999
+20180423152036 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(48) reconnect(0)
+20180423152036 Info connect success, ID=49,ip=119.147.211.207,port=9999
+20180423152036 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(49) reconnect(0)
+20180423152036 Error ID=51,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152036 Error ID=48,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152036 Error ID=49,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152042 Error ID=50,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152042 Info connect success, ID=54,ip=119.147.211.206,port=8181
+20180423152042 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(54) reconnect(0)
+20180423152042 Info connect success, ID=55,ip=119.147.211.207,port=8181
+20180423152042 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(55) reconnect(0)
+20180423152042 Info connect success, ID=52,ip=119.147.211.206,port=9999
+20180423152042 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(52) reconnect(0)
+20180423152042 Info connect success, ID=53,ip=119.147.211.207,port=9999
+20180423152042 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(53) reconnect(0)
+20180423152042 Error ID=55,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152042 Error ID=52,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152042 Error ID=53,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152048 Error ID=54,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152048 Info connect success, ID=58,ip=119.147.211.206,port=8181
+20180423152048 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(58) reconnect(0)
+20180423152048 Info connect success, ID=59,ip=119.147.211.207,port=8181
+20180423152048 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(59) reconnect(0)
+20180423152048 Info connect success, ID=56,ip=119.147.211.206,port=9999
+20180423152048 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(56) reconnect(0)
+20180423152048 Info connect success, ID=57,ip=119.147.211.207,port=9999
+20180423152048 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(57) reconnect(0)
+20180423152048 Error ID=59,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152048 Error ID=56,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152048 Error ID=57,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152054 Error ID=58,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152054 Info connect success, ID=62,ip=119.147.211.206,port=8181
+20180423152054 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(62) reconnect(0)
+20180423152054 Info connect success, ID=63,ip=119.147.211.207,port=8181
+20180423152054 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(63) reconnect(0)
+20180423152054 Info connect success, ID=60,ip=119.147.211.206,port=9999
+20180423152054 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(60) reconnect(0)
+20180423152054 Info connect success, ID=61,ip=119.147.211.207,port=9999
+20180423152054 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(61) reconnect(0)
+20180423152054 Error ID=63,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152054 Error ID=60,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152054 Error ID=61,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152100 Error ID=62,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152100 Info connect success, ID=3,ip=119.147.211.206,port=8181
+20180423152100 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(3) reconnect(0)
+20180423152100 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180423152100 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180423152100 Info connect success, ID=0,ip=119.147.211.206,port=9999
+20180423152100 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(0) reconnect(0)
+20180423152100 Info connect success, ID=2,ip=119.147.211.207,port=9999
+20180423152100 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(2) reconnect(0)
+20180423152100 Error ID=1,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152100 Error ID=0,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152100 Error ID=2,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152106 Error ID=3,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152106 Info connect success, ID=7,ip=119.147.211.206,port=8181
+20180423152106 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(7) reconnect(0)
+20180423152106 Info connect success, ID=4,ip=119.147.211.207,port=8181
+20180423152106 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(4) reconnect(0)
+20180423152106 Info connect success, ID=5,ip=119.147.211.206,port=9999
+20180423152106 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(5) reconnect(0)
+20180423152106 Info connect success, ID=6,ip=119.147.211.207,port=9999
+20180423152106 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(6) reconnect(0)
+20180423152106 Error ID=4,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152106 Error ID=5,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152106 Error ID=6,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152112 Error ID=7,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152112 Info connect success, ID=11,ip=119.147.211.206,port=8181
+20180423152112 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(11) reconnect(0)
+20180423152112 Info connect success, ID=8,ip=119.147.211.207,port=8181
+20180423152112 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(8) reconnect(0)
+20180423152112 Info connect success, ID=9,ip=119.147.211.206,port=9999
+20180423152112 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(9) reconnect(0)
+20180423152112 Info connect success, ID=10,ip=119.147.211.207,port=9999
+20180423152112 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(10) reconnect(0)
+20180423152112 Error ID=8,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152112 Error ID=9,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152112 Error ID=10,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152118 Error ID=11,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152118 Info connect success, ID=15,ip=119.147.211.206,port=8181
+20180423152118 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(15) reconnect(0)
+20180423152118 Info connect success, ID=12,ip=119.147.211.207,port=8181
+20180423152118 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(12) reconnect(0)
+20180423152118 Info connect success, ID=13,ip=119.147.211.206,port=9999
+20180423152118 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(13) reconnect(0)
+20180423152118 Info connect success, ID=14,ip=119.147.211.207,port=9999
+20180423152118 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(14) reconnect(0)
+20180423152118 Error ID=12,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152118 Error ID=13,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152118 Error ID=14,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152124 Error ID=15,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152124 Info connect success, ID=19,ip=119.147.211.206,port=8181
+20180423152124 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(19) reconnect(0)
+20180423152124 Info connect success, ID=16,ip=119.147.211.207,port=8181
+20180423152124 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(16) reconnect(0)
+20180423152124 Info connect success, ID=17,ip=119.147.211.206,port=9999
+20180423152124 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(17) reconnect(0)
+20180423152124 Info connect success, ID=18,ip=119.147.211.207,port=9999
+20180423152124 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(18) reconnect(0)
+20180423152124 Error ID=16,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152124 Error ID=17,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152124 Error ID=18,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152130 Error ID=19,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152130 Info connect success, ID=23,ip=119.147.211.206,port=8181
+20180423152130 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(23) reconnect(0)
+20180423152130 Info connect success, ID=20,ip=119.147.211.207,port=8181
+20180423152130 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(20) reconnect(0)
+20180423152130 Info connect success, ID=21,ip=119.147.211.206,port=9999
+20180423152130 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(21) reconnect(0)
+20180423152130 Info connect success, ID=22,ip=119.147.211.207,port=9999
+20180423152130 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(22) reconnect(0)
+20180423152130 Error ID=20,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152130 Error ID=21,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152130 Error ID=22,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152136 Error ID=23,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152136 Info connect success, ID=27,ip=119.147.211.206,port=8181
+20180423152136 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(27) reconnect(0)
+20180423152136 Info connect success, ID=24,ip=119.147.211.207,port=8181
+20180423152136 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(24) reconnect(0)
+20180423152136 Info connect success, ID=25,ip=119.147.211.206,port=9999
+20180423152136 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(25) reconnect(0)
+20180423152136 Info connect success, ID=26,ip=119.147.211.207,port=9999
+20180423152136 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(26) reconnect(0)
+20180423152136 Error ID=24,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152136 Error ID=25,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152136 Error ID=26,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152142 Error ID=27,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152142 Info connect success, ID=31,ip=119.147.211.206,port=8181
+20180423152142 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(31) reconnect(0)
+20180423152142 Info connect success, ID=28,ip=119.147.211.207,port=8181
+20180423152142 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(28) reconnect(0)
+20180423152142 Info connect success, ID=29,ip=119.147.211.206,port=9999
+20180423152142 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(29) reconnect(0)
+20180423152142 Info connect success, ID=30,ip=119.147.211.207,port=9999
+20180423152142 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(30) reconnect(0)
+20180423152142 Error ID=28,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152142 Error ID=29,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152142 Error ID=30,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152148 Error ID=31,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152148 Info connect success, ID=35,ip=119.147.211.206,port=8181
+20180423152148 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(35) reconnect(0)
+20180423152148 Info connect success, ID=32,ip=119.147.211.207,port=8181
+20180423152148 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(32) reconnect(0)
+20180423152148 Info connect success, ID=33,ip=119.147.211.206,port=9999
+20180423152148 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(33) reconnect(0)
+20180423152148 Info connect success, ID=34,ip=119.147.211.207,port=9999
+20180423152148 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(34) reconnect(0)
+20180423152148 Error ID=32,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152148 Error ID=33,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152148 Error ID=34,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152154 Error ID=35,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152154 Info connect success, ID=37,ip=119.147.211.206,port=8181
+20180423152154 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(37) reconnect(0)
+20180423152154 Info connect success, ID=39,ip=119.147.211.207,port=8181
+20180423152154 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(39) reconnect(0)
+20180423152154 Info connect success, ID=36,ip=119.147.211.206,port=9999
+20180423152154 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(36) reconnect(0)
+20180423152154 Info connect success, ID=38,ip=119.147.211.207,port=9999
+20180423152154 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(38) reconnect(0)
+20180423152154 Error ID=39,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152154 Error ID=36,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152154 Error ID=38,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152200 Error ID=37,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152200 Info connect success, ID=43,ip=119.147.211.206,port=8181
+20180423152200 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(43) reconnect(0)
+20180423152200 Info connect success, ID=40,ip=119.147.211.207,port=8181
+20180423152200 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(40) reconnect(0)
+20180423152200 Info connect success, ID=41,ip=119.147.211.206,port=9999
+20180423152200 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(41) reconnect(0)
+20180423152200 Info connect success, ID=42,ip=119.147.211.207,port=9999
+20180423152200 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(42) reconnect(0)
+20180423152200 Error ID=40,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152200 Error ID=41,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152200 Error ID=42,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152206 Error ID=43,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152206 Info connect success, ID=47,ip=119.147.211.206,port=8181
+20180423152206 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(47) reconnect(0)
+20180423152206 Info connect success, ID=44,ip=119.147.211.207,port=8181
+20180423152206 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(44) reconnect(0)
+20180423152206 Info connect success, ID=45,ip=119.147.211.206,port=9999
+20180423152206 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(45) reconnect(0)
+20180423152206 Info connect success, ID=46,ip=119.147.211.207,port=9999
+20180423152206 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(46) reconnect(0)
+20180423152206 Error ID=44,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152206 Error ID=45,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152206 Error ID=46,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152212 Error ID=47,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152212 Info connect success, ID=51,ip=119.147.211.206,port=8181
+20180423152212 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(51) reconnect(0)
+20180423152212 Info connect success, ID=48,ip=119.147.211.207,port=8181
+20180423152212 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(48) reconnect(0)
+20180423152212 Info connect success, ID=49,ip=119.147.211.206,port=9999
+20180423152212 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(49) reconnect(0)
+20180423152212 Info connect success, ID=50,ip=119.147.211.207,port=9999
+20180423152212 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(50) reconnect(0)
+20180423152212 Error ID=48,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152212 Error ID=49,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152212 Error ID=50,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152218 Error ID=51,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152218 Info connect success, ID=55,ip=119.147.211.206,port=8181
+20180423152218 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(55) reconnect(0)
+20180423152218 Info connect success, ID=52,ip=119.147.211.207,port=8181
+20180423152218 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(52) reconnect(0)
+20180423152218 Info connect success, ID=53,ip=119.147.211.206,port=9999
+20180423152218 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(53) reconnect(0)
+20180423152218 Info connect success, ID=54,ip=119.147.211.207,port=9999
+20180423152218 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(54) reconnect(0)
+20180423152218 Error ID=52,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152218 Error ID=53,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152218 Error ID=54,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180423152224 Error ID=55,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180423152224 Info connect success, ID=59,ip=119.147.211.206,port=8181
+20180423152224 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(59) reconnect(0)
+20180423152224 Info connect success, ID=56,ip=119.147.211.207,port=8181
+20180423152224 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(56) reconnect(0)
+20180423152224 Info connect success, ID=57,ip=119.147.211.206,port=9999
+20180423152224 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(57) reconnect(0)
+20180423152224 Info connect success, ID=58,ip=119.147.211.207,port=9999
+20180423152224 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(58) reconnect(0)
+20180423152224 Error ID=56,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180423152224 Error ID=57,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180423152224 Error ID=58,ip=119.147.211.207,port=9999 closed, erorcode:995

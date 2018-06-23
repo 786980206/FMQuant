@@ -1,0 +1,28 @@
+20180509114623 Info network.c:_reconnect_cb 2787 Begin
+20180509114623 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180509114623 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180509114623 Info network.c:_client_kernel_cb 2697 Begin
+20180509114623 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180509114623 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180509114623 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180509114623 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180509114623 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180509114623 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180509114623 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180509114623 Error ID=1,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180509114623 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180509114623 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180509115305 Info network.c:_reconnect_cb 2787 Begin
+20180509115305 Info network.c:_client_kernel_cb 2697 Begin
+20180509115305 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180509115305 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180509115305 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180509115305 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180509115305 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180509115305 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180509115305 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180509115305 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180509115305 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180509115305 Error ID=1,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180509115305 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180509115305 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995

@@ -1,0 +1,44 @@
+20180215180803 Error client connect timeout fault
+20180215180803 Error ID=5,ip=119.147.211.206,port=8181 closed, erorcode:0
+20180215180803 Error network.c:add_connect 3288 add_connect(ip:119.147.211.206 port:8181) failed id(5)
+20180215180805 Error client connect timeout fault
+20180215180805 Error ID=6,ip=119.147.211.206,port=8181 closed, erorcode:0
+20180215180805 Error network.c:add_connect 3288 add_connect(ip:119.147.211.206 port:8181) failed id(6)
+20180215180808 Error client connect timeout fault
+20180215180808 Error ID=7,ip=119.147.211.206,port=8181 closed, erorcode:0
+20180215180808 Error network.c:add_connect 3288 add_connect(ip:119.147.211.206 port:8181) failed id(7)
+20180215180808 Error network.c:_cltunit_pool_reader_get 2067 invalid id=7 flag=0
+20180215180810 Error client connect timeout fault
+20180215180810 Error ID=8,ip=119.147.211.206,port=8181 closed, erorcode:0
+20180215180810 Error network.c:add_connect 3288 add_connect(ip:119.147.211.206 port:8181) failed id(8)
+20180215180812 Info connect success, ID=9,ip=119.147.211.206,port=8181
+20180215180812 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(9) reconnect(0)
+20180215180817 Error ID=9,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180215180817 Info connect success, ID=10,ip=119.147.211.206,port=8181
+20180215180817 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(10) reconnect(0)
+20180215180818 Info connect success, ID=11,ip=119.147.211.207,port=8181
+20180215180818 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(11) reconnect(0)
+20180215180819 Info connect success, ID=12,ip=119.147.211.206,port=9999
+20180215180819 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(12) reconnect(0)
+20180215180819 Info connect success, ID=13,ip=119.147.211.207,port=9999
+20180215180819 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(13) reconnect(0)
+20180215180820 Error ID=10,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180215180820 Error ID=12,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180215180820 Error ID=13,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180215180826 Info connect success, ID=14,ip=119.147.211.206,port=8181
+20180215180826 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(14) reconnect(0)
+20180215180826 Error ID=11,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180215180826 Info connect success, ID=15,ip=119.147.211.207,port=8181
+20180215180826 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(15) reconnect(0)
+20180215180826 Info connect success, ID=16,ip=119.147.211.206,port=9999
+20180215180826 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(16) reconnect(0)
+20180215180827 Info connect success, ID=17,ip=119.147.211.207,port=9999
+20180215180827 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(17) reconnect(0)
+20180215180828 Error ID=15,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180215180828 Error ID=16,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180215180828 Error ID=17,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180215181026 Error ID=14,ip=119.147.211.206,port=8181 closed, erorcode:64
+20180215181027 Error client connect timeout fault
+20180215181027 Error ID=18,ip=119.147.211.206,port=8181 closed, erorcode:0
+20180215181027 Error network.c:add_connect 3288 add_connect(ip:119.147.211.206 port:8181) failed id(18)
+20180215181027 Error network.c:_cltunit_pool_reader_get 2067 invalid id=18 flag=0

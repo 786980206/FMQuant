@@ -1,0 +1,459 @@
+20180226113858 Info network.c:_client_kernel_cb 2697 Begin
+20180226113858 Info network.c:_reconnect_cb 2787 Begin
+20180226113858 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226113858 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226113858 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226113858 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226113858 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226113858 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226113858 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226113858 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226113858 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226113858 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226113858 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226113858 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226113926 Info network.c:_reconnect_cb 2787 Begin
+20180226113926 Info network.c:_client_kernel_cb 2697 Begin
+20180226113926 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226113926 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226113926 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226113926 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226113926 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226113926 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226113926 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226113926 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226113926 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226113926 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226113926 Error ID=1,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180226113926 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226113937 Info network.c:_client_kernel_cb 2697 Begin
+20180226113937 Info network.c:_reconnect_cb 2787 Begin
+20180226113937 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226113937 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226113937 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226113937 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226113937 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226113937 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226113937 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226113937 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226113937 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226113937 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226113937 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226113937 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226114012 Info network.c:_reconnect_cb 2787 Begin
+20180226114012 Info network.c:_client_kernel_cb 2697 Begin
+20180226114012 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226114012 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226114012 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226114012 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226114012 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226114012 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226114012 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226114012 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226114012 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226114012 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226114012 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226114012 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226114017 Info connect success, ID=4,ip=119.147.211.206,port=8181
+20180226114017 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(4) reconnect(0)
+20180226114017 Error ID=1,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180226114017 Info connect success, ID=5,ip=119.147.211.207,port=8181
+20180226114017 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(5) reconnect(0)
+20180226114017 Info connect success, ID=6,ip=119.147.211.206,port=9999
+20180226114017 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(6) reconnect(0)
+20180226114017 Info connect success, ID=7,ip=119.147.211.207,port=9999
+20180226114017 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(7) reconnect(0)
+20180226114017 Error ID=5,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180226114027 Info network.c:_client_kernel_cb 2697 Begin
+20180226114027 Info network.c:_reconnect_cb 2787 Begin
+20180226114027 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226114027 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226114027 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226114027 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226114027 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226114027 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226114027 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226114027 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226114027 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226114027 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226114027 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226114027 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226115145 Info network.c:_client_kernel_cb 2697 Begin
+20180226115145 Info network.c:_reconnect_cb 2787 Begin
+20180226115145 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226115145 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226115145 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226115145 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226115145 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226115145 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226115145 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226115145 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226115145 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226115145 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226115145 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226115145 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226115150 Info connect success, ID=4,ip=119.147.211.206,port=8181
+20180226115150 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(4) reconnect(0)
+20180226115150 Info connect success, ID=5,ip=119.147.211.207,port=8181
+20180226115150 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(5) reconnect(0)
+20180226115150 Error ID=1,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180226115150 Info connect success, ID=6,ip=119.147.211.206,port=9999
+20180226115150 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(6) reconnect(0)
+20180226115150 Info connect success, ID=7,ip=119.147.211.207,port=9999
+20180226115150 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(7) reconnect(0)
+20180226115150 Error ID=5,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180226115150 Error ID=6,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226115150 Error ID=7,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226115155 Info network.c:_client_kernel_cb 2697 Begin
+20180226115155 Info network.c:_reconnect_cb 2787 Begin
+20180226115155 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226115155 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226115155 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226115155 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226115155 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226115155 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226115155 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226115155 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226115155 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226115155 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226115155 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226115155 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226115203 Info network.c:_client_kernel_cb 2697 Begin
+20180226115203 Info network.c:_reconnect_cb 2787 Begin
+20180226115203 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226115203 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226115203 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226115203 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226115203 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226115203 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226115203 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226115203 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226115203 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226115203 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226115203 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226115203 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226115208 Info connect success, ID=4,ip=119.147.211.206,port=8181
+20180226115208 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(4) reconnect(0)
+20180226115208 Error ID=1,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180226115208 Info connect success, ID=5,ip=119.147.211.207,port=8181
+20180226115208 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(5) reconnect(0)
+20180226115208 Info connect success, ID=6,ip=119.147.211.206,port=9999
+20180226115208 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(6) reconnect(0)
+20180226115208 Info connect success, ID=7,ip=119.147.211.207,port=9999
+20180226115208 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(7) reconnect(0)
+20180226115208 Error ID=5,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180226115208 Error ID=7,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226115213 Info network.c:_reconnect_cb 2787 Begin
+20180226115213 Info network.c:_client_kernel_cb 2697 Begin
+20180226115213 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226115213 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226115213 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226115213 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226115213 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226115213 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226115213 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226115213 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226115213 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226115213 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226115213 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226115213 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226115217 Info network.c:_reconnect_cb 2787 Begin
+20180226115217 Info network.c:_client_kernel_cb 2697 Begin
+20180226115217 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226115217 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226115217 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226115217 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226115217 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226115217 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226115217 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226115217 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226115217 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226115217 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226115217 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226115217 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226115223 Info network.c:_reconnect_cb 2787 Begin
+20180226115223 Info network.c:_client_kernel_cb 2697 Begin
+20180226115223 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226115223 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226115223 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226115223 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226115223 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226115223 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226115223 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226115223 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226115223 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226115223 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226115223 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226115223 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226115335 Info network.c:_client_kernel_cb 2697 Begin
+20180226115335 Info network.c:_reconnect_cb 2787 Begin
+20180226115335 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226115335 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226115335 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226115335 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226115335 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226115335 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226115335 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226115335 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226115335 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226115335 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226115335 Error ID=1,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180226115335 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226115343 Info network.c:_reconnect_cb 2787 Begin
+20180226115343 Info network.c:_client_kernel_cb 2697 Begin
+20180226115343 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226115343 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226115343 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226115343 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226115343 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226115343 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226115343 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226115343 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226115343 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226115343 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226115343 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226115343 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226115350 Info network.c:_reconnect_cb 2787 Begin
+20180226115350 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226115350 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226115350 Info network.c:_client_kernel_cb 2697 Begin
+20180226115350 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226115350 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226115350 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226115350 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226115350 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226115350 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226115350 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226115545 Info network.c:_client_kernel_cb 2697 Begin
+20180226115545 Info network.c:_reconnect_cb 2787 Begin
+20180226115545 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226115545 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226115545 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226115545 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226115545 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226115545 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226115545 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226115545 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226115545 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226115545 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226115545 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226115545 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226115549 Info network.c:_reconnect_cb 2787 Begin
+20180226115549 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226115549 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226115549 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226115549 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226115549 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226115549 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226115549 Info network.c:_client_kernel_cb 2697 Begin
+20180226115549 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226115549 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226115549 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226124045 Info network.c:_client_kernel_cb 2697 Begin
+20180226124045 Info network.c:_reconnect_cb 2787 Begin
+20180226124045 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226124045 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226124045 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226124045 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226124045 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226124045 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226124045 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226124045 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226124045 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226124045 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226124045 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226124045 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226124130 Info network.c:_reconnect_cb 2787 Begin
+20180226124130 Info network.c:_client_kernel_cb 2697 Begin
+20180226124130 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226124130 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226124130 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226124130 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226124130 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226124130 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226124130 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226124130 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226124130 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226124130 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226124130 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226124130 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226124244 Info network.c:_reconnect_cb 2787 Begin
+20180226124244 Info network.c:_client_kernel_cb 2697 Begin
+20180226124244 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226124244 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226124244 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226124244 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226124244 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226124244 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226124244 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226124244 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226124244 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226124244 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226124244 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226124244 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226125414 Info network.c:_client_kernel_cb 2697 Begin
+20180226125414 Info network.c:_reconnect_cb 2787 Begin
+20180226125414 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226125414 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226125414 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226125414 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226125414 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226125414 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226125414 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226125414 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226125414 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226125414 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226125414 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226125414 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226132653 Info network.c:_client_kernel_cb 2697 Begin
+20180226132653 Info network.c:_reconnect_cb 2787 Begin
+20180226132653 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226132653 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226132653 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226132653 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226132653 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226132653 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226132653 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226132653 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226132653 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226132653 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226132653 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226132653 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226132657 Info network.c:_reconnect_cb 2787 Begin
+20180226132657 Info network.c:_client_kernel_cb 2697 Begin
+20180226132657 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226132657 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226132657 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226132657 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226132657 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226132657 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226132657 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226132657 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226132657 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226132657 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226132657 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226132657 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226132856 Info network.c:_client_kernel_cb 2697 Begin
+20180226132856 Info network.c:_reconnect_cb 2787 Begin
+20180226132856 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226132856 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226132856 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226132856 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226132856 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226132856 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226132856 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226132856 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226132856 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226132856 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226132856 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226132856 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226132901 Info connect success, ID=4,ip=119.147.211.206,port=8181
+20180226132901 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(4) reconnect(0)
+20180226132901 Error ID=1,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180226132901 Info connect success, ID=5,ip=119.147.211.207,port=8181
+20180226132901 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(5) reconnect(0)
+20180226132901 Info connect success, ID=6,ip=119.147.211.206,port=9999
+20180226132901 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(6) reconnect(0)
+20180226132901 Info connect success, ID=7,ip=119.147.211.207,port=9999
+20180226132901 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(7) reconnect(0)
+20180226132901 Error ID=5,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180226132901 Error ID=6,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226132901 Error ID=7,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226132904 Info network.c:_reconnect_cb 2787 Begin
+20180226132904 Info network.c:_client_kernel_cb 2697 Begin
+20180226132904 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226132904 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226132904 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226132904 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226132904 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226132904 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226132904 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226132904 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226132904 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226132904 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226132904 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226132904 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226144053 Info network.c:_client_kernel_cb 2697 Begin
+20180226144053 Info network.c:_reconnect_cb 2787 Begin
+20180226144053 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226144053 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226144053 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226144053 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226144053 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226144053 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226144053 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226144053 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226144053 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226144053 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226144053 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226144053 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226144322 Info network.c:_reconnect_cb 2787 Begin
+20180226144322 Info network.c:_client_kernel_cb 2697 Begin
+20180226144322 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226144322 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226144322 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226144322 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226144322 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226144322 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226144322 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226144322 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226144322 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226144322 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226144322 Error ID=1,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180226144322 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226144326 Info network.c:_client_kernel_cb 2697 Begin
+20180226144326 Info network.c:_reconnect_cb 2787 Begin
+20180226144326 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226144326 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226144326 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226144326 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226144326 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226144326 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226144326 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226144326 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226144326 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226144326 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226144326 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226144326 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226145248 Info network.c:_reconnect_cb 2787 Begin
+20180226145248 Info network.c:_client_kernel_cb 2697 Begin
+20180226145248 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226145248 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226145248 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226145248 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226145248 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226145248 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226145248 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226145248 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226145248 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226145248 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226145248 Error ID=1,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180226145248 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226145524 Info network.c:_reconnect_cb 2787 Begin
+20180226145524 Info network.c:_client_kernel_cb 2697 Begin
+20180226145524 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226145524 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226145524 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226145524 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226145524 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226145524 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226145524 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226145524 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226145524 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226145524 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226145524 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
+20180226145524 Error ID=3,ip=119.147.211.207,port=9999 closed, erorcode:995
+20180226165745 Info network.c:_reconnect_cb 2787 Begin
+20180226165745 Info network.c:_client_kernel_cb 2697 Begin
+20180226165745 Info Client.cpp:_ProcessProClientMapDataUnitTimeout 453 Begin
+20180226165745 Info connect success, ID=0,ip=119.147.211.206,port=8181
+20180226165745 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:8181) succ id(0) reconnect(0)
+20180226165745 Info connect success, ID=1,ip=119.147.211.207,port=8181
+20180226165745 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:8181) succ id(1) reconnect(0)
+20180226165745 Info connect success, ID=2,ip=119.147.211.206,port=9999
+20180226165745 Info network.c:add_connect 3298 add_connect(ip:119.147.211.206 port:9999) succ id(2) reconnect(0)
+20180226165745 Info connect success, ID=3,ip=119.147.211.207,port=9999
+20180226165745 Info network.c:add_connect 3298 add_connect(ip:119.147.211.207 port:9999) succ id(3) reconnect(0)
+20180226165745 Error ID=0,ip=119.147.211.206,port=8181 closed, erorcode:995
+20180226165745 Error ID=1,ip=119.147.211.207,port=8181 closed, erorcode:995
+20180226165745 Error ID=2,ip=119.147.211.206,port=9999 closed, erorcode:995
