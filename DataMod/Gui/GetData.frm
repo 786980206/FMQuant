@@ -14,7 +14,6 @@ Begin VB.Form GetData
    ScaleHeight     =   431
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   680
-   ShowInTaskbar   =   0   'False
    Begin VB.Frame Frame2 
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
@@ -538,7 +537,7 @@ Public PY_GetData_Path As String
 
 '#################################### 窗体加载 ########################################################
 Private Sub Form_Load()
-22
+    On Error Resume Next
     '清除缓存文件
     Kill App.Path + "\Cache\TempTaskList.gd"
     Kill App.Path + "\Cache\TaskList.gd"
