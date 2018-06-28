@@ -107,7 +107,7 @@
     
     // 建立socket连接，等待服务器“推送”数据，用回调函数更新图表
     $(document).ready(function() {
-        namespace = '/test';
+        namespace = '/testChartMod';
         var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
         
         socket.on('server_response', function(res) {

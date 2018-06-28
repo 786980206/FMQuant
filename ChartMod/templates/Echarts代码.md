@@ -2,26 +2,19 @@ var upColor = '#00da3c';
 var downColor = '#ec0000';
 
 
-function splitData(rawData) {
-    var categoryData = [];
-    var values = [];
-    var volumes = [];
-    for (var i = 0; i < rawData.length; i++) {
-        categoryData.push(rawData[i].splice(0, 1)[0]);
-        values.push(rawData[i]);
-        volumes.push([i, rawData[i][4], rawData[i][0] > rawData[i][1] ? 1 : -1]);
-    }
 
-    return {
-        categoryData: categoryData,
-        values: values,
-        volumes: volumes
-    };
-}
+    //alert(data.categoryData)
+        var data= {values:[
+            [20, 30, 10, 35],
+            [40, 35, 30, 55],
+            [33, 38, 33, 40],
+            [40, 40, 32, 42]],
+            categoryData:[1,2,3,4],
+            volumes:[[0,1,-1],[1,2,1],[2,2,-1],[3,3,-1]]
+        
+        }
 
-$.get('data/asset/data/stock-DJI.json', function (rawData) {
 
-    var data = splitData(rawData);
 
     myChart.setOption(option = {
         backgroundColor: '#fff',
@@ -111,7 +104,7 @@ $.get('data/asset/data/stock-DJI.json', function (rawData) {
                 gridIndex: 1,
                 data: data.categoryData,
                 scale: true,
-                boundaryGap : false,
+                boundaryGap : true,
                 axisLine: {onZero: false},
                 axisTick: {show: false},
                 splitLine: {show: false},
@@ -119,18 +112,7 @@ $.get('data/asset/data/stock-DJI.json', function (rawData) {
                 splitNumber: 20,
                 min: 'dataMin',
                 max: 'dataMax'
-                // axisPointer: {
-                //     label: {
-                //         formatter: function (params) {
-                //             var seriesValue = (params.seriesData[0] || {}).value;
-                //             return params.value
-                //             + (seriesValue != null
-                //                 ? '\n' + echarts.format.addCommas(seriesValue)
-                //                 : ''
-                //             );
-                //         }
-                //     }
-                // }
+
             }
         ],
         yAxis: [
@@ -141,7 +123,7 @@ $.get('data/asset/data/stock-DJI.json', function (rawData) {
                 }
             },
             {
-                scale: true,
+                scale: false,
                 gridIndex: 1,
                 splitNumber: 2,
                 axisLabel: {show: false},
@@ -154,7 +136,7 @@ $.get('data/asset/data/stock-DJI.json', function (rawData) {
             {
                 type: 'inside',
                 xAxisIndex: [0, 1],
-                start: 98,
+                start: 0,
                 end: 100
             },
             {
@@ -162,7 +144,7 @@ $.get('data/asset/data/stock-DJI.json', function (rawData) {
                 xAxisIndex: [0, 1],
                 type: 'slider',
                 top: '85%',
-                start: 98,
+                start: 0,
                 end: 100
             }
         ],
@@ -192,4 +174,3 @@ $.get('data/asset/data/stock-DJI.json', function (rawData) {
     }, true);
 
    
-});

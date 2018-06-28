@@ -4,7 +4,7 @@
 __author__ = 'WindSing'
 __ModName__ = "[Main]"
 
-WORK_PATH = 'E:\\OneDrive\\0_Coding\\010_MyQuantSystem\\Beta5.0'  # 工作目录
+WORK_PATH = 'E:\\GitProj\\FMQuant'  # 工作目录
 DATA_MOD_PATH=WORK_PATH+"\\DataMod"
 PY_MOD_PATH=WORK_PATH+"\\PyMod"
 ################################################# 模块导入 ##############################################################
@@ -70,6 +70,8 @@ def Main(WebObj=None):
 		time.sleep(5)
 	CoreEventEngine.Stop()
 	MatchingSys.PerformanceStatistics()
+	# print('----------------------over------------------------------------------------------------------')
+	return
 
 if __name__ =='__main__':
 	Main()

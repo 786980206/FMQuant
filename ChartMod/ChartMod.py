@@ -37,7 +37,7 @@ class RealTimeWebChart():
 		count+=1
 		socketio.emit('server_response',
 						  {'data': [t,*Data], 'count': count},
-						  namespace='/test') # 注意：这里不需要客户端连接的上下文，默认 broadcast = True ！！！！！！！
+						  namespace='/testChartMod') # 注意：这里不需要客户端连接的上下文，默认 broadcast = True ！！！！！！！
 WebChart=RealTimeWebChart()
 
 # 后台线程 产生数据，即刻推送至前端
@@ -50,7 +50,7 @@ def index():
 	return render_template('test.html', async_mode=socketio.async_mode)
 
 # 与前端建立 socket 连接后，启动后台线程
-@socketio.on('connect', namespace='/test')
+@socketio.on('connect', namespace='/testChartMod')
 def test_connect():
 	global thread
 	# for i in range(1,2):
@@ -60,7 +60,7 @@ def test_connect():
 
 
 def Main():
-	socketio.run(app, debug=True)#,host='127.0.0.1',port='6666')
+	socketio.run(app, debug=True)#,host='127.0.0.1',port='5060')
 
 
 if __name__ == '__main__':
