@@ -486,9 +486,6 @@ class MatchingSys(object):
 		Slippage=self.MatchConfig['Slippage']
 		MarketPartcipation=self.MatchConfig['MarketPartcipation']
 		CostRatio=self.MatchConfig['CostRatio']
-		# a.当前标的及下单账户
-		# TempUnderLying=Order['Code']
-		# TempAccount=Order['Account']
 		# d.成交价格比对
 		# d.1 获取对应标的数据
 		# TempVolA=Position[TempUnderLying]['VolA']

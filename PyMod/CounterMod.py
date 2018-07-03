@@ -66,13 +66,10 @@ class Account(object):
 		return TempPosition[Code].loc[Item]
 
 	# 账户下单
-	def PlaceOrder(self,Code,Direction,Price,Volume):
+	def PlaceOrder(self,Code,Direction,Price,Volume,Config=None):
 		# OrderTime=self.MatchingSys.Time
-		Config={'OrderTime':'OrderTime','State':'State'}
+		if Config==None:Config={'OrderTime':'OrderTime','State':'State'}
 		Log.info('%s,%s,%s,%s' %(Code,Direction,Price,Volume))
-		# self.Order[self.Order.shape[1]+1]=[Code,Direction,Price,Volume,'State','AvgMatchingPrice',OrderTime,'OrderNum','Mkt',self,{}]
-
-
 		if self.CounterType=='BackTestCounter':
 			self.MatchingSys.DealOrder(Code,Direction,Price,Volume,self,Config)
 		elif self.CounterType=='XXCounter':
