@@ -226,10 +226,17 @@ Dim nodx As Node
 Plate = CommonUsedMod.ReadUTF8File(App.Path + "\..\DataMod\Gui\Setting\Plate.ini")
 TempPlate = Split(Plate, vbCrLf)
 'TV_plate.Nodes.Add
+Set nodx = TV_plate.Nodes.Add(, , "P10", "股票")
+Set nodx = TV_plate.Nodes.Add(, , "P13", "基金")
+Set nodx = TV_plate.Nodes.Add(, , "P14", "指数")
+Set nodx = TV_plate.Nodes.Add(, , "P17", "期货")
+Set nodx = TV_plate.Nodes.Add(, , "P20", "债券")
+Set nodx = TV_plate.Nodes.Add(, , "P21", "期权")
 For i = 1 To UBound(TempPlate)
     Item = Split(TempPlate(i), ",")
     If Item(2) = "1级" Then
-        Set nodx = TV_plate.Nodes.Add(, , "P" + Item(4), Item(5) + "(" + Item(1) + ")")
+        'Set nodx = TV_plate.Nodes.Add(, , "P" + Item(4), Item(5) + "(" + Item(1) + ")")
+        Set nodx = TV_plate.Nodes.Add("P" + Item(6), tvwChild, "P" + Item(4), Item(5) + "(" + Item(1) + ")")
     Else
         Set nodx = TV_plate.Nodes.Add("P" + Item(6), tvwChild, "P" + Item(4), Item(5) + "(" + Item(1) + ")")
     End If
