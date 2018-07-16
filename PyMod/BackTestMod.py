@@ -73,6 +73,7 @@ class ORDER_CANCEL_REASON(Enum):
 	VOL_AVAILABLE_NOT_ENOUGH='VolA not enough!'
 	NO_VOL_FOR_TRADING_NOW='No Vol for trading now!'
 	WRONG_ORDER_PRICE='Wrong order price!'
+	PRICE_NOT_MATCHED='Price Not Matched!'
 # 订单撮合返回值枚举
 class MATCHING_RET(Enum):	
 	PRICE_NOT_MATCHED='Price Not Matched!'
@@ -128,7 +129,8 @@ class MatchingSys(object):
 			# 验单通过，开始撮合
 			MatchingRet,MatchingRetValue=self.MatchingSimulation(RetValue,TrdConfig={})
 			# 撮合结束，开始清算
-			self.DealMatchedRet2(TempIndex,TempOrderNum,MatchingRet,MatchingRetValue)
+			if MatchingRet!=ORDER_STATE.NOT_MATCHED.value:
+				self.DealMatchedRet2(TempIndex,TempOrderNum,MatchingRet,MatchingRetValue)
 		elif ret==ORDER_STATE.ORDER_CANCEL.value:
 			# 验单不通过，删除订单，加入订单记录
 			self.OrderRec[TempIndex][TempOrderNum]=self.Order[TempIndex][TempOrderNum].copy()
@@ -365,7 +367,6 @@ class MatchingSys(object):
 			self.Position[TempIndex][Code]=[Code,0,0,0,0,0,0,0,0,0,CURRENCY.CNY.value,'Mkt',self.Account[TempIndex],{}]
 		# 计算持仓字段
 		LastVol=self.Position[TempIndex][Code]['Vol']
-
 		self.Position[TempIndex][Code]['Code']=Code
 		if Direction==DIRECTION.LONG_BUY.value:
 			self.Position[TempIndex][Code]['Vol']=self.Position[TempIndex][Code]['Vol']+RetValue[1]
@@ -373,11 +374,14 @@ class MatchingSys(object):
 		elif Direction==DIRECTION.LONG_SELL.value:
 			self.Position[TempIndex][Code]['Vol']=self.Position[TempIndex][Code]['Vol']-RetValue[1]
 			self.Position[TempIndex][Code]['VolFrozen']=self.Position[TempIndex][Code]['VolFrozen']-RetValue[1]
-			self.Position[TempIndex][Code]['AvgCost']=(self.Position[TempIndex][Code]['AvgCost']*LastVol-RetValue[2])/(LastVol-RetValue[1])
+			if (LastVol-RetValue[1])!=0:
+				self.Position[TempIndex][Code]['AvgCost']=(self.Position[TempIndex][Code]['AvgCost']*LastVol-RetValue[2])/(LastVol-RetValue[1])
+			else:
+				self.Position[TempIndex][Code]['AvgCost']=0
 		self.Position[TempIndex][Code]['PriceNow']=self.QuotationsNow[Code]['CP']
 		self.Position[TempIndex][Code]['MktValue']=self.Position[TempIndex][Code]['PriceNow']*self.Position[TempIndex][Code]['Vol']
-		self.Position[TempIndex][Code]['FloatingProfit']=(self.Position[TempIndex][Code]['PriceNow']-self.Position[TempIndex][Code]['AvgCost'])*self.Position[TempIndex][Code]['Vol']
-		self.Position[TempIndex][Code]['ProfitRatio']=(self.Position[TempIndex][Code]['PriceNow']-self.Position[TempIndex][Code]['AvgCost'])/self.Position[TempIndex][Code]['AvgCost']
+		self.Position[TempIndex][Code]['FloatingProfit']=(self.Position[TempIndex][Code]['PriceNow']-self.Position[TempIndex][Code]['AvgCost'])*self.Position[TempIndex][Code]['Vol'] if self.Position[TempIndex][Code]['AvgCost']!=0 else 0
+		self.Position[TempIndex][Code]['ProfitRatio']=(self.Position[TempIndex][Code]['PriceNow']-self.Position[TempIndex][Code]['AvgCost'])/self.Position[TempIndex][Code]['AvgCost'] if self.Position[TempIndex][Code]['AvgCost']!=0 else 0
 		# 2、订单Order清算
 		# 计算Order字段
 		LastVolumeMatched=self.Order[TempIndex][TempOrderNum]['VolumeMatched']
@@ -419,11 +423,12 @@ class MatchingSys(object):
 			# 删除订单
 			self.Order[TempIndex]=self.Order[TempIndex].drop(TempOrderNum,1)
 		if self.Position[TempIndex][Code]['Vol']==0:
-			# 仓位全部平掉了
-			# 删除持仓记录
-			self.Position[TempIndex]=self.Position[TempIndex].drop(TempOrderNum,1)
 			# 计算平仓盈亏
 			self.DealRec[TempIndex][TempDealRecNum]['CloseProfit']=(RetValue[0]-self.Position[TempIndex][Code]['AvgCost'])*RetValue[1]
+			# 仓位全部平掉了
+			# 删除持仓记录
+			self.Position[TempIndex]=self.Position[TempIndex].drop(Code,1)
+
 	# 验单进行资金冻结等
 	def CheckOrder(self,Code,Direction,Price,Volume,Account,Config):
 		# 识别相应账户在MatchingSys中的位置
