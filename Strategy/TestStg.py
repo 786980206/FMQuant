@@ -52,7 +52,9 @@ def Main(QuoteData,HisData,Account):
 	# 2.4 限价平多
 	Account[0].PlaceOrder('000001.SZSE',0,11,100)
 	# 2.5 部分成交
-
+	Account[0].PlaceOrder('000001.SZSE',1,0,6000)
+	# 2.6 等待成交
+	Account[0].PlaceOrder('000001.SZSE',1,10.80,100)
 
 
 

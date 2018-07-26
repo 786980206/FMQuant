@@ -125,12 +125,28 @@ class MatchingSys(object):
 	# 处理账户下单
 	def DealOrder(self,Code,Direction,Price,Volume,Account,Config):
 		TempIndex,TempOrderNum,ret,RetValue=self.CheckOrder(Code,Direction,Price,Volume,Account,Config)
+		self.MatchOrder(TempIndex,TempOrderNum,ret,RetValue)
+		# if ret==ORDER_STATE.WAIT_TO_MATCH.value:
+		# 	# 验单通过，开始撮合
+		# 	MatchingRet,MatchingRetValue=self.MatchingSimulation(RetValue,TrdConfig={})
+		# 	# 撮合结束，开始清算
+		# 	# if MatchingRet!=ORDER_STATE.NOT_MATCHED.value:
+		# 	Log.info([MatchingRet,MatchingRetValue])
+		# 	self.DealMatchedRet2(TempIndex,TempOrderNum,MatchingRet,MatchingRetValue)
+		# elif ret==ORDER_STATE.ORDER_CANCEL.value:
+		# 	# 验单不通过，删除订单，加入订单记录
+		# 	self.OrderRec[TempIndex][TempOrderNum]=self.Order[TempIndex][TempOrderNum].copy()
+		# 	self.OrderRec[TempIndex][TempOrderNum]['Config']['OrderCancelReson']=RetValue
+		# 	self.OrderRec[TempIndex][TempOrderNum]['State']=ret
+		# 	self.Order[TempIndex]=self.Order[TempIndex].drop(TempOrderNum,1)
+	def MatchOrder(self,TempIndex,TempOrderNum,ret,RetValue):
 		if ret==ORDER_STATE.WAIT_TO_MATCH.value:
 			# 验单通过，开始撮合
 			MatchingRet,MatchingRetValue=self.MatchingSimulation(RetValue,TrdConfig={})
 			# 撮合结束，开始清算
-			if MatchingRet!=ORDER_STATE.NOT_MATCHED.value:
-				self.DealMatchedRet2(TempIndex,TempOrderNum,MatchingRet,MatchingRetValue)
+			# if MatchingRet!=ORDER_STATE.NOT_MATCHED.value:
+			Log.info([MatchingRet,MatchingRetValue])
+			self.DealMatchedRet2(TempIndex,TempOrderNum,MatchingRet,MatchingRetValue)
 		elif ret==ORDER_STATE.ORDER_CANCEL.value:
 			# 验单不通过，删除订单，加入订单记录
 			self.OrderRec[TempIndex][TempOrderNum]=self.Order[TempIndex][TempOrderNum].copy()
@@ -352,6 +368,11 @@ class MatchingSys(object):
 		# self.EventEngine.AddEvent(Event_OrderReturn)
 		self.Account[TempIndex].Refresh(Event_OrderReturn)
 	def DealMatchedRet2(self,TempIndex,TempOrderNum,ret,RetValue):
+		# 判断撮合是否发生了成交
+		if ret==ORDER_STATE.NOT_MATCHED.value:
+			# 只用及记录OrderRec即可
+			self.OrderRec[TempIndex][TempOrderNum]=self.Order[TempIndex][TempOrderNum]
+			return
 		# 现在知道模拟撮合结果和对应订单
 		# 需要调整Position，DealRec，Order和OrderRec
 		Code=self.Order[TempIndex][TempOrderNum]['Code']
@@ -430,6 +451,7 @@ class MatchingSys(object):
 			self.Position[TempIndex]=self.Position[TempIndex].drop(Code,1)
 
 	# 验单进行资金冻结等
+	# 主要内容：1.判断价格是否正确（涨跌停以内）;2.判断可用资金和可用量是否充足。
 	def CheckOrder(self,Code,Direction,Price,Volume,Account,Config):
 		# 识别相应账户在MatchingSys中的位置
 		TempIndex=self.Account.index(Account)
@@ -518,7 +540,7 @@ class MatchingSys(object):
 			VolumeMatched=0
 			# 当前没有成交量
 			return ORDER_STATE.NOT_MATCHED.value,ORDER_CANCEL_REASON.NO_VOL_FOR_TRADING_NOW.value
-		elif Order['Volume']<TempVolume4Trd:
+		elif Order['Volume']<=TempVolume4Trd:
 			VolumeMatched=Order['Volume']
 			# 全部成交
 			ret=ORDER_STATE.ALL_MATCHED.value
@@ -564,9 +586,10 @@ class MatchingSys(object):
 					# 更改Order状态等
 					self.Order[TempIndex][TempColumn]['Config']['CancelReason']=ORDER_CANCEL_REASON.AUTO_CANCEL_EVERYDA.value
 					self.Order[TempIndex][TempColumn]['State']=ORDER_STATE.ORDER_CANCEL.value
-				# 加入订单记录
-				self.OrderRec[TempIndex]=pd.concat([self.OrderRec[TempIndex],self.Order[TempIndex]],axis=1)
-				# 清除订单
+					# 更新订单记录
+					# self.OrderRec[TempIndex]=pd.concat([self.OrderRec[TempIndex],self.Order[TempIndex]],axis=1)
+					self.OrderRec[TempIndex][TempColumn]=self.Order[TempIndex][TempColumn]
+				# 清除所有订单
 				self.Order[TempIndex]=pd.DataFrame(index=ORDER_INDEX)
 			# 考虑下单冻结量
 			# map(lambda x:x.loc['VolA']=x.loc['Vol']-x.loc['VolFrozen'],self.Position)
@@ -576,24 +599,24 @@ class MatchingSys(object):
 				TempPosition.loc['VolFrozen']=0
 		Log.info('RefreshQoutation Success!')
 		self.Time=TempTime
-		# 新行情来了，原来没撮合的订单开始撮合
-		# 先注释掉
-		'''
-		Position=self.Position[TempIndex]
-		for TempOrderNum in self.Order[TempIndex].columns:
-			Code=self.Order[TempIndex][TempOrderNum]['Code']
-			Direction=self.Order[TempIndex][TempOrderNum]['Direction']
-			Price=self.Order[TempIndex][TempOrderNum]['Price']
-			Volume=self.Order[TempIndex][TempOrderNum]['Volume']
-			Account=self.Order[TempIndex][TempOrderNum]['Account']
-			TempOrder={'Code':Code,'Direction':Direction,'Price':Price,'Volume':Volume,'Account':Account}
-			# 开始撮合
-			ret,RetValue=self.MatchingSimulation(TempOrder,TempIndex,Position,TrdConfig={})
-			# 处理撮合结果
-			self.DealMatchedRet(TempIndex,TempOrderNum,ret,RetValue)
-		'''
-		# 通知Account刷新持仓数据
+		self.DealRemainOrder()
+		# 通知Account刷新持仓数据，这里不能用事件的方式通知，因为可能并不及时
 		map(lambda x:x.Refresh(EventMod.Event(EventMod.EVENT_ORDERRETURN)),self.Strategy.Account)
+	def DealRemainOrder(self):
+		# 新行情来了，原来没撮合的订单开始撮合，由于现在数据都是接的日频数据，跨日订单都被清理掉了，这部分没法测试，之后研究下分时的行情驱动
+		# 先注释掉
+		# 1.先验单，不同于CheckOrder
+		# 2.MatchOrder就好了
+		for TempIndex in range(0,len(self.Order)):
+			for TempOrderNum in self.Order[TempIndex].columns:
+				Code=self.Order[TempIndex][TempOrderNum]['Code']
+				Direction=self.Order[TempIndex][TempOrderNum]['Direction']
+				Price=self.Order[TempIndex][TempOrderNum]['Price']
+				Volume=self.Order[TempIndex][TempOrderNum]['Volume']
+				Account=self.Order[TempIndex][TempOrderNum]['Account']
+				RetValue={'Code':Code,'Direction':Direction,'Price':Price,'Volume':Volume,'Account':Account,'Config':{}}
+				ret=ORDER_STATE.WAIT_TO_MATCH.value
+				self.MatchOrder(TempIndex,TempOrderNum,ret,RetValue)
 	def PerformanceStatistics(self):
 		# 新建回测结果文件夹
 		Temp_BackTestResult_Path=self.Strategy.Path+"\\"+self.Strategy.Name+"_BackTestResult"
