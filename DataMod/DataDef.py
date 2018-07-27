@@ -140,6 +140,7 @@ class DATA_SOURCE(Enum):
 	TUSHARE='Tushare'
 	GTA_QTAPI='GTA_QTApi'
 	SINA='Sina'
+	SQLSERVER='SqlServer'
 	LOCAL='Local'
 	CYCLE_ALL='CycleAll'
 # 空值枚举

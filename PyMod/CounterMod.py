@@ -34,7 +34,7 @@ class Account(object):
 			self.CounterType='XXCounter'
 
 	# 刷新账户信息
-	def Refresh(self,Event_OrderReturn):
+	def Refresh(self):
 		# 更新持仓信息
 		if self.CounterType=='BackTestCounter':
 			TempIndex=self.MatchingSys.Account.index(self)

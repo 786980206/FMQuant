@@ -24,10 +24,22 @@ class FM_TimeList():
 	def __init__(self):
 		self.Start=datetime.datetime.now()
 		self.End=datetime.datetime.now()
-		self.ToStr()
+		self.Format()
 	def ToStr(self):
 		self.StartStr=self.Start.strftime('%Y-%m-%d %H:%M:%S')
 		self.EndStr=self.End.strftime('%Y-%m-%d %H:%M:%S')
+		self.StartDateStr=self.StartDate.strftime('%Y-%m-%d')
+		self.EndDateStr=self.EndDate.strftime('%Y-%m-%d')
+		self.StartTimeStr=self.StartTime.strftime('%H-%M-%S')
+		self.EndTimeStr=self.EndTime.strftime('%H-%M-%S')
+	def Split(self):
+		self.StartDate=self.Start.date()
+		self.EndDate=self.End.date()
+		self.StartTime=self.Start.time()
+		self.EndTime=self.End.time()
+	def Format(self):
+		self.Split()
+		self.ToStr()
 # 数据类
 class FM_Data():
 	def __init__(self,DataList,DataListIndex,GroupByType):
@@ -97,12 +109,12 @@ def TimeListModify(TimeList):
 		# 输出类
 		Temp.Start=TempRet[0]
 		Temp.End=TempRet[1]
-		Temp.ToStr()
+		Temp.Format()
 	elif type(TimeList) is str and TimeList!='':
 		TempRet=parser.parse(TimeList)
 		Temp.Start=TempRet
 		Temp.End=TempRet
-		Temp.ToStr()
+		Temp.Format()
 	return Temp
 # 数据组织形式转化
 def DataGroup(DataList,GroupByType):

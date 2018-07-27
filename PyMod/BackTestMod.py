@@ -599,9 +599,10 @@ class MatchingSys(object):
 				TempPosition.loc['VolFrozen']=0
 		Log.info('RefreshQoutation Success!')
 		self.Time=TempTime
+		# 新行情来了优先处理未结订单----------------------------------------------------------------------------------------
 		self.DealRemainOrder()
-		# 通知Account刷新持仓数据，这里不能用事件的方式通知，因为可能并不及时
-		map(lambda x:x.Refresh(EventMod.Event(EventMod.EVENT_ORDERRETURN)),self.Strategy.Account)
+		# 更新Account状态--------------------------------------------------------------------------------------------------
+		[x.Refresh() for x in self.Account]
 	def DealRemainOrder(self):
 		# 新行情来了，原来没撮合的订单开始撮合，由于现在数据都是接的日频数据，跨日订单都被清理掉了，这部分没法测试，之后研究下分时的行情驱动
 		# 先注释掉
