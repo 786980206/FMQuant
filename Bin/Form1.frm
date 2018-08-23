@@ -1194,6 +1194,8 @@ Private Sub N_Shape8_Click()
     TempStgConfig = CommonUsedMod.SavePar(TempStgConfig, "QuoteDataConfig", "Type", SComboBox2.Text, TempStgConfigPath)
     '保存行情频率
     TempStgConfig = CommonUsedMod.SavePar(TempStgConfig, "QuoteDataConfig", "TimeInterval", SComboBox3.Text, TempStgConfigPath)
+    '提示保存成功
+    MsgBox "保存成功！", , "保存参数"
 End Sub
 '####################################### 保存回测参数 ##############################################
 Private Sub N_Shape9_Click()
@@ -1216,6 +1218,8 @@ Private Sub N_Shape9_Click()
     TempStgConfig = CommonUsedMod.SavePar(TempStgConfig, "MatchConfig", "Slippage", N_TextBox5.Text, TempStgConfigPath)
     '保存策略市场参与度
     TempStgConfig = CommonUsedMod.SavePar(TempStgConfig, "MatchConfig", "MarketPartcipation", N_TextBox6.Text, TempStgConfigPath)
+    '提示保存成功
+    MsgBox "保存成功！", , "保存参数"
 End Sub
 '####################################### 开始回测按钮 ##############################################
 Private Sub N_Shape4_Click()

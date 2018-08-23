@@ -10,7 +10,7 @@ import random
 import pandas as pd
 
 def Main(QuoteData,HisData,Account):
-	# 策略很简单，查询持仓，有就卖，没就买
+        # 策略很简单，查询持仓，有就卖，没就买
 	Position=Account[0].GetPosition('000001.SZSE','Vol')
 	# 要注意，这里返回的始终是一个pandas对象
 	if Position[0]!=0:

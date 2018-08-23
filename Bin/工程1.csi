@@ -1,12 +1,14 @@
 [历史]
-1=#P0#=mb	#P1#=Form_Load	#P2#=工程1/CodeSelect/Form_Load	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20180704170129	#P7#=0	#P8#=18	.
-2=#P0#=mb	#P1#=ReadUTF8File	#P2#=工程1/CommonUsedMod/ReadUTF8File	#P3#=	#P4#=	#P5#=MembMethodPrivate	#P6#=20180703194231	#P7#=0	#P8#=8	.
-3=#P0#=mb	#P1#=CB_getPlaeSymbol_Click	#P2#=工程1/CodeSelect/CB_getPlaeSymbol_Click	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20180703193723	#P7#=0	#P8#=15	.
-4=#P0#=mb	#P1#=N_Shape1_Click	#P2#=工程1/Main/N_Shape1_Click	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20180620000842	#P7#=0	#P8#=3	.
-5=#P0#=mb	#P1#=N_Shape3_Click	#P2#=工程1/Main/N_Shape3_Click	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20180620000114	#P7#=0	#P8#=16	.
-6=#P0#=mb	#P1#=SaveStgList	#P2#=工程1/Main/SaveStgList	#P3#=	#P4#=	#P5#=MembMethodPrivate	#P6#=20180619235951	#P7#=0	#P8#=3	.
-7=#P0#=mb	#P1#=Form_Load	#P2#=工程1/Main/Form_Load	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20180619231602	#P7#=0	#P8#=5	.
-8=#P0#=mb	#P1#=List1_DblClick	#P2#=工程1/Main/List1_DblClick	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20180619230002	#P7#=0	#P8#=0	.
-9=#P0#=mb	#P1#=N_Shape2_Click	#P2#=工程1/Main/N_Shape2_Click	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20180619094519	#P7#=0	#P8#=7	.
-10=#P0#=mb	#P1#=LoadStgBackTestPar	#P2#=工程1/Main/LoadStgBackTestPar	#P3#=	#P4#=	#P5#=MembMethodPrivate	#P6#=20180619093147	#P7#=0	#P8#=21	.
-11=#P0#=mb	#P1#=LoadStgPar	#P2#=工程1/Main/LoadStgPar	#P3#=	#P4#=	#P5#=MembMethodPrivate	#P6#=20180619085736	#P7#=0	#P8#=11	.
+1=#P0#=mb	#P1#=N_Shape9_Click	#P2#=工程1/Main/N_Shape9_Click	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20180822094821	#P7#=0	#P8#=2	.
+2=#P0#=mb	#P1#=N_Shape8_Click	#P2#=工程1/Main/N_Shape8_Click	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20180822094829	#P7#=0	#P8#=31	.
+3=#P0#=mb	#P1#=Form_Load	#P2#=工程1/CodeSelect/Form_Load	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20180704170129	#P7#=0	#P8#=18	.
+4=#P0#=mb	#P1#=ReadUTF8File	#P2#=工程1/CommonUsedMod/ReadUTF8File	#P3#=	#P4#=	#P5#=MembMethodPrivate	#P6#=20180703194231	#P7#=0	#P8#=8	.
+5=#P0#=mb	#P1#=CB_getPlaeSymbol_Click	#P2#=工程1/CodeSelect/CB_getPlaeSymbol_Click	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20180703193723	#P7#=0	#P8#=15	.
+6=#P0#=mb	#P1#=N_Shape1_Click	#P2#=工程1/Main/N_Shape1_Click	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20180620000842	#P7#=0	#P8#=3	.
+7=#P0#=mb	#P1#=N_Shape3_Click	#P2#=工程1/Main/N_Shape3_Click	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20180620000114	#P7#=0	#P8#=2	.
+8=#P0#=mb	#P1#=SaveStgList	#P2#=工程1/Main/SaveStgList	#P3#=	#P4#=	#P5#=MembMethodPrivate	#P6#=20180619235951	#P7#=0	#P8#=7	.
+9=#P0#=mb	#P1#=Form_Load	#P2#=工程1/Main/Form_Load	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20180619231602	#P7#=0	#P8#=5	.
+10=#P0#=mb	#P1#=List1_DblClick	#P2#=工程1/Main/List1_DblClick	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20180619230002	#P7#=0	#P8#=0	.
+11=#P0#=mb	#P1#=N_Shape2_Click	#P2#=工程1/Main/N_Shape2_Click	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20180619094519	#P7#=0	#P8#=7	.
+12=#P0#=mb	#P1#=LoadStgBackTestPar	#P2#=工程1/Main/LoadStgBackTestPar	#P3#=	#P4#=	#P5#=MembMethodPrivate	#P6#=20180619093147	#P7#=0	#P8#=21	.
+13=#P0#=mb	#P1#=LoadStgPar	#P2#=工程1/Main/LoadStgPar	#P3#=	#P4#=	#P5#=MembMethodPrivate	#P6#=20180619085736	#P7#=0	#P8#=11	.

@@ -61,6 +61,13 @@ def Get_K_TRDMIN_Data(CodeList,TimeList,Fields,SpecialConfig={}):
 
 	StartDBName=str(TimeList.StartDate.year)+'{:0>2d}'.format(TimeList.StartDate.month)
 	EndDBName=str(TimeList.EndDate.year)+'{:0>2d}'.format(TimeList.EndDate.month)
+
+	TempDB_Date=TimeList.StartDate
+	while TempDB_Date<TimeList.EndDate:
+		TempDB_Name=str(TempDB_Date.year)+'{:0>2d}'.format(TempDB_Date.month)
+		print(TempDB_Name)
+		TempDB_Date=TempDB_Date+datetime.timedelta()
+
 	TempDB=MSSQL('192.168.103.172','GTA_QDB','GTA_QDB','GTA_SEL1_TRDMIN_201701')
 	# 这里传过来的参数和字段时间轴等都是规则化之后的了，这部分需要加上接独特的处理
 
@@ -83,7 +90,7 @@ def GetAllFields(DataType):
 ######################################## 主程序 ########################################################################
 if __name__=='__main__':
 	Code=DataModify.CodeListModify(['000001.SZ','600000.SH'])
-	TimeList=DataModify.TimeListModify(['2017-01-01','2017-01-30'])
+	TimeList=DataModify.TimeListModify(['2017-01-01','2017-02-20'])
 	A,B=Get_K_TRDMIN_Data(Code,TimeList,['CP'])
 
 	A=MSSQL('192.168.103.172','GTA_QDB','GTA_QDB','GTA_SEL1_TRDMIN_201701')
