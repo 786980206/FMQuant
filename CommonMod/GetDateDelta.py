@@ -41,8 +41,8 @@ def dateHourRange(beginDateHour, endDateHour):
         date = dhour.strftime("%Y-%m-%d %H")
     return dhours
 
-print(getNowDay())
-print(getYesterDay())
-print(dateRange(beginDate='2018-06-05', endDate='2018-07-09'))
-print(monthRange(beginDate='2018-01-09', endDate='2019-09-01'))
-print(dateHourRange(beginDateHour='2018-01-01 23', endDateHour='2018-01-03 00'))
+# print(getNowDay())
+# print(getYesterDay())
+# print(dateRange(beginDate='2018-06-05', endDate='2018-07-09'))
+# print(monthRange(beginDate='2018-01-09', endDate='2019-09-01'))
+# print(dateHourRange(beginDateHour='2018-01-01 23', endDateHour='2018-01-03 00'))
