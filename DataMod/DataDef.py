@@ -62,7 +62,7 @@ class FIELDS_K_DAY(Enum):
 	Code='Code'      # 代码
 	Name='Name'      # 名称
 	Exchange='Exchange'      # 交易所
-	Time='Time'
+	Date='Date'
 	OP='OP'
 	HP='HP'
 	CP='CP'
@@ -72,7 +72,7 @@ class FIELDS_K_DAY(Enum):
 	Price_LimitUp='Price_LimitUp'
 	Price_LimitDown='Price_LimitDown'
 # K_DAY字段枚举值
-class FIELDS_K_MIN(Enum):
+class FIELDS_K_TRDMIN(Enum):
 	Code='Code'      # 代码
 	Name='Name'      # 名称
 	Exchange='Exchange'      # 交易所
