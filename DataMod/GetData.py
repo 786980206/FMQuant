@@ -16,18 +16,18 @@ import CommenUsedMod
 # ----------------------------------------------------------------------------------------
 # 可以获取数据的方式
 from GetDataByTuShare import GetDataByTushare
-from GetDataByGTA_QTApi import GetDataByGTA_QTApi
+# from GetDataByGTA_QTApi import GetDataByGTA_QTApi
 from GetDataBySqlServer import GetDataBySqlServer
 # 数据来源的模块映射
 DATA_SOURCE_LIST={DataDef.DATA_SOURCE.TUSHARE.value:GetDataByTushare,
-				  DataDef.DATA_SOURCE.GTA_QTAPI.value:GetDataByGTA_QTApi,
+				  # DataDef.DATA_SOURCE.GTA_QTAPI.value:GetDataByGTA_QTApi,
 				  DataDef.DATA_SOURCE.SQLSERVER.value:GetDataBySqlServer
 				  }
 # 数据来源的默认排序
 DATA_SOURCE_CYCLE_LIST=[DATA_SOURCE_LIST['Tushare']]
 ####################################### 函数定义 #######################################################################
 # 主要的取数据函数
-def GetData(CodeList,TimeList=None,Fields='All',DataType=DataDef.DATA_TYPE.K_DAY.value,GroupByType=DataDef.GROUP_BY_TYPE.DEFAULT.value,DataSource=DataDef.DATA_SOURCE.CYCLE_ALL.value,SpecialConfig={}):
+def GetData(CodeList,TimeList=None,Fields='All',DataType=DataDef.DATA_TYPE.K_DAY.value,GroupByType=DataDef.GROUP_BY_TYPE.DEFAULT.value,SpecialConfig={}):
 	RetValue=[]
 	Ret=DataDef.FM_Ret(DataDef.STATUS.SUCCESS.value,'')
 	# 参数规则化,转化为MySys的参数
@@ -35,28 +35,20 @@ def GetData(CodeList,TimeList=None,Fields='All',DataType=DataDef.DATA_TYPE.K_DAY
 	# 按照不同的数据类型提取数据
 	# SpecialConfig={}
 	if DataType==DataDef.DATA_TYPE.K_DAY.value:
-		Ret,RetValue=Get_K_DAY_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig,DataSource)
+		Ret,RetValue=Get_K_DAY_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig["K_DAY"])
 	elif DataType==DataDef.DATA_TYPE.STOCK_BASIC.value:
-		Ret,RetValue=Get_STOCK_BASIC_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig,DataSource)
+		Ret,RetValue=Get_STOCK_BASIC_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig["K_MIN"])
 	elif DataType==DataDef.DATA_TYPE.PLATE_COMPONENT.value:
-		Ret,RetValue=Get_PLATE_COMPONENT_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig,DataSource)
+		Ret,RetValue=Get_PLATE_COMPONENT_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig)
 	RetValue=DataModify.DataGroup(RetValue,GroupByType)
 	return Ret,RetValue
 # 取到K_DAY数据的函数
-def Get_K_DAY_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig,DataSource):
-	# 如果没有指定数据源头，循环DATA_SOURCE_CYCLE_LIST提数
-	Ret.Value=DataDef.STATUS.FAIL.value
-	if DataSource==DataDef.DATA_SOURCE.CYCLE_ALL.value:
-		for TempSource in DATA_SOURCE_CYCLE_LIST:
-			if Fields=='All':Fields=TempSource.GetAllFields(DataDef.DATA_TYPE.K_DAY.value)
-			Ret,RetValue=TempSource.Get_K_DAY_Data(CodeList,TimeList,Fields,SpecialConfig)
-			if Ret.Value:
-				break
-	# 如果指定了数据源头
-	else:
-		TempSource=DATA_SOURCE_LIST[DataSource]
-		if Fields=='All':Fields=TempSource.GetAllFields(DataDef.DATA_TYPE.K_DAY.value)
-		Ret,RetValue=TempSource.Get_K_DAY_Data(CodeList,TimeList,Fields,SpecialConfig)
+def Get_K_DAY_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig):
+	if Fields=='All':Fields=GetDataBySqlServer.GetAllFields(DataDef.DATA_TYPE.K_DAY.value)
+	if "Code" not in Fields:Fields.append("Code")
+	if "Exchange" not in Fields:Fields.append("Exchange")
+	if "DateTime" not in Fields:Fields.append("DateTime")
+	Ret,RetValue=GetDataBySqlServer.Get_K_DAY_Data(CodeList,TimeList,Fields,SpecialConfig)
 	return Ret,RetValue
 # 取到Get_STOCK_BASIC_Data数据的函数
 def Get_STOCK_BASIC_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig,DataSource):

@@ -1,0 +1,39 @@
+{
+  "BackTestConfig": {
+    "ForBackTest": true
+  },
+  "DataSource": {
+    "K_DAY": {
+      "DB_Name": "K_DAY_DATA",
+      "IP": "127.0.0.1",
+      "Port": 1433,
+      "Pwd": "199568",
+      "User": "windsing"
+    },
+    "K_DAY2": {
+      "DB_Name": "GTA_QDB",
+      "IP": "10.223.26.156",
+      "Port": 2433,
+      "Pwd": "GTA_QDB",
+      "User": "GTA_QDB"
+    },
+    "K_MIN": {
+      "DB_Name": "SHSE_MIN",
+      "IP": "127.0.0.1",
+      "Port": 1433,
+      "Pwd": "199568",
+      "User": "windsing"
+    },
+    "K_MIN2": {
+      "DB_Name": "GTA_SEL1_TRDMIN",
+      "IP": "192.168.103.172",
+      "Port": 1433,
+      "Pwd": "GTA_QDB",
+      "User": "GTA_QDB"
+    }
+  },
+  "StgConfig": {
+    "StrategyFolder": "../Strategy",
+    "StrategyName": "StgSample"
+  }
+}

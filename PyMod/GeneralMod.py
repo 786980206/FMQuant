@@ -7,6 +7,7 @@ import logging.config
 from configobj import ConfigObj
 from validate import Validator
 import ctypes
+import json
 FOREGROUND_WHITE = 0x0007
 FOREGROUND_BLUE = 0x01 # text color contains blue.
 FOREGROUND_GREEN= 0x02 # text color contains green.
@@ -27,6 +28,12 @@ def LoadIni(FilePath,ConfigSpecPath=None):
     if ConfigSpecPath!=None:
         result = config.validate(validator)
     return config
+
+def LoadJson(FilePath):
+    with open(FilePath) as f:
+        ret=json.load(f)
+    return ret
+
 # 日志显示函数，可以通过改这里实现日志输出形式的变化-------------------------------
 def set_color(color, handle=std_out_handle):
     bool = ctypes.windll.kernel32.SetConsoleTextAttribute(handle, color)

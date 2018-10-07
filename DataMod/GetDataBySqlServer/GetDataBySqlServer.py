@@ -17,7 +17,7 @@ K_TRDMIN_FIELDS=['seccode','secname','market','tdate','mintime','startprc','high
 SQLSERVER_K_DAY_TRAN_FIELDS={DataDef.FIELDS_K_DAY.Code.value:'SYMBOL',
 							 DataDef.FIELDS_K_DAY.Name.value:'SHORTNAME',
 							 DataDef.FIELDS_K_DAY.Exchange.value:'MARKET',
-							 DataDef.FIELDS_K_DAY.Date.value:'TRADINGDATE',
+							 DataDef.FIELDS_K_DAY.DateTime.value:'TRADINGDATE',
 							 DataDef.FIELDS_K_DAY.OP.value:'OPENPRICE',
 							 DataDef.FIELDS_K_DAY.HP.value:'HIGHPRICE',
 							 DataDef.FIELDS_K_DAY.CP.value:'CLOSEPRICE',
@@ -30,8 +30,8 @@ SQLSERVER_K_DAY_TRAN_FIELDS={DataDef.FIELDS_K_DAY.Code.value:'SYMBOL',
 SQLSERVER_K_TRDMIN_TRAN_FIELDS={DataDef.FIELDS_K_TRDMIN.Code.value:'seccode',
 						    DataDef.FIELDS_K_TRDMIN.Name.value:'secname',
 						    DataDef.FIELDS_K_TRDMIN.Exchange.value:'market',
-						    DataDef.FIELDS_K_TRDMIN.Date.value:'tdate',
-						    DataDef.FIELDS_K_TRDMIN.Time.value:'mintime',
+						    DataDef.FIELDS_K_TRDMIN.DateTime.value:'tdate',
+						    # DataDef.FIELDS_K_TRDMIN.Time.value:'mintime',
 						    DataDef.FIELDS_K_TRDMIN.OP.value:'startprc',
 						    DataDef.FIELDS_K_TRDMIN.HP.value:'highprc',
 						    DataDef.FIELDS_K_TRDMIN.CP.value:'endprc',
@@ -83,7 +83,7 @@ def Get_K_TRDMIN_Data(CodeList,TimeList,Fields,SpecialConfig={}):
 	MonthRange=GetDateDelta.monthRange(TimeList.StartDateStr,TimeList.EndDateStr)
 	TempRetValue=pd.DataFrame()
 	for TempMonth in MonthRange:
-		TempDB_Name='GTA_SEL1_TRDMIN_'+TempMonth.replace('-','')
+		TempDB_Name=SpecialConfig['DB_Name']+'_'+TempMonth.replace('-','')
 		TempDB=MSSQL(SpecialConfig['IP'],SpecialConfig['User'],SpecialConfig['Pwd'],TempDB_Name,SpecialConfig['Port'])
 		# 设置Sql语句
 		# 1、查SHSE
@@ -127,7 +127,7 @@ def Get_K_DAY_Data(CodeList,TimeList,Fields,SpecialConfig={}):
 	Ret=DataDef.FM_Ret(DataDef.STATUS.SUCCESS.value,'')
 	RetValue=[]
 	TempRetValue=pd.DataFrame()
-	TempDB_Name='GTA_QDB'
+	TempDB_Name=SpecialConfig['DB_Name']
 	TempDB=MSSQL(SpecialConfig['IP'],SpecialConfig['User'],SpecialConfig['Pwd'],TempDB_Name,SpecialConfig['Port'])
 	# 设置Sql语句
 	# 1、查SHSE
@@ -148,8 +148,10 @@ def Get_K_DAY_Data(CodeList,TimeList,Fields,SpecialConfig={}):
 	for x in CodeList:
 		TempDF=TempRetValue[(TempRetValue['Code']==x.Code)]
 		TempDF['Exchange']=TempDF['Exchange'].replace('MARKET',x.Exchange)
+		TempDF=TempDF.set_index("DateTime").sort_index()
 		RetValue.append(TempDF)
 	# 这里传过来的参数和字段时间轴等都是规则化之后的了，这部分需要加上接独特的处理
+
 
 	# 到此数据已经按字段删选完毕了，接下来返回一个结构体，包含数据，组织方式等信息
 	RetValue=DataModify.FM_Data(RetValue,[x.FullCode for x in CodeList],DataDef.GROUP_BY_TYPE.CODE.value)
@@ -168,9 +170,11 @@ def GetAllFields(DataType):
 ######################################## 主程序 ########################################################################
 if __name__=='__main__':
 	Code=DataModify.CodeListModify(['000001.SZ','600000.SH',"600060.SH"])
-	TimeList=DataModify.TimeListModify(['2017-01-01','2017-02-20'])
+	TimeList=DataModify.TimeListModify(['2016-01-01','2016-02-20'])
 	# A,B=Get_K_TRDMIN_Data(Code,TimeList,['CP','Name','Code','Exchange','Date','Time'],{'IP':'192.168.103.172','Port':1433,'User':'GTA_QDB','Pwd':'GTA_QDB'})
-	A,B=Get_K_DAY_Data(Code,TimeList,['CP','Name','Code','Exchange','Date','Price_LimitUp','Price_LimitDown'],{'IP':'10.223.26.156','Port':2433,'User':'GTA_QDB','Pwd':'GTA_QDB'})
+	# A,B=Get_K_TRDMIN_Data(Code,TimeList,['CP','Name','Code','Exchange','Date','Time'],{'IP':'127.0.0.1','Port':1433,'User':'windsing','Pwd':'199568','DB_Name':'SHSE_MIN'})
+	# A,B=Get_K_DAY_Data(Code,TimeList,['CP','Name','Code','Exchange','Date','Price_LimitUp','Price_LimitDown'],{'IP':'10.223.26.156','Port':2433,'User':'GTA_QDB','Pwd':'GTA_QDB'})
+	A,B=Get_K_DAY_Data(Code,TimeList,['CP','Name','Code','Exchange','Date','Price_LimitUp','Price_LimitDown'],{'IP':'127.0.0.1','Port':1433,'User':'windsing','Pwd':'199568','DB_Name':'K_DAY_DATA'})
 
 	A=MSSQL('192.168.103.172','GTA_QDB','GTA_QDB','GTA_SEL1_TRDMIN_201701')
 	sql='SELECT TOP 1000  SECCODE,SECNAME,TDATE,MINTIME,ENDPRC FROM [dbo].[SZL1_TRDMIN60_201701] WHERE SECCODE in (000001,600000) AND TDATE BETWEEN \'20170101\' AND \'20170130\''

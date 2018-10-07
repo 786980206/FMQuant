@@ -10,8 +10,9 @@ import datetime
 from dateutil import parser
 import pandas as pd
 from enum import Enum
+import os,sys
 ####################################### 常量定义 #######################################################################
-ROOT_PATH=r"E:\OneDrive\0_Coding\010_MyQuantSystem\Beta4.0"
+ROOT_PATH=os.path.dirname(sys.path[0])
 # 交易所代码映射
 TRAN_EXCHANGE={'SZ':'SZSE','SZSE':'SZSE','SH':'SHSE','SHSE':'SHSE','SSE':'SHSE'}
 # 字段代码映射(用作把用户输入的字段映射成系统能识别的标准代码)
@@ -62,7 +63,7 @@ class FIELDS_K_DAY(Enum):
 	Code='Code'      # 代码
 	Name='Name'      # 名称
 	Exchange='Exchange'      # 交易所
-	Date='Date'
+	DateTime='DateTime'
 	OP='OP'
 	HP='HP'
 	CP='CP'
@@ -76,8 +77,7 @@ class FIELDS_K_TRDMIN(Enum):
 	Code='Code'      # 代码
 	Name='Name'      # 名称
 	Exchange='Exchange'      # 交易所
-	Date='Date'
-	Time='Time'
+	DateTime='DateTime'
 	OP='OP'
 	HP='HP'
 	CP='CP'
@@ -122,7 +122,7 @@ class TIME_INTERVAL(Enum):
 class DATA_TYPE(Enum):
 	# 行情数据
 	K_DAY='K_DAY'			# 日线
-	K_TRDMIN='K_TRDMIN'		# 分时
+	K_MIN='K_MIN'		# 分时
 	K_TAQ='K_TAQ'			# 分笔
 	# 股票数据
 	STOCK_FIN_BALANCE='STOCK_FIN_BALANCE'			# 财务数据

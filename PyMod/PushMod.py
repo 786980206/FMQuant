@@ -7,7 +7,6 @@ __author__ = 'WindSing'
 
 # 导入模块
 import sys
-# sys.path.append('E:\\OneDrive\\0_Coding\\010_MyQuantSystem\\Beta4.0')
 import DataMod
 import pandas as pd
 import EventMod
@@ -70,44 +69,14 @@ def GetData(Fields,StartTime,EndTime,CodeList,DataPar=None):
 	# a.2 组织方式
 	if 'GroupByType' not in DataPar:
 		DataPar['GroupByType']=DataDef.GROUP_BY_TYPE.FIELDS.value
-	# a.3 数据来源
-	# 留坑待补，这是为了整合市面上不同数据接口，也支持本地，理想中可以用一个配置文件控制提取的先后顺序，保证获取到数据
-	if 'DataSource' not in DataPar:
-		DataPar['DataSource']=DataDef.DATA_SOURCE.GTA_QTAPI.value # 目前这里以采用QTAPI的接口为主
 	# b.取数
-	Ret,RetValue=GD.GetData(CodeList,TimeList,Fields,DataPar['DataType'],DataPar['GroupByType'],DataPar['DataSource'],SpecialConfig={})
-	return RetValue.Value,RetValue.ValueIndex,list(RetValue.Value[RetValue.ValueIndex[0]].index)
-
-def GetDataByField(Field,StartTime,EndTime,CodeList,TimeInterval,PriceAdj,DataSource):
-	if Field=='CP':
-		temp=pd.read_csv('E:\\OneDrive\\0_Coding\\010_MyQuantSystem\\Beta2.0\\DataMod\\CP.csv')
-		temp_TimeList=pd.read_csv('E:\\OneDrive\\0_Coding\\010_MyQuantSystem\\Beta2.0\\DataMod\\TimeList.csv')
-		temp=temp.set_index(temp_TimeList['TimeList'])
-		Temp_Data=Data(Field,temp_TimeList,CodeList,temp,{'TimeInterval':TimeInterval,'PriceAdj':PriceAdj,'DataSource':DataSource})
-	elif Field=='CQ':
-		temp=pd.read_csv('E:\\OneDrive\\0_Coding\\010_MyQuantSystem\\Beta2.0\\DataMod\\CQ.csv')
-		temp_TimeList=pd.read_csv('E:\\OneDrive\\0_Coding\\010_MyQuantSystem\\Beta2.0\\DataMod\\TimeList.csv')
-		temp=temp.set_index(temp_TimeList['TimeList'])
-		Temp_Data=Data(Field,temp_TimeList,CodeList,temp,{'TimeInterval':TimeInterval,'PriceAdj':PriceAdj,'DataSource':DataSource})
-	elif Field=='HardenPrice':
-		temp=pd.read_csv('E:\\OneDrive\\0_Coding\\010_MyQuantSystem\\Beta2.0\\DataMod\\CP.csv')
-		temp_TimeList=pd.read_csv('E:\\OneDrive\\0_Coding\\010_MyQuantSystem\\Beta2.0\\DataMod\\TimeList.csv')
-		temp=temp.set_index(temp_TimeList['TimeList'])
-		Temp_Data=Data(Field,temp_TimeList,CodeList,temp,{'TimeInterval':TimeInterval,'PriceAdj':PriceAdj,'DataSource':DataSource})
-	elif Field=='DropStopPrice':
-		temp=pd.read_csv('E:\\OneDrive\\0_Coding\\010_MyQuantSystem\\Beta2.0\\DataMod\\CP.csv')
-		temp_TimeList=pd.read_csv('E:\\OneDrive\\0_Coding\\010_MyQuantSystem\\Beta2.0\\DataMod\\TimeList.csv')
-		temp=temp.set_index(temp_TimeList['TimeList'])
-		Temp_Data=Data(Field,temp_TimeList,CodeList,temp,{'TimeInterval':TimeInterval,'PriceAdj':PriceAdj,'DataSource':DataSource})
-
-	else:
-		Temp_Data='Error,Field:'+ Field + ' not find!'
-	return Temp_Data
+	Ret,RetValue=GD.GetData(CodeList,TimeList,Fields,DataPar['DataType'],DataPar['GroupByType'],SpecialConfig=DataPar["DataSource"])
+	return RetValue.Value,RetValue.ValueIndex,RetValue.Value[RetValue.ValueIndex[0]].index
 
 # 建立一个展示行情的函数，监听行情信息
 def ShowData(Event_DataFeed):
 	Log.debug("======================================================================新行情来啦======================================================================")
-	Log.debug('Date=%s;CodeList=%s;Item=%s;Data=\n%s;' % (Event_DataFeed.Value['Date'],Event_DataFeed.Value['CodeList'],Event_DataFeed.Value['Item'],Event_DataFeed.Value['Data']))
+	Log.debug('Date=%s;CodeList=%s;Item=%s;Data=\n%s;' % (Event_DataFeed.Value['DateTime'],Event_DataFeed.Value['CodeList'],Event_DataFeed.Value['Item'],Event_DataFeed.Value['Data']))
 # 建立一个模拟推送数据函数
 def DataFeedSimulation(EventEngine,Fields,StartTime,EndTime,CodeList,Strategies,DataPar=None):
 	# a.提取数据：目前考虑的是先全部提取，然后循环推送，以后数据量大了可能会考虑分段提取推送

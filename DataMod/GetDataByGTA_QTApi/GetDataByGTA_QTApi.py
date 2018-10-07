@@ -9,7 +9,7 @@ import DataDef
 import DataModify
 import sys,os
 # 必须要加上这句，不知道为什么
-sys.path.append(DataDef.ROOT_PATH+r"\DataMod\GetDataByGTA_QTApi")
+sys.path.append(DataDef.ROOT_PATH+"/DataMod/GetDataByGTA_QTApi")
 # print(sys.path)
 # GetDataByGTA_QTApi.
 # from QtAPI import *
@@ -55,7 +55,7 @@ GTA_QTAPI_STOCK_BASIC_TRAN_FIELDS={DataDef.FIELDS_STOCK_BASIC.Code.value:'Symbol
 GTA_QTAPI_K_DAY_TRAN_FIELDS={DataDef.FIELDS_K_DAY.Code.value:'Symbol',
 					  		DataDef.FIELDS_K_DAY.Name.value:'ShortName',
 					  		# DataDef.FIELDS_K_DAY.Exchange.value:'Exchange', # 日线行情不支持Exchange
-							DataDef.FIELDS_K_DAY.Time.value:'TradingDate',
+							DataDef.FIELDS_K_DAY.Date.value:'TradingDate',
 						 	DataDef.FIELDS_K_DAY.OP.value:'OP',
 					  		DataDef.FIELDS_K_DAY.HP.value:'HIP',
 					  		DataDef.FIELDS_K_DAY.LP.value:'LOP',

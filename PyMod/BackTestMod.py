@@ -89,7 +89,7 @@ class ACCOUNT_CONFIG(Enum):
 
 ################################################ 类定义 ###############################################################
 class MatchingSys(object):
-	def __init__(self,Strategy,EventEngine,MatchConfig):
+	def __init__(self,Strategy,EventEngine,SysConfig):
 		# 初始化，给策略账户绑定回测撮合系统
 		# SubConfig=Config['SubConfig']
 		# BackTestConfig=Config['BackTestConfig']
@@ -101,8 +101,8 @@ class MatchingSys(object):
 		self.DealRec=[]
 		self.CashRec=[]
 		self.AccountConfig=[]
-		self.QuotationsNow=pd.DataFrame(columns=Strategy.QuoteDataConfig['CodeList'],index=MatchConfig['Fields'])
-		self.Time=datetime.strptime(MatchConfig['StartTime'],'%Y-%m-%d %H:%M:%S')
+		self.QuotationsNow=pd.DataFrame(columns=Strategy.QuoteDataConfig['CodeList'],index=Strategy.MatchConfig['Fields'])
+		self.Time=datetime.strptime(Strategy.MatchConfig['StartTime'],'%Y-%m-%d %H:%M:%S')
 		self.OrderNum=0 # 订单记录号
 		for TempAccount in Strategy.Account:
 			TempAccount.MatchingSys=self
@@ -110,17 +110,18 @@ class MatchingSys(object):
 			self.Position.append(pd.DataFrame(index=POSITION_INDEX))
 			self.Order.append(pd.DataFrame(index=ORDER_INDEX))
 			self.OrderRec.append(pd.DataFrame(index=ORDER_REC_INDEX))
-			self.AccountConfig.append({ACCOUNT_CONFIG.TOTAL_VALUE.value:MatchConfig['InitCash'],\
-									   ACCOUNT_CONFIG.CASH.value:MatchConfig['InitCash'],\
-									   ACCOUNT_CONFIG.INIT_CASH.value:MatchConfig['InitCash'],\
-									   ACCOUNT_CONFIG.CASH_AVAILABLE.value:MatchConfig['InitCash'],\
+			self.AccountConfig.append({ACCOUNT_CONFIG.TOTAL_VALUE.value:Strategy.MatchConfig['InitCash'],\
+									   ACCOUNT_CONFIG.CASH.value:Strategy.MatchConfig['InitCash'],\
+									   ACCOUNT_CONFIG.INIT_CASH.value:Strategy.MatchConfig['InitCash'],\
+									   ACCOUNT_CONFIG.CASH_AVAILABLE.value:Strategy.MatchConfig['InitCash'],\
 									   ACCOUNT_CONFIG.CASH_FROZEN.value:0,\
 									   ACCOUNT_CONFIG.SECURITY_VALUE.value:0,\
 									   })
 			self.DealRec.append(pd.DataFrame(index=DEAL_REC_INDEX))
 			self.CashRec.append(pd.DataFrame(index=CASH_REC_INDEX))
-		self.MatchConfig=MatchConfig
+		self.MatchConfig=Strategy.MatchConfig
 		self.Strategy=Strategy
+		self.SysConfig=SysConfig
 		self.EventEngine=EventEngine
 	# 处理账户下单
 	def DealOrder(self,Code,Direction,Price,Volume,Account,Config):
@@ -568,7 +569,7 @@ class MatchingSys(object):
 						 self.AccountConfig[TempIndex]['InitCash'],TempSecurityValue]
 			self.CashRec[TempIndex]=pd.concat([self.CashRec[TempIndex],pd.DataFrame(TempCashRec,index=CASH_REC_INDEX)],axis=1)
 		self.QuotationsNow=Event_DataFeed.Value['Data'].loc[self.QuotationsNow.index] # 这里只要用于撮合的字段就够了，不需要全部的订阅字段
-		TempTime=datetime.strptime(Event_DataFeed.Value['Date'],'%Y-%m-%d %H:%M:%S.000')
+		TempTime=datetime.strptime(str(Event_DataFeed.Value['DateTime']),'%Y-%m-%d %H:%M:%S')
 		# 这是整个事件驱动引擎的最后一步，需要在这里判断回测是不是结束了------------
 		TempEndTime=datetime.strptime(self.MatchConfig['EndTime'],'%Y-%m-%d %H:%M:%S')
 		if TempEndTime==TempTime:
@@ -642,6 +643,7 @@ class DataFeed(object):
 		self.DataPar=MatchingSys.MatchConfig['DataPar']
 		# 频率的配置应该是从策略订阅的频率中来的
 		self.DataPar['TimeInterval']=MatchingSys.Strategy.QuoteDataConfig['TimeInterval']
+		self.DataPar["DataSource"]=MatchingSys.SysConfig["DataSource"]
 		self.CodeList=MatchingSys.Strategy.QuoteDataConfig['CodeList']
 		# Fields部分应该去取的是订阅数据和撮合数据的并集---------------------------------------------------------
 		self.Fields=list(set(MatchingSys.MatchConfig['Fields']).union(set(MatchingSys.Strategy.QuoteDataConfig['Item'])))
@@ -658,7 +660,7 @@ class DataFeed(object):
 		for tempdate in TimeList:
 		# 到这，可以按日期推送数据了，在推送之前，需要把这些数据按策略整合成表的形式，推送给不同的策略；
 			DataFeedEvent=EventMod.Event(EventMod.EVENT_DATAFEED)
-			DataFeedEvent.Value['Date']=tempdate
+			DataFeedEvent.Value['DateTime']=tempdate
 			DataFeedEvent.Value['CodeList']=self.MatchingSys.Strategy.QuoteDataConfig['CodeList']
 			# DataFeedEvent.Value['Item']=self.MatchingSys.Strategy.QuoteDataConfig['Item']
 			DataFeedEvent.Value['Item']=ItemList

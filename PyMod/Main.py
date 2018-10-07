@@ -4,18 +4,23 @@
 __author__ = 'WindSing'
 __ModName__ = "[Main]"
 
-WORK_PATH = 'E:\\GitProj\\FMQuant'  # 工作目录
-DATA_MOD_PATH=WORK_PATH+"\\DataMod"
-PY_MOD_PATH=WORK_PATH+"\\PyMod"
-################################################# 模块导入 ##############################################################
-import sys
-sys.path.append(WORK_PATH)
-sys.path.append(DATA_MOD_PATH)
-sys.path.append(PY_MOD_PATH)
-import os
 # 设置工作路径，以保证在任何目录下都可以运行
-os.chdir(PY_MOD_PATH)
+import os
+import sys
+PyMod=sys.path[0]
+WORK_PATH = os.path.dirname(PyMod)  # 工作目录,上级目录
+DataMod=WORK_PATH+"/DataMod"
+CommonMod=WORK_PATH+"/CommonMod"
+ChartMod=WORK_PATH+"/ChartMod"
+sys.path.append(WORK_PATH)
+sys.path.append(DataMod)
+sys.path.append(PyMod)
+sys.path.append(CommonMod)
+sys.path.append(ChartMod)
+################################################# 模块导入 ##############################################################
+os.chdir(PyMod)
 import time
+import json
 import pandas as pd
 import EventMod
 import TradeMod
@@ -28,6 +33,7 @@ pd.set_option('expand_frame_repr', False)
 ################################################ 变量定义 ###############################################################
 CONFIG_FILE_PATH = "..\\Setting\\Config.ini"
 CONFIG_SPEC_PATH = "..\\Setting\\ConfigSpec.ini"
+CONFILE_FILE_PATH_JSON="../Setting/Config.json"
 ################################################ 主函数 #################################################################
 def Main(WebObj=None):
 	Log=GeneralMod.Log(AtFirst=True)
@@ -37,9 +43,10 @@ def Main(WebObj=None):
 	# 系统开始
 	# a.加载全部策略
 	# a.1 获取系统参数
-	Config = GeneralMod.LoadIni(CONFIG_FILE_PATH, CONFIG_SPEC_PATH)
+	# Config = GeneralMod.LoadIni(CONFIG_FILE_PATH, CONFIG_SPEC_PATH)
+	Config = GeneralMod.LoadJson(CONFILE_FILE_PATH_JSON)
 	# a.2 策略加载
-	Strategy,StgMatchingConfig = StrategyMod.LoadStrategy(Config['StgConfig'])
+	Strategy = StrategyMod.LoadStrategy(Config['StgConfig'])
 	# b.初始化事件驱动引擎
 	CoreEventEngine = EventMod.EventEngine()
 	CoreEventEngine.Register(EventMod.EVENT_DATAFEED, PushMod.ShowData)
@@ -47,7 +54,7 @@ def Main(WebObj=None):
 		CoreEventEngine.Register(EventMod.EVENT_DATAFEED, WebObj.PushData)
 	# c.初始化行情推送事件
 	if Config['BackTestConfig']['ForBackTest']:
-		MatchingSys = BackTestMod.MatchingSys(Strategy, CoreEventEngine, StgMatchingConfig)
+		MatchingSys = BackTestMod.MatchingSys(Strategy, CoreEventEngine, Config)
 		# DataFeed需要绑定MatchingSys,因为回测的模拟撮合也是用到了这的行情，如果真实交易就不存在这个问题；
 		DataFeed = BackTestMod.DataFeed(MatchingSys)
 		CoreEventEngine.Register(EventMod.EVENT_DATAFEED,MatchingSys.RefreshQoutation)
