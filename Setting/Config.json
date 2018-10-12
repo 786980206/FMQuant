@@ -3,14 +3,14 @@
     "ForBackTest": true
   },
   "DataSource": {
-    "K_DAY": {
+    "K_DAY2": {
       "DB_Name": "K_DAY_DATA",
       "IP": "127.0.0.1",
       "Port": 1433,
       "Pwd": "199568",
       "User": "windsing"
     },
-    "K_DAY2": {
+    "K_DAY": {
       "DB_Name": "GTA_QDB",
       "IP": "10.223.26.156",
       "Port": 2433,

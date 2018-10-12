@@ -571,7 +571,7 @@ class MatchingSys(object):
 		self.QuotationsNow=Event_DataFeed.Value['Data'].loc[self.QuotationsNow.index] # 这里只要用于撮合的字段就够了，不需要全部的订阅字段
 		TempTime=datetime.strptime(str(Event_DataFeed.Value['DateTime']),'%Y-%m-%d %H:%M:%S')
 		# 这是整个事件驱动引擎的最后一步，需要在这里判断回测是不是结束了------------
-		TempEndTime=datetime.strptime(self.MatchConfig['EndTime'],'%Y-%m-%d %H:%M:%S')
+		TempEndTime=datetime.strptime(self.MatchConfig['MaxTradingDate'],'%Y-%m-%d %H:%M:%S')
 		if TempEndTime==TempTime:
 			self.IsRunning=False
 		#------------------------------------------------------------------------
@@ -643,6 +643,7 @@ class DataFeed(object):
 		self.DataPar=MatchingSys.MatchConfig['DataPar']
 		# 频率的配置应该是从策略订阅的频率中来的
 		self.DataPar['TimeInterval']=MatchingSys.Strategy.QuoteDataConfig['TimeInterval']
+		self.DataPar['DataType']=MatchingSys.Strategy.QuoteDataConfig['DataType']
 		self.DataPar["DataSource"]=MatchingSys.SysConfig["DataSource"]
 		self.CodeList=MatchingSys.Strategy.QuoteDataConfig['CodeList']
 		# Fields部分应该去取的是订阅数据和撮合数据的并集---------------------------------------------------------
@@ -657,6 +658,7 @@ class DataFeed(object):
 		# 目前的话还是先采用代码表的形式推送，后期可能根据不同的策略订阅的类型，采用不同的推送方式，留坑待补
 		##################分割线##########################
 		#代码进行到这，其实已经把所有的数据都提出来
+		self.MatchingSys.MatchConfig['MaxTradingDate']=str(max(TimeList))
 		for tempdate in TimeList:
 		# 到这，可以按日期推送数据了，在推送之前，需要把这些数据按策略整合成表的形式，推送给不同的策略；
 			DataFeedEvent=EventMod.Event(EventMod.EVENT_DATAFEED)

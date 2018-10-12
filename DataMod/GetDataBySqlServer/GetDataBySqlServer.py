@@ -10,6 +10,7 @@ import datetime
 import pandas as pd
 import pymssql
 from CommonMod import GetDateDelta
+import decimal
 ####################################### 常量定义 #######################################################################
 K_DAY_FIELDS=['SYMBOL','SHORTNAME','MARKET','TRADINGDATE','OPENPRICE','HIGHPRICE','CLOSEPRICE','LOWPRICE','VOLUME','AMOUNT','LIMITUP','LIMITDOWN'] # 财库的日线行情数据居然没有market，呵呵哒
 K_TRDMIN_FIELDS=['seccode','secname','market','tdate','mintime','startprc','highprc','endprc','lowprc','mintq','mintm']
@@ -139,10 +140,13 @@ def Get_K_DAY_Data(CodeList,TimeList,Fields,SpecialConfig={}):
 		"FROM " + TempTable+ \
 		" WHERE "+ \
 		"SYMBOL IN "+TempCode +" AND "+ \
-		"TRADINGDATE >'"+ TimeList.StartDateStr +"' AND " + \
-		"TRADINGDATE <'"+ TimeList.EndDateStr + "'"
+		"TRADINGDATE >='"+ TimeList.StartDateStr +"' AND " + \
+		"TRADINGDATE <='"+ TimeList.EndDateStr + "'"
 	ret=TempDB.ExecQuery(Sql)
 	ret=pd.DataFrame(ret,columns=Fields)
+	# 把Decimal类型的转换成float类型的
+	tempcolumns=[x for x in ret.columns if type(ret[x][0])==decimal.Decimal]
+	ret[tempcolumns]=ret[tempcolumns].astype('float64')
 	TempRetValue=pd.concat([TempRetValue,ret])
 	# 查完所有数据，开始按代码和交易所分组
 	for x in CodeList:
