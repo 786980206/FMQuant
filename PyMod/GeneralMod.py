@@ -4,8 +4,8 @@ __author__ = 'WindSing'
 ################################################# 模块导入 ##############################################################
 import logging
 import logging.config
-from configobj import ConfigObj
-from validate import Validator
+# from configobj import ConfigObj
+# from validate import Validator
 import ctypes
 import json
 FOREGROUND_WHITE = 0x0007
@@ -22,13 +22,14 @@ LOG_CONFIG_PATH='..\\Setting\\Log.ini'
 
 ################################################ 函数定义 ###############################################################
 # 加载配置文件的函数-----------------------------------------------------------------
+'''
 def LoadIni(FilePath,ConfigSpecPath=None):
     config = ConfigObj(FilePath,configspec=ConfigSpecPath)
     validator = Validator()
     if ConfigSpecPath!=None:
         result = config.validate(validator)
     return config
-
+'''
 def LoadJson(FilePath):
     with open(FilePath) as f:
         ret=json.load(f)

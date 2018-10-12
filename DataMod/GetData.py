@@ -15,16 +15,16 @@ import CommenUsedMod
 ####################################### 常量定义 #######################################################################
 # ----------------------------------------------------------------------------------------
 # 可以获取数据的方式
-from GetDataByTuShare import GetDataByTushare
+# from GetDataByTuShare import GetDataByTushare
 # from GetDataByGTA_QTApi import GetDataByGTA_QTApi
 from GetDataBySqlServer import GetDataBySqlServer
 # 数据来源的模块映射
-DATA_SOURCE_LIST={DataDef.DATA_SOURCE.TUSHARE.value:GetDataByTushare,
+DATA_SOURCE_LIST={#DataDef.DATA_SOURCE.TUSHARE.value:GetDataByTushare,
 				  # DataDef.DATA_SOURCE.GTA_QTAPI.value:GetDataByGTA_QTApi,
 				  DataDef.DATA_SOURCE.SQLSERVER.value:GetDataBySqlServer
 				  }
 # 数据来源的默认排序
-DATA_SOURCE_CYCLE_LIST=[DATA_SOURCE_LIST['Tushare']]
+DATA_SOURCE_CYCLE_LIST=[DATA_SOURCE_LIST['SqlServer']]
 ####################################### 函数定义 #######################################################################
 # 主要的取数据函数
 def GetData(CodeList,TimeList=None,Fields='All',DataType=DataDef.DATA_TYPE.K_DAY.value,GroupByType=DataDef.GROUP_BY_TYPE.DEFAULT.value,SpecialConfig={}):
