@@ -39,6 +39,6 @@
       "VOL"
     ],
     "TimeInterval": "1Day",
-    "Type": "TrdMin"
+    "DataType": "K_MIN"
   }
 }

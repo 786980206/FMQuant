@@ -35,9 +35,11 @@ def GetData(CodeList,TimeList=None,Fields='All',DataType=DataDef.DATA_TYPE.K_DAY
 	# 按照不同的数据类型提取数据
 	# SpecialConfig={}
 	if DataType==DataDef.DATA_TYPE.K_DAY.value:
-		Ret,RetValue=Get_K_DAY_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig["K_DAY"])
+		Ret,RetValue=Get_K_DAY_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig)
+	elif DataType==DataDef.DATA_TYPE.K_MIN.value:
+		Ret,RetValue=Get_K_MIN_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig)
 	elif DataType==DataDef.DATA_TYPE.STOCK_BASIC.value:
-		Ret,RetValue=Get_STOCK_BASIC_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig["K_MIN"])
+		Ret,RetValue=Get_STOCK_BASIC_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig)
 	elif DataType==DataDef.DATA_TYPE.PLATE_COMPONENT.value:
 		Ret,RetValue=Get_PLATE_COMPONENT_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig)
 	RetValue=DataModify.DataGroup(RetValue,GroupByType)
@@ -45,10 +47,11 @@ def GetData(CodeList,TimeList=None,Fields='All',DataType=DataDef.DATA_TYPE.K_DAY
 # 取到K_DAY数据的函数
 def Get_K_DAY_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig):
 	if Fields=='All':Fields=GetDataBySqlServer.GetAllFields(DataDef.DATA_TYPE.K_DAY.value)
-	if "Code" not in Fields:Fields.append("Code")
-	if "Exchange" not in Fields:Fields.append("Exchange")
-	if "DateTime" not in Fields:Fields.append("DateTime")
 	Ret,RetValue=GetDataBySqlServer.Get_K_DAY_Data(CodeList,TimeList,Fields,SpecialConfig)
+	return Ret,RetValue
+def Get_K_MIN_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig):
+	if Fields=='All':Fields=GetDataBySqlServer.GetAllFields(DataDef.DATA_TYPE.K_MIN.value)
+	Ret,RetValue=GetDataBySqlServer.Get_K_MIN_Data(CodeList,TimeList,Fields,SpecialConfig)
 	return Ret,RetValue
 # 取到Get_STOCK_BASIC_Data数据的函数
 def Get_STOCK_BASIC_Data(RetValue,Ret,CodeList,TimeList,Fields,SpecialConfig,DataSource):

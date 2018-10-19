@@ -15,30 +15,29 @@ import decimal
 K_DAY_FIELDS=['SYMBOL','SHORTNAME','MARKET','TRADINGDATE','OPENPRICE','HIGHPRICE','CLOSEPRICE','LOWPRICE','VOLUME','AMOUNT','LIMITUP','LIMITDOWN'] # 财库的日线行情数据居然没有market，呵呵哒
 K_TRDMIN_FIELDS=['seccode','secname','market','tdate','mintime','startprc','highprc','endprc','lowprc','mintq','mintm']
 # 这个变量用于把标准化的FIELDS转化成Tushare能识别的变量(此处用的是老高频的字段)
-SQLSERVER_K_DAY_TRAN_FIELDS={DataDef.FIELDS_K_DAY.Code.value:'SYMBOL',
-							 DataDef.FIELDS_K_DAY.Name.value:'SHORTNAME',
-							 DataDef.FIELDS_K_DAY.Exchange.value:'MARKET',
-							 DataDef.FIELDS_K_DAY.DateTime.value:'TRADINGDATE',
-							 DataDef.FIELDS_K_DAY.OP.value:'OPENPRICE',
-							 DataDef.FIELDS_K_DAY.HP.value:'HIGHPRICE',
-							 DataDef.FIELDS_K_DAY.CP.value:'CLOSEPRICE',
-							 DataDef.FIELDS_K_DAY.LP.value:'LOWPRICE',
-							 DataDef.FIELDS_K_DAY.VOL.value:'VOLUME',
-							 DataDef.FIELDS_K_DAY.Amount.value:'AMOUNT',
-							 DataDef.FIELDS_K_DAY.Price_LimitUp.value:'LIMITUP',
-							 DataDef.FIELDS_K_DAY.Price_LimitDown.value:'LIMITDOWN'
+SQLSERVER_K_DAY_TRAN_FIELDS={DataDef.FIELDS_K_DAY.Code.value:"SYMBOL",
+							 DataDef.FIELDS_K_DAY.Name.value:"SHORTNAME",
+							 DataDef.FIELDS_K_DAY.Exchange.value:"'MARKET'",
+							 DataDef.FIELDS_K_DAY.DateTime.value:"cast(TRADINGDATE as datetime)",
+							 DataDef.FIELDS_K_DAY.OP.value:"cast(OPENPRICE as float)",
+							 DataDef.FIELDS_K_DAY.HP.value:"cast(HIGHPRICE as float)",
+							 DataDef.FIELDS_K_DAY.CP.value:"cast(CLOSEPRICE as float)",
+							 DataDef.FIELDS_K_DAY.LP.value:"cast(LOWPRICE as float)",
+							 DataDef.FIELDS_K_DAY.VOL.value:"cast(VOLUME as float)",
+							 DataDef.FIELDS_K_DAY.Amount.value:"cast(AMOUNT as float)",
+							 DataDef.FIELDS_K_DAY.Price_LimitUp.value:"cast(LIMITUP as float)",
+							 DataDef.FIELDS_K_DAY.Price_LimitDown.value:"cast(LIMITDOWN as float)"
 						   }
-SQLSERVER_K_TRDMIN_TRAN_FIELDS={DataDef.FIELDS_K_TRDMIN.Code.value:'seccode',
-						    DataDef.FIELDS_K_TRDMIN.Name.value:'secname',
-						    DataDef.FIELDS_K_TRDMIN.Exchange.value:'market',
-						    DataDef.FIELDS_K_TRDMIN.DateTime.value:'tdate',
-						    # DataDef.FIELDS_K_TRDMIN.Time.value:'mintime',
-						    DataDef.FIELDS_K_TRDMIN.OP.value:'startprc',
-						    DataDef.FIELDS_K_TRDMIN.HP.value:'highprc',
-						    DataDef.FIELDS_K_TRDMIN.CP.value:'endprc',
-						    DataDef.FIELDS_K_TRDMIN.LP.value:'lowprc',
-						    DataDef.FIELDS_K_TRDMIN.VOL.value:'mintq',
-						    DataDef.FIELDS_K_TRDMIN.Amount.value:'mintm'
+SQLSERVER_K_MIN_TRAN_FIELDS={DataDef.FIELDS_K_MIN.Code.value:"seccode",
+						    DataDef.FIELDS_K_MIN.Name.value:"secname",
+						    DataDef.FIELDS_K_MIN.Exchange.value:"CASE market WHEN 'SSE' THEN 'SHSE' ELSE 'SZSE' end",
+						    DataDef.FIELDS_K_MIN.DateTime.value:"cast(tdate+' '+stuff(mintime, 3, 0,':') as datetime)",
+						    DataDef.FIELDS_K_MIN.OP.value:"cast(startprc as float)",
+						    DataDef.FIELDS_K_MIN.HP.value:"cast(highprc as float)",
+						    DataDef.FIELDS_K_MIN.CP.value:"cast(endprc as float)",
+						    DataDef.FIELDS_K_MIN.LP.value:"cast(lowprc as float)",
+						    DataDef.FIELDS_K_MIN.VOL.value:"cast(mintq as float)",
+						    DataDef.FIELDS_K_MIN.Amount.value:"cast(mintm as float)"
 						   }
 
 ####################################### 类定义 ########################################################################
@@ -78,18 +77,28 @@ class MSSQL:
 ####################################### 函数定义 #######################################################################
 # 最主要的提取数据的函数
 # 提取分时数据
-def Get_K_TRDMIN_Data(CodeList,TimeList,Fields,SpecialConfig={}):
+def Get_K_MIN_Data(CodeList,TimeList,Fields,SpecialConfig={}):
+	if "Code" not in Fields:Fields.append("Code")
+	if "Exchange" not in Fields:Fields.append("Exchange")
+	if "DateTime" not in Fields:Fields.append("DateTime")
+	# 筛选出日频数据取日频接口获取
+	Fields_Not_In_K_MIN=[x for x in Fields if x not in SQLSERVER_K_MIN_TRAN_FIELDS.keys()]
+	Fields_K_DAY=[x for x in Fields_Not_In_K_MIN if x in SQLSERVER_K_DAY_TRAN_FIELDS.keys()]
+	if Fields_K_DAY!=[]:Ret_K_DAY,RetValue_K_DAY=Get_K_DAY_Data(CodeList,TimeList,Fields_K_DAY,SpecialConfig)
+	Fields=[x for x in Fields if x in SQLSERVER_K_MIN_TRAN_FIELDS.keys()]
+	# 筛选完毕
 	Ret=DataDef.FM_Ret(DataDef.STATUS.SUCCESS.value,'')
 	RetValue=[]
 	MonthRange=GetDateDelta.monthRange(TimeList.StartDateStr,TimeList.EndDateStr)
 	TempRetValue=pd.DataFrame()
+	SpecialConfig=SpecialConfig['K_MIN']
 	for TempMonth in MonthRange:
 		TempDB_Name=SpecialConfig['DB_Name']+'_'+TempMonth.replace('-','')
 		TempDB=MSSQL(SpecialConfig['IP'],SpecialConfig['User'],SpecialConfig['Pwd'],TempDB_Name,SpecialConfig['Port'])
 		# 设置Sql语句
 		# 1、查SHSE
-		TempCode=str([x.Code for x in CodeList if x.Exchange=='SHSE']).replace('[',"(").replace(']',')')
-		TempFields=str([SQLSERVER_K_TRDMIN_TRAN_FIELDS[x]+" AS "+x for x in Fields]).replace('[',"").replace(']','').replace("'","")
+		TempCode="("+",".join([x.Code for x in CodeList if x.Exchange=='SHSE'])+")"
+		TempFields=",".join([SQLSERVER_K_MIN_TRAN_FIELDS[x]+" AS "+x for x in Fields])
 		TempTable='SHL1_TRDMIN01_'+TempMonth.replace('-','')
 		Sql="SELECT "+ TempFields + " "+ \
 			"FROM " + TempTable+ \
@@ -100,41 +109,53 @@ def Get_K_TRDMIN_Data(CodeList,TimeList,Fields,SpecialConfig={}):
 		ret=TempDB.ExecQuery(Sql)
 		ret_sse=pd.DataFrame(ret,columns=Fields)
 		# 1、查SZSE
-		TempCode=str([x.Code for x in CodeList if x.Exchange=='SZSE']).replace('[',"(").replace(']',')')
-		TempFields=str([SQLSERVER_K_TRDMIN_TRAN_FIELDS[x]+" AS "+x for x in Fields]).replace('[',"").replace(']','').replace("'","")
+		TempCode="("+",".join([x.Code for x in CodeList if x.Exchange=='SZSE'])+")"
+		TempFields=",".join([SQLSERVER_K_MIN_TRAN_FIELDS[x]+" AS "+x for x in Fields])
 		TempTable='SZL1_TRDMIN01_'+TempMonth.replace('-','')
 		Sql="SELECT "+ TempFields + " "+ \
 			"FROM " + TempTable+ \
 			" WHERE "+ \
 			"SECCODE IN "+TempCode +" AND "+ \
-			"TDATE >'"+ TimeList.StartDateStr +"' AND " + \
-			"TDATE <'"+ TimeList.EndDateStr + "'"
+			"TDATE >='"+ TimeList.StartDateStr +"' AND " + \
+			"TDATE <='"+ TimeList.EndDateStr + "'"
 		ret=TempDB.ExecQuery(Sql)
 		ret_szse=pd.DataFrame(ret,columns=Fields)
 		ret=pd.concat([ret_sse,ret_szse])
 		TempRetValue=pd.concat([TempRetValue,ret])
-	# 把查出来的Exchangge换成标准的Exchangge，即SSE->SHSE
-	TempRetValue['Exchange']=TempRetValue['Exchange'].replace('SSE','SHSE')
+	# 在Sql中处理了# 把查出来的Exchangge换成标准的Exchangge，即SSE->SHSE
+	# TempRetValue['Exchange']=TempRetValue['Exchange'].replace('SSE','SHSE')
+	TempRetValue=TempRetValue.set_index("DateTime").sort_index()
 	# 查完所有数据，开始按代码和交易所分组
 	for x in CodeList:
 		RetValue.append(TempRetValue[(TempRetValue['Code']==x.Code) & (TempRetValue['Exchange']==x.Exchange)])
 	# 这里传过来的参数和字段时间轴等都是规则化之后的了，这部分需要加上接独特的处理
 
+
 	# 到此数据已经按字段删选完毕了，接下来返回一个结构体，包含数据，组织方式等信息
 	RetValue=DataModify.FM_Data(RetValue,[x.FullCode for x in CodeList],DataDef.GROUP_BY_TYPE.CODE.value)
+	# 1、将日频字段和分时字段聚合
+	if Fields_K_DAY!=[]:
+		for TempIndex in RetValue.ValueIndex:
+			RetValue.Value[TempIndex]=pd.merge(RetValue.Value[TempIndex],RetValue_K_DAY.Value[TempIndex],how='outer',on=['Code','Exchange'],left_index=True,right_index=True)
+			RetValue.Value[TempIndex]=RetValue.Value[TempIndex].fillna(method='pad')
+			RetValue.Value[TempIndex]=RetValue.Value[TempIndex].drop(RetValue.Value[TempIndex].index[[x for x in range(0,RetValue.Value[TempIndex].__len__()) if RetValue.Value[TempIndex].index[x].time()==datetime.time(0,0)]])
 	return Ret,RetValue
 # 提取日线数据
 def Get_K_DAY_Data(CodeList,TimeList,Fields,SpecialConfig={}):
+	if "Code" not in Fields:Fields.append("Code")
+	if "Exchange" not in Fields:Fields.append("Exchange")
+	if "DateTime" not in Fields:Fields.append("DateTime")
+
 	Ret=DataDef.FM_Ret(DataDef.STATUS.SUCCESS.value,'')
 	RetValue=[]
 	TempRetValue=pd.DataFrame()
+	SpecialConfig=SpecialConfig['K_DAY']
 	TempDB_Name=SpecialConfig['DB_Name']
 	TempDB=MSSQL(SpecialConfig['IP'],SpecialConfig['User'],SpecialConfig['Pwd'],TempDB_Name,SpecialConfig['Port'])
 	# 设置Sql语句
 	# 1、查SHSE
-	TempCode=str([x.Code for x in CodeList]).replace('[',"(").replace(']',')')
-	# 因为数据库没有Market字段，需要转化成文字的
-	TempFields=str([SQLSERVER_K_DAY_TRAN_FIELDS[x]+" AS "+x for x in Fields]).replace('[',"").replace(']','').replace("'","").replace('MARKET',"'MARKET'")
+	TempCode="("+",".join([x.Code for x in CodeList])+")"
+	TempFields=",".join([SQLSERVER_K_DAY_TRAN_FIELDS[x]+" AS "+x for x in Fields])
 	TempTable='STK_MKT_QUOTATION'
 	Sql="SELECT "+ TempFields + " "+ \
 		"FROM " + TempTable+ \
@@ -144,9 +165,9 @@ def Get_K_DAY_Data(CodeList,TimeList,Fields,SpecialConfig={}):
 		"TRADINGDATE <='"+ TimeList.EndDateStr + "'"
 	ret=TempDB.ExecQuery(Sql)
 	ret=pd.DataFrame(ret,columns=Fields)
-	# 把Decimal类型的转换成float类型的
-	tempcolumns=[x for x in ret.columns if type(ret[x][0])==decimal.Decimal]
-	ret[tempcolumns]=ret[tempcolumns].astype('float64')
+	#不需要了，现在在数据库中转化了 # 把Decimal类型的转换成float类型的
+	# tempcolumns=[x for x in ret.columns if type(ret[x][0])==decimal.Decimal]
+	# ret[tempcolumns]=ret[tempcolumns].astype('float64')
 	TempRetValue=pd.concat([TempRetValue,ret])
 	# 查完所有数据，开始按代码和交易所分组
 	for x in CodeList:
@@ -168,7 +189,7 @@ def GetAllFields(DataType):
 		# RetValue=list(TUSHARE_STOCK_BASIC_TRAN_FIELDS.keys())
 		pass
 	elif DataType==DataDef.DATA_TYPE.K_TRDMIN.value:
-		RetValue=list(SQLSERVER_K_TRDMIN_TRAN_FIELDS.keys())
+		RetValue=list(SQLSERVER_K_MIN_TRAN_FIELDS.keys())
 	return RetValue
 
 ######################################## 主程序 ########################################################################
