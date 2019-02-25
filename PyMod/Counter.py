@@ -9,7 +9,7 @@ POSITION_INDEX=['Code','Vol','VolA','VolF','StockActualVol','Avgcost','PriceNow'
 # Order：证券代码，方向，委托价格，委托数量，成交数量，备注（成交状态），成交均价，委托时间，订单编号，交易市场，账户
 ORDER_INDEX=['Code','Direction','Price','Volume','VolumeMatched','State','AvgMatchingPrice','OrderTime','OrderNum','Mkt','Account','AddPar']
 
-ACCOUNTPAR_DAFAULT={'CostRatio':0}
+ACCOUNTPAR_DAFAULT={'CostRatio':0,'Slippage':0}
 
 class Account(object):
 	# 初始化,账户持仓信息中暂时没考虑多空双向持仓
@@ -63,12 +63,15 @@ class Account(object):
 		MktInfo={'Price_LimitUp':self.MktSliNow.GetDataByCode(Code,'Price_LimitUp'),'Price_LimitDown':self.MktSliNow.GetDataByCode(Code,'Price_LimitDown')}
 		ret,msg=self.CheckNewOrder(Order,MktInfo)
 		if ret==0:
-			return ret,msg
+			return ret,msg,''
 		else:
 			# 资金冻结
 			ret,msg=self.FrozenNewOrder(Order)
+			# 记录订单
 			OrderID=self.LogNewOrder(Order)
-			ret,msg=self.SendNewOrderToMatch(OrderID)
+			# 发送到交易所撮合
+			ret,msg,RetValue=self.SendNewOrderToMatch(OrderID)
+		return ret,msg,RetValue
 
 	# 订单校验
 	# 验单进行资金冻结等
@@ -149,18 +152,21 @@ class Account(object):
 	# 发送新订单到“虚拟交易所”进行撮合
 	def SendNewOrderToMatch(self,OrderID):
 		Order=list(self.Order[OrderID])
-		self.Exchange.DealNewOrder(OrderID,Order)	
+		ret,msg,RetValue=self.Exchange.DealNewOrder(OrderID,Order)	
+		return ret,msg,RetValue
 
 if __name__=='__main__':
 	# 验单函数的测试
-	Account=Account('usr','pwd','AddPar')
-	Account.AccPar['CostRatio']=0.01
-	Account.CashInfo={'Cash': 10000, 'CashF': 0, 'InitCash': 10000, 'CashA': 10000}
-	Account.Position['000001.SZSE']=['000001.SZSE',1100,500,600,0,0,'PriceNow',0,0,0,'CNY','Mkt',Account,{}]
 	import Exchange
-	Account.Exchange=Exchange.Exchange()
+	import Market
+	Account=Account('usr','pwd','AddPar',MktSliNow=Market.MktSliNow())
+	Account.AccPar['CostRatio']=0.01
+	Account.AccPar['Slippage'] = 0.1
+	Account.CashInfo={'Cash': 10000, 'CashF': 0, 'InitCash': 10000, 'CashA': 10000}
+	Account.Position['000001.SZSE']=['000001.SZSE',1200,600,600,0,0,'PriceNow',0,0,0,'CNY','Mkt',Account,{}]
+	Account.Exchange=Exchange.Exchange(MktSliNow=Market.MktSliNow())
 	MktInfo={'Price_LimitUp':10.20,'Price_LimitDown':8.0}
-	Order={'Code':'000001.SZSE','Direction':0,'Price':0,'Volume':200,'AddPar':{}}
+	Order={'Code':'000001.SZSE','Direction':0,'Price':18,'Volume':200,'AddPar':{}}
 	ret,msg=Account.CheckNewOrder(Order,MktInfo)
 	print([ret,msg])
 	# 冻结资金函数测试
@@ -170,5 +176,9 @@ if __name__=='__main__':
 		print(Account.CashInfo)
 		OrderID=Account.LogNewOrder(Order)
 		print(list(Account.Order[OrderID]))
-		Account.SendNewOrderToMatch(OrderID)
-		print(list(Account.Exchange.OrderPool[OrderID]))
+		# 撮合成交设置
+		ret,msg,RetValue=Account.SendNewOrderToMatch(OrderID)
+		print([ret,msg,RetValue])
+	# 合起来测试
+	ret, msg, RetValue=Account.PlaceOrder(**Order)
+	print([ret,msg,RetValue])
