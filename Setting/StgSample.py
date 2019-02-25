@@ -3,7 +3,6 @@
 
 
 __author__ = 'WindSing'
-WORK_PATH = 'E:\\OneDrive\\0_Coding\\010_MyQuantSystem\\Beta3.0 with Data Extraction'  # 工作目录
 
 import sys
 import random

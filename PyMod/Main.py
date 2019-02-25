@@ -31,8 +31,6 @@ import GeneralMod
 
 pd.set_option('expand_frame_repr', False)
 ################################################ 变量定义 ###############################################################
-CONFIG_FILE_PATH = "..\\Setting\\Config.ini"
-CONFIG_SPEC_PATH = "..\\Setting\\ConfigSpec.ini"
 CONFILE_FILE_PATH_JSON="../Setting/Config.json"
 ################################################ 主函数 #################################################################
 def Main(WebObj=None):
@@ -43,7 +41,6 @@ def Main(WebObj=None):
 	# 系统开始
 	# a.加载全部策略
 	# a.1 获取系统参数
-	# Config = GeneralMod.LoadIni(CONFIG_FILE_PATH, CONFIG_SPEC_PATH)
 	Config = GeneralMod.LoadJson(CONFILE_FILE_PATH_JSON)
 	# a.2 策略加载
 	Strategy = StrategyMod.LoadStrategy(Config['StgConfig'])
