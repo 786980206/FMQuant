@@ -101,11 +101,26 @@ class Exchange(object):
 
 	# 获取订单数据
 	def GetOrderByID(self,OrderID,Item=ORDER_INDEX):
-		return list(self.OrderPool[OrderID].loc[Item])
+		if type(Item) is not list:Item=[Item]
+		if OrderID in self.OrderPool.columns
+			return list(self.OrderPool[OrderID].loc[Item])
+		else:
+			return [None]*len(self.OrderPool.columns)
 
 	# 生成撮合成交时间
 	def CreateMatchTime(self):
 		return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+
+	# 判断订单状态（如订单全部成交则需要取消等）
+	def CheckOrderByID(self,OrderID):
+		# 订单数据
+		Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,OrderNum,Mkt,Account,Config=self.GetOrderByID(OrderID)
+		# 判断是否全部成交
+		if Volume==VolumeMatched and State=='AllMatched':
+			# 清除订单
+			self.OrderPool.drop(label=OrderID,axis=1,inplace=True)
+		return 1,''
+
 
 	# 处理从柜台新推过来的订单数据
 	def DealNewOrder(self,OrderID,Order):
@@ -114,17 +129,22 @@ class Exchange(object):
 		# 开始撮合
 		MktInfo={'Price4Trd':self.MktSliNow.GetDataByCode(Order[0],'Price'),'Volume4Trd':self.MktSliNow.GetDataByCode(Order[0],'Volume4Trd')}
 		ret,msg,MatchInfo=self.MatchOrder(OrderID,MktInfo)
+		# 判断是否成交
+		if MatchInfo['VolumeMatched']==0:
+			return 1,'无成交'
 		# 处理撮合结果
 		# OrderPool更新
-		self.DealMatchRet(OrderID,MatchInfo)
+		ret,msg=self.DealMatchRetInOrderPool(OrderID,MatchInfo)
 		# 市场行情切片也要处理撮合结果（扣除成交量等）
-		# self.MktSliNow.DealMatchRet(OrderID,MatchInfo)
-		return ret,msg,MatchInfo
+		self.MktSliNow.DealMatchRet(self.GetOrderByID(OrderID),MatchInfo)
+		# 通知柜台处理成交回报
+		# 生成成交时间
+		MatchTime=self.CreateMatchTime()
+		self.OrderPool[OrderID].loc['Account'].DealMatchRet(OrderID,MatchInfo,MatchTime)
+		return ret,msg
 
 	# 处理撮合结果
-	def DealMatchRet(self,OrderID,MatchInfo):
-		# 判断是否成交
-		if MatchInfo['VolumeMatched']==0:return 1,'无成交'
+	def DealMatchRetInOrderPool(self,OrderID,MatchInfo):
 		# 订单数据
 		Code_Old,Direction_Old,Price_Old,Volume_Old,VolumeMatched_Old,State_Old,AvgMatchingPrice_Old,OrderTime_Old,OrderNum_Old,Mkt_Old,Account_Old,Config_Old=self.GetOrderByID(OrderID)
 		# 成交数据
@@ -132,16 +152,28 @@ class Exchange(object):
 		VolumeMatching=MatchInfo['VolumeMatching']
 		# 柜台数据
 		CostRatio=self.OrderPool[OrderID].loc['Account'].AccPar['CostRatio']
+		# 成交金额计算
+		CashMatching=PriceMatching*VolumeMatching*(1+CostRatio) if Direction==1 else PriceMatching*VolumeMatching*(1-CostRatio)
 		# 开始处理
-		# 生成成交时间
-		MatchTime=self.CreateMatchTime()
 		# 计算新的订单记录的字段
 		Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,OrderNum,Mkt,Account,Config=Code_Old,Direction_Old,Price_Old,Volume_Old,VolumeMatched_Old,State_Old,AvgMatchingPrice_Old,OrderTime_Old,OrderNum_Old,Mkt_Old,Account_Old,Config_Old
+		# 已成交量
 		VolumeMatched=VolumeMatched_Old+VolumeMatching
-
-		pass
-
-
+		# 状态
+		# 如果已成=订单量
+		if VolumeMatched==Volume_Old:
+			State='AllMatched'
+		elif VolumeMatched<Volume_Old and VolumeMatched!=0:
+			State='PartMatched'
+		else:
+			State='WaitToMatch'
+		# 成交均价
+		AvgMatchingPrice=(VolumeMatched_Old*AvgMatchingPrice_Old+CashMatching)/VolumeMatched
+		# 回写数据到OrderPool
+		self.OrderPool[OrderID]=[Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,OrderNum,Mkt,Account,Config]
+		# 检查订单状态（如订单全部成交则需要取消等）
+		ret,msg=self.CheckOrderByID(OrderID)
+		return 1,''
 
 
 	# 撮合订单的函数
@@ -156,6 +188,8 @@ class Exchange(object):
 		CostRatio=self.OrderPool[OrderID].loc['Account'].AccPar['CostRatio']
 		# 撮合设置数据（暂时先放到柜台的参数中）
 		Slippage=self.OrderPool[OrderID].loc['Account'].AccPar['Slippage']
+		# 计算订单未成交量
+		VolumeNotMatched=Volume-VolumeMatched
 		# 开始撮合
 		# 价格对比
 		# 市价多单
@@ -174,11 +208,11 @@ class Exchange(object):
 			return 0,'价格不合适，未能成交',{'PriceMatching':0,'VolumeMatching':0}
 		# 成交量比对	
 		# 全部成交	
-		if Volume<=Volume4Trd:
-			VolumeMatched=Volume
+		if VolumeNotMatched<=Volume4Trd:
+			VolumeMatching=VolumeNotMatched
 		# 部分成交
-		elif Volume>Volume4Trd:
-			VolumeMatched=Volume4Trd
+		elif VolumeNotMatched>Volume4Trd:
+			VolumeMatching=Volume4Trd
 		else:
 			return 0,'成交量比对时出错！',{'PriceMatching':0,'VolumeMatching':0}
 		return 1,'',{'PriceMatching':PriceMatched,'VolumeMatching':VolumeMatched}

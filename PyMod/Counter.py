@@ -5,7 +5,7 @@ import uuid
 import datetime
 
 # Position：证券代码，持仓量，可用量，冻结量，股票实际，成本价，市价，市值，浮动盈亏，盈亏比例，币种，交易市场，账户
-POSITION_INDEX=['Code','Vol','VolA','VolF','StockActualVol','Avgcost','PriceNow','MktValue','FloatingProfit','ProfitRatio','Currency','Mkt','Account','Config']
+POSITION_INDEX=['Code','Vol','VolA','VolF','StockActualVol','AvgCost','PriceNow','MktValue','FloatingProfit','ProfitRatio','Currency','Mkt','Account','Config']
 # Order：证券代码，方向，委托价格，委托数量，成交数量，备注（成交状态），成交均价，委托时间，订单编号，交易市场，账户
 ORDER_INDEX=['Code','Direction','Price','Volume','VolumeMatched','State','AvgMatchingPrice','OrderTime','OrderNum','Mkt','Account','AddPar']
 
@@ -41,22 +41,151 @@ class Account(object):
 			self.AccountAddPar=self.MatchingSys.AccountAddPar[TempIndex]
 		elif self.CounterType=='XXCounter':
 			pass
-		Log.info('Refresh Position Success!')
+		# Log.info('Refresh Position Success!')
 		# 以下是测试用
-		if '000001.SZSE' in self.Position.columns:
-			Log.debug(list(self.Position['000001.SZSE']))
+		# if '000001.SZSE' in self.Position.columns:
+			# Log.debug(list(self.Position['000001.SZSE']))
 
 	# 获取持仓信息
-	def GetPosition(self,Code,Item):
-		# 获取持仓信息
-		if Code not in self.Position.columns:
-			return 0
+	def GetPositionByCode(self,Code,Item=POSITION_INDEX):
+		if type(Item) is not list:Item=[Item]
+		if Code in self.Position.columns:
+			return list(self.Position[Code].loc[Item])
 		else:
-			return self.Position[Code].loc[Item]
+			return [None]*len(Item)
+
+	# 获取订单数据
+	def GetOrderByID(self,OrderID,Item=ORDER_INDEX):
+		if type(Item) is not list:Item=[Item]
+		if OrderID in self.Order.columns:
+			return list(self.Order[OrderID].loc[Item])
+		else:
+			return [None]*len(Item)
 
 	# 生成订单下单时间
 	def CreateOrderTime(self):
 		return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+
+	# 检查订单状态（如订单全部成交则需要删除等）
+	def CheckOrderByID(self,OrderID):
+		# 订单数据
+		Volume,VolumeMatched,State=self.GetOrderByID(OrderID,['Volume','VolumeMatched','State'])
+		# 判断是否全部成交
+		if Volume==VolumeMatched and State=='AllMatched':
+			# 清除订单
+			self.Order.drop(label=OrderID,axis=1,inplace=True)
+		return 1,''
+
+	# 检查持仓数据（如无效持仓需要清理等）
+	def CheckPositionByCode(self,Code):
+		# 持仓数据
+		Vol=self.GetPositionByCode(Code,'Vol')[0]
+		# 判断是否全部成交
+		if Vol==0:
+			# 清除订单
+			self.Position.drop(label=OrderID,axis=1,inplace=True)
+		return 1,''
+
+	# 根据成交回报处理OrderList
+	def DealMatchRetInOrderList(self,OrderID,MatchInfo):
+		# 订单数据
+		Code_Old,Direction_Old,Price_Old,Volume_Old,VolumeMatched_Old,State_Old,AvgMatchingPrice_Old,OrderTime_Old,OrderNum_Old,Mkt_Old,Account_Old,Config_Old=self.GetOrderByID(OrderID)
+		# 成交数据
+		PriceMatching=MatchInfo['PriceMatching']
+		VolumeMatching=MatchInfo['VolumeMatching']
+		# 柜台数据
+		CostRatio=self.AccPar['CostRatio']
+		# 成交金额计算
+		CashMatching=PriceMatching*VolumeMatching*(1+CostRatio) if Direction_Old==1 else PriceMatching*VolumeMatching*(1-CostRatio)
+		# 开始处理
+		# 计算新的订单记录的字段
+		Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,OrderNum,Mkt,Account,Config=Code_Old,Direction_Old,Price_Old,Volume_Old,VolumeMatched_Old,State_Old,AvgMatchingPrice_Old,OrderTime_Old,OrderNum_Old,Mkt_Old,Account_Old,Config_Old
+		# 已成交量
+		VolumeMatched=VolumeMatched_Old+VolumeMatching
+		# 状态
+		# 如果已成=订单量
+		if VolumeMatched==Volume_Old:
+			State='AllMatched'
+		elif VolumeMatched<Volume_Old and VolumeMatched!=0:
+			State='PartMatched'
+		else:
+			State='WaitToMatch'
+		# 成交均价
+		AvgMatchingPrice=(VolumeMatched_Old*AvgMatchingPrice_Old+CashMatching)/VolumeMatched
+		# 回写数据到OrderList
+		self.OrderList[OrderID]=[Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,OrderNum,Mkt,Account,Config]
+		# 检查订单状态（如订单全部成交则需要取消等）
+		ret,msg=self.CheckOrderByID(OrderID)
+		return 1,''
+
+	# 根据成交回报处理PositionList
+	def DealMatchRetInPositionList(self,OrderInfo,MatchInfo):
+		# 订单数据
+		Code_Order,Direction_Order,Price_Order,Volume_Order,VolumeMatched_Order,State_Order,AvgMatchingPrice_Order,OrderTime_Order,OrderNum_Order,Mkt_Order,Account_Order,Config_Order=OrderInfo
+		# 成交数据
+		PriceMatching=MatchInfo['PriceMatching']
+		VolumeMatching=MatchInfo['VolumeMatching']
+		# 柜台数据
+		CostRatio=self.AccPar['CostRatio']
+		# 成交金额计算
+		CashMatching=PriceMatching*VolumeMatching*(1+CostRatio) if Direction_Order==1 else PriceMatching*VolumeMatching*(1-CostRatio)
+		# 判断是否已有持仓
+		if Code_Order in list(self.Position.columns):
+			Code_Position,Vol_Position,VolA_Position,VolF_Position,StockActualVol_Position,AvgCost_Position,PriceNow_Position,MktValue_Position,FloatingProfit_Position,ProfitRatio_Position,Currency_Position,Mkt_Position,Account_Position,Config_Position=self.GetPositionByCode(Code_Order)
+		else:
+			Code_Position,Vol_Position,VolA_Position,VolF_Position,StockActualVol_Position,AvgCost_Position,PriceNow_Position,MktValue_Position,FloatingProfit_Position,ProfitRatio_Position,Currency_Position,Mkt_Position,Account_Position,Config_Position=[Code_Order,0,0,0,0,0,0,0,0,0,'CNY','Mkt',self,{}]
+		# 初始化持仓字段
+		Code,Vol,VolA,VolF,StockActualVol,AvgCost,PriceNow,MktValue,FloatingProfit,ProfitRatio,Currency,Mkt,Account,Config=Code_Position,Vol_Position,VolA_Position,VolF_Position,StockActualVol_Position,AvgCost_Position,PriceNow_Position,MktValue_Position,FloatingProfit_Position,ProfitRatio_Position,Currency_Position,Mkt_Position,Account_Position,Config_Position
+		# 计算持仓字段
+		# 主要分多空
+		if Direction_Order==1:
+			Vol=Vol_Position+VolumeMatching
+			VolA=VolA_Position # 股票T+1，可用量不变
+			VolF=VolF_Position
+			StockActualVol=StockActualVol_Position
+			AvgCost=(AvgCost_Position*Vol_Position+CashMatching)/Vol
+		elif Direction_Order==0:
+			Vol=Vol_Position-VolumeMatching
+			VolA=VolA
+			VolF=VolF_Position-VolumeMatching
+			StockActualVol=StockActualVol_Position
+			# 卖出平均成本=0 if 持仓=0 else （旧的平均成本*旧的持仓量-卖出收回资金）/新持仓量
+			AvgCost=0 if Vol==0 else (AvgCost_Position*Vol_Position-CashMatching)/Vol
+		# 回写数据到持仓数据中
+		# 因为其他的字段都和实时行情有关，回写完毕后重新调用一个函数即可
+		self.Position[Code]=[Code,Vol,VolA,VolF,StockActualVol,AvgCost,PriceNow,MktValue,FloatingProfit,ProfitRatio,Currency,Mkt,Account,Config]
+		# 重新计算实时持仓盈亏
+		ret,msg=self.CalcPositionRealTimeValueByCode(Code)
+		# 检查持仓信息（如无效持仓清除等）
+		ret,msg=self.CheckPositionByCode(Code)
+		return 1,''
+
+	# 更新资金信息CashInfo 
+	def DealMatchRetInCashInfo(self,OrderInfo,MatchInfo):
+		pass
+		# TO DO ...
+
+	# 计算实时持仓价值
+	def CalcPositionRealTimeValueByCode(self,Code):
+		if Code not in self.Position.columns:return 0,'无效Code！'
+		# 市场数据
+		Price=self.MktSliNow.GetDataByCode(Code,'Price')
+		# 更新数据
+		self.Position[Code].loc['PriceNow']=Price
+		self.Position[Code].loc['MktValue']=Price*self.Position[Code].loc['Vol']
+		self.Position[Code].loc['FloatingProfit']=(Price-self.Position[Code].loc['AvgCost'])*self.Position[Code].loc['Vol']
+		self.Position[Code].loc['ProfitRatio']=(Price-self.Position[Code].loc['AvgCost'])/self.Position[Code].loc['AvgCost'] if self.Position[Code].loc['AvgCost']!=0 else 0
+		return 1,''
+		
+	# 出来订单成交回报
+	def DealMatchRet(self,OrderID,MatchInfo,MatchTime):
+		OrderInfo=self.GetOrderByID(OrderID)
+		# 更新订单列表
+		ret,msg=self.DealMatchRetInOrderList(OrderID,MatchInfo)
+		# 更新持仓列表
+		ret,msg=self.DealMatchRetInPositionList(OrderInfo,MatchInfo)
+		# 更新资金列表
+		ret,msg=self.DealMatchRetInCashInfo(OrderInfo,MatchInfo)
 
 	# 账户下单
 	def PlaceOrder(self,Code,Direction,Price,Volume,AddPar=None):
@@ -108,7 +237,7 @@ class Account(object):
 				msg='可用资金不足，订单无效'
 				return ret,msg
 		elif Direction==0:
-			if Volume>	self.GetPosition(Code,'VolA'):
+			if Volume>self.GetPosition(Code,'VolA')[0]:
 				ret=0
 				msg='可用持仓不足，订单无效'
 				return ret,msg
@@ -148,14 +277,14 @@ class Account(object):
 		AddPar=Order['AddPar']
 		# 生成订单编号
 		OrderID=str(uuid.uuid1())
-		self.Order[OrderID]=[Code,Direction,Price,Volume,0,'wait2match',0,self.CreateOrderTime(),OrderID,'Mkt',self,AddPar]
+		self.Order[OrderID]=[Code,Direction,Price,Volume,0,'WaitToMatch',0,self.CreateOrderTime(),OrderID,'Mkt',self,AddPar]
 		return OrderID
 	
 	# 发送新订单到“虚拟交易所”进行撮合
 	def SendNewOrderToMatch(self,OrderID):
 		Order=list(self.Order[OrderID])
-		ret,msg,RetValue=self.Exchange.DealNewOrder(OrderID,Order)	
-		return ret,msg,RetValue
+		ret,msg=self.Exchange.DealNewOrder(OrderID,Order)	
+		return ret,msg
 
 if __name__=='__main__':
 	# 验单函数的测试

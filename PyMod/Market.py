@@ -12,3 +12,7 @@ class MktSliNow(object):
 		if Item=='Price':return 10
 		if Item=='Volume4Trd':return 500 # 获取Volume4Trd的时候要考虑市场参与度
 		# Volume4Trd=math.floor(Volume4Trd/100)*100
+
+	# 处理订单撮合（扣除市场成交量等）
+	def DealMatchRet(self,OrderInfo,MatchInfo):
+		return 1,''
