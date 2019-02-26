@@ -43,7 +43,6 @@ def set_color(color, handle=std_out_handle):
 def Log(AtFirst=False):
     if AtFirst:
         logging.config.fileConfig(LOG_CONFIG_PATH)
-        # logging.config.fileConfig(r"E:\OneDrive\0_Coding\010_MyQuantSystem\Beta5.0\Setting\Log.ini")
     return logging.getLogger("PyMod")
 def LogWithColor(Msg,Func,Color):
     set_color(Color)

@@ -15,10 +15,10 @@ import sys
 import os
 import time
 from enum import Enum
-from datetime import datetime
+import datetime
 import pandas as pd
 import math
-import PushMod # 数据模块
+# import PushMod # 数据模块
 import TradeMod # 交易模块
 # import StrategyMod.StrategyMod as StrategyMod # 策略模块
 import EventMod
@@ -103,14 +103,46 @@ class Exchange(object):
 	def GetOrderByID(self,OrderID,Item=ORDER_INDEX):
 		return list(self.OrderPool[OrderID].loc[Item])
 
+	# 生成撮合成交时间
+	def CreateMatchTime(self):
+		return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+
 	# 处理从柜台新推过来的订单数据
 	def DealNewOrder(self,OrderID,Order):
 		# 加入订单池
 		self.OrderPool[OrderID]=Order
 		# 开始撮合
 		MktInfo={'Price4Trd':self.MktSliNow.GetDataByCode(Order[0],'Price'),'Volume4Trd':self.MktSliNow.GetDataByCode(Order[0],'Volume4Trd')}
-		ret,msg,RetValue=self.MatchOrder(OrderID,MktInfo)
-		return ret,msg,RetValue
+		ret,msg,MatchInfo=self.MatchOrder(OrderID,MktInfo)
+		# 处理撮合结果
+		# OrderPool更新
+		self.DealMatchRet(OrderID,MatchInfo)
+		# 市场行情切片也要处理撮合结果（扣除成交量等）
+		# self.MktSliNow.DealMatchRet(OrderID,MatchInfo)
+		return ret,msg,MatchInfo
+
+	# 处理撮合结果
+	def DealMatchRet(self,OrderID,MatchInfo):
+		# 判断是否成交
+		if MatchInfo['VolumeMatched']==0:return 1,'无成交'
+		# 订单数据
+		Code_Old,Direction_Old,Price_Old,Volume_Old,VolumeMatched_Old,State_Old,AvgMatchingPrice_Old,OrderTime_Old,OrderNum_Old,Mkt_Old,Account_Old,Config_Old=self.GetOrderByID(OrderID)
+		# 成交数据
+		PriceMatching=MatchInfo['PriceMatching']
+		VolumeMatching=MatchInfo['VolumeMatching']
+		# 柜台数据
+		CostRatio=self.OrderPool[OrderID].loc['Account'].AccPar['CostRatio']
+		# 开始处理
+		# 生成成交时间
+		MatchTime=self.CreateMatchTime()
+		# 计算新的订单记录的字段
+		Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,OrderNum,Mkt,Account,Config=Code_Old,Direction_Old,Price_Old,Volume_Old,VolumeMatched_Old,State_Old,AvgMatchingPrice_Old,OrderTime_Old,OrderNum_Old,Mkt_Old,Account_Old,Config_Old
+		VolumeMatched=VolumeMatched_Old+VolumeMatching
+
+		pass
+
+
+
 
 	# 撮合订单的函数
 	# 需要用到订单数据，市场数据，柜台数据（费率等），其他撮合数据（如滑点，最大成交比例等）
@@ -139,7 +171,7 @@ class Exchange(object):
 		elif Price<Price4Trd and Direction==0:
 			PriceMatched=Price4Trd
 		else:
-			return 1,'',[0,0]
+			return 0,'价格不合适，未能成交',{'PriceMatching':0,'VolumeMatching':0}
 		# 成交量比对	
 		# 全部成交	
 		if Volume<=Volume4Trd:
@@ -148,9 +180,8 @@ class Exchange(object):
 		elif Volume>Volume4Trd:
 			VolumeMatched=Volume4Trd
 		else:
-			return 1,'',[0,0]
-		CashMatched=PriceMatched*VolumeMatched
-		return 1,'',[PriceMatched,VolumeMatched]
+			return 0,'成交量比对时出错！',{'PriceMatching':0,'VolumeMatching':0}
+		return 1,'',{'PriceMatching':PriceMatched,'VolumeMatching':VolumeMatched}
 
 ## 回测模块函数
 if __name__=='__main__':

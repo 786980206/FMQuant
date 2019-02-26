@@ -53,6 +53,8 @@ class Account(object):
 			return 0
 		else:
 			return self.Position[Code].loc[Item]
+
+	# 生成订单下单时间
 	def CreateOrderTime(self):
 		return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
 
@@ -166,7 +168,7 @@ if __name__=='__main__':
 	Account.Position['000001.SZSE']=['000001.SZSE',1200,600,600,0,0,'PriceNow',0,0,0,'CNY','Mkt',Account,{}]
 	Account.Exchange=Exchange.Exchange(MktSliNow=Market.MktSliNow())
 	MktInfo={'Price_LimitUp':10.20,'Price_LimitDown':8.0}
-	Order={'Code':'000001.SZSE','Direction':0,'Price':18,'Volume':200,'AddPar':{}}
+	Order={'Code':'000001.SZSE','Direction':0,'Price':9,'Volume':200,'AddPar':{}}
 	ret,msg=Account.CheckNewOrder(Order,MktInfo)
 	print([ret,msg])
 	# 冻结资金函数测试
