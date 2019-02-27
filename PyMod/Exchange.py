@@ -102,7 +102,7 @@ class Exchange(object):
 	# 获取订单数据
 	def GetOrderByID(self,OrderID,Item=ORDER_INDEX):
 		if type(Item) is not list:Item=[Item]
-		if OrderID in self.OrderPool.columns
+		if OrderID in self.OrderPool.columns:
 			return list(self.OrderPool[OrderID].loc[Item])
 		else:
 			return [None]*len(self.OrderPool.columns)
@@ -118,29 +118,31 @@ class Exchange(object):
 		# 判断是否全部成交
 		if Volume==VolumeMatched and State=='AllMatched':
 			# 清除订单
-			self.OrderPool.drop(label=OrderID,axis=1,inplace=True)
+			self.OrderPool.drop(labels=OrderID,axis=1,inplace=True)
 		return 1,''
 
 
 	# 处理从柜台新推过来的订单数据
 	def DealNewOrder(self,OrderID,Order):
+		# 订单数据
+		Code, Direction, Price, Volume, VolumeMatched, State, AvgMatchingPrice, OrderTime, OrderNum, Mkt, Account, Config=Order
 		# 加入订单池
 		self.OrderPool[OrderID]=Order
 		# 开始撮合
 		MktInfo={'Price4Trd':self.MktSliNow.GetDataByCode(Order[0],'Price'),'Volume4Trd':self.MktSliNow.GetDataByCode(Order[0],'Volume4Trd')}
 		ret,msg,MatchInfo=self.MatchOrder(OrderID,MktInfo)
 		# 判断是否成交
-		if MatchInfo['VolumeMatched']==0:
+		if MatchInfo['VolumeMatching']==0:
 			return 1,'无成交'
 		# 处理撮合结果
 		# OrderPool更新
 		ret,msg=self.DealMatchRetInOrderPool(OrderID,MatchInfo)
 		# 市场行情切片也要处理撮合结果（扣除成交量等）
-		self.MktSliNow.DealMatchRet(self.GetOrderByID(OrderID),MatchInfo)
+		self.MktSliNow.DealMatchRet(Code,MatchInfo)
 		# 通知柜台处理成交回报
 		# 生成成交时间
 		MatchTime=self.CreateMatchTime()
-		self.OrderPool[OrderID].loc['Account'].DealMatchRet(OrderID,MatchInfo,MatchTime)
+		ret,msg=Account.DealMatchRet(OrderID,MatchInfo,MatchTime)
 		return ret,msg
 
 	# 处理撮合结果
@@ -153,7 +155,7 @@ class Exchange(object):
 		# 柜台数据
 		CostRatio=self.OrderPool[OrderID].loc['Account'].AccPar['CostRatio']
 		# 成交金额计算
-		CashMatching=PriceMatching*VolumeMatching*(1+CostRatio) if Direction==1 else PriceMatching*VolumeMatching*(1-CostRatio)
+		CashMatching=PriceMatching*VolumeMatching*(1+CostRatio) if Direction_Old==1 else PriceMatching*VolumeMatching*(1-CostRatio)
 		# 开始处理
 		# 计算新的订单记录的字段
 		Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,OrderNum,Mkt,Account,Config=Code_Old,Direction_Old,Price_Old,Volume_Old,VolumeMatched_Old,State_Old,AvgMatchingPrice_Old,OrderTime_Old,OrderNum_Old,Mkt_Old,Account_Old,Config_Old
@@ -194,16 +196,16 @@ class Exchange(object):
 		# 价格对比
 		# 市价多单
 		if Price==0 and Direction==1:
-			PriceMatched=Price4Trd+Slippage
+			PriceMatching=Price4Trd+Slippage
 		# 限价多单
 		elif (Price>=Price4Trd) and Direction==1:
-			PriceMatched=Price4Trd
+			PriceMatching=Price4Trd
 		# 市价平多
 		elif Price==0 and Direction==0:
-			PriceMatched=Price4Trd-Slippage
+			PriceMatching=Price4Trd-Slippage
 		# 限价平多
 		elif Price<Price4Trd and Direction==0:
-			PriceMatched=Price4Trd
+			PriceMatching=Price4Trd
 		else:
 			return 0,'价格不合适，未能成交',{'PriceMatching':0,'VolumeMatching':0}
 		# 成交量比对	
@@ -215,7 +217,7 @@ class Exchange(object):
 			VolumeMatching=Volume4Trd
 		else:
 			return 0,'成交量比对时出错！',{'PriceMatching':0,'VolumeMatching':0}
-		return 1,'',{'PriceMatching':PriceMatched,'VolumeMatching':VolumeMatched}
+		return 1,'',{'PriceMatching':PriceMatching,'VolumeMatching':VolumeMatching}
 
 ## 回测模块函数
 if __name__=='__main__':

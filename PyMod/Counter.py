@@ -73,7 +73,7 @@ class Account(object):
 		# 判断是否全部成交
 		if Volume==VolumeMatched and State=='AllMatched':
 			# 清除订单
-			self.Order.drop(label=OrderID,axis=1,inplace=True)
+			self.Order.drop(labels=OrderID,axis=1,inplace=True)
 		return 1,''
 
 	# 检查持仓数据（如无效持仓需要清理等）
@@ -113,7 +113,7 @@ class Account(object):
 		# 成交均价
 		AvgMatchingPrice=(VolumeMatched_Old*AvgMatchingPrice_Old+CashMatching)/VolumeMatched
 		# 回写数据到OrderList
-		self.OrderList[OrderID]=[Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,OrderNum,Mkt,Account,Config]
+		self.Order[OrderID]=[Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,OrderNum,Mkt,Account,Config]
 		# 检查订单状态（如订单全部成交则需要取消等）
 		ret,msg=self.CheckOrderByID(OrderID)
 		return 1,''
@@ -162,8 +162,39 @@ class Account(object):
 
 	# 更新资金信息CashInfo 
 	def DealMatchRetInCashInfo(self,OrderInfo,MatchInfo):
-		pass
-		# TO DO ...
+		# 订单数据
+		Code_Order,Direction_Order,Price_Order,Volume_Order,VolumeMatched_Order,State_Order,AvgMatchingPrice_Order,OrderTime_Order,OrderNum_Order,Mkt_Order,Account_Order,Config_Order=OrderInfo
+		# 成交数据
+		PriceMatching=MatchInfo['PriceMatching']
+		VolumeMatching=MatchInfo['VolumeMatching']
+		# 柜台数据
+		CostRatio=self.AccPar['CostRatio']
+		# 成交金额计算
+		CashMatching=PriceMatching*VolumeMatching*(1+CostRatio) if Direction_Order==1 else PriceMatching*VolumeMatching*(1-CostRatio)
+		# 资金数据
+		Cash_Old=self.CashInfo['Cash']
+		InitCash_Old=self.CashInfo['InitCash']
+		CashA_Old=self.CashInfo['CashA']
+		CashF_Old=self.CashInfo['CashF']
+		# 开始计算
+		# 买入计算
+		if Direction_Order==1:
+			Cash=Cash_Old-CashMatching
+			InitCash=InitCash_Old
+			CashA=CashA_Old
+			CashF=CashF_Old-CashMatching
+		elif Direction_Order==0:
+			Cash=Cash_Old+CashMatching
+			InitCash=InitCash_Old
+			CashA=CashA_Old+CashMatching
+			CashF=CashF_Old
+		# 回写数据
+		self.CashInfo['Cash']=Cash
+		self.CashInfo['InitCash']=InitCash
+		self.CashInfo['CashA']=CashA
+		self.CashInfo['CashF']=CashF
+		return 1,''
+		
 
 	# 计算实时持仓价值
 	def CalcPositionRealTimeValueByCode(self,Code):
@@ -186,6 +217,7 @@ class Account(object):
 		ret,msg=self.DealMatchRetInPositionList(OrderInfo,MatchInfo)
 		# 更新资金列表
 		ret,msg=self.DealMatchRetInCashInfo(OrderInfo,MatchInfo)
+		return 1,''
 
 	# 账户下单
 	def PlaceOrder(self,Code,Direction,Price,Volume,AddPar=None):
@@ -201,8 +233,8 @@ class Account(object):
 			# 记录订单
 			OrderID=self.LogNewOrder(Order)
 			# 发送到交易所撮合
-			ret,msg,RetValue=self.SendNewOrderToMatch(OrderID)
-		return ret,msg,RetValue
+			ret,msg=self.SendNewOrderToMatch(OrderID)
+		return ret,msg,OrderID
 
 	# 订单校验
 	# 验单进行资金冻结等
@@ -237,7 +269,7 @@ class Account(object):
 				msg='可用资金不足，订单无效'
 				return ret,msg
 		elif Direction==0:
-			if Volume>self.GetPosition(Code,'VolA')[0]:
+			if Volume>(self.GetPositionByCode(Code,'VolA')[0] if self.GetPositionByCode(Code,'VolA')[0]!=None else 0):
 				ret=0
 				msg='可用持仓不足，订单无效'
 				return ret,msg
@@ -308,8 +340,8 @@ if __name__=='__main__':
 		OrderID=Account.LogNewOrder(Order)
 		print(list(Account.Order[OrderID]))
 		# 撮合成交设置
-		ret,msg,RetValue=Account.SendNewOrderToMatch(OrderID)
-		print([ret,msg,RetValue])
+		ret,msg=Account.SendNewOrderToMatch(OrderID)
+		print([ret,msg])
 	# 合起来测试
-	ret, msg, RetValue=Account.PlaceOrder(**Order)
-	print([ret,msg,RetValue])
+	ret, msg,OrderID=Account.PlaceOrder(**Order)
+	print([ret,msg])
