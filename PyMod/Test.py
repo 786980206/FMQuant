@@ -15,7 +15,7 @@ def Init(Mkt,Account):
 	Mkt.Data['Volume4Trd']=200
 	# 设置账户信息
 	Account.Exchange=Exchange.Exchange(MktSliNow=Mkt)
-	Account.AccPar['CostRatio']=0.01
+	Account.AccPar['CommissionRate']=0.01
 	Account.AccPar['Slippage'] = 0.1
 	Account.CashInfo={'Cash': 10000, 'CashF': 0, 'InitCash': 10000, 'CashA': 10000}
 	Account.Position['000001.SZSE']=['000001.SZSE',1200,600,600,0,0,'PriceNow',0,0,0,'CNY','Mkt',Account,{}]

@@ -7,7 +7,7 @@ POSITION_INDEX=['Code','Vol','VolA','VolF','StockActualVol','Avgcost','PriceNow'
 # Order：证券代码，方向，委托价格，委托数量，成交数量，备注（成交状态），成交均价，委托时间，订单编号，交易市场，账户
 ORDER_INDEX=['Code','Direction','Price','Volume','VolumeMatched','State','AvgMatchingPrice','OrderTime','OrderNum','Mkt','Account','Config']
 
-ACCOUNTPAR_DAFAULT={'CostRatio':0}
+ACCOUNTPAR_DAFAULT={'CommissionRate':0}
 
 ################################################# 模块导入 ##############################################################
 ## 导入所需模块
@@ -153,9 +153,9 @@ class Exchange(object):
 		PriceMatching=MatchInfo['PriceMatching']
 		VolumeMatching=MatchInfo['VolumeMatching']
 		# 柜台数据
-		CostRatio=self.OrderPool[OrderID].loc['Account'].AccPar['CostRatio']
+		CommissionRate=self.OrderPool[OrderID].loc['Account'].AccPar['CommissionRate']
 		# 成交金额计算
-		CashMatching=PriceMatching*VolumeMatching*(1+CostRatio) if Direction_Old==1 else PriceMatching*VolumeMatching*(1-CostRatio)
+		CashMatching=PriceMatching*VolumeMatching*(1+CommissionRate) if Direction_Old==1 else PriceMatching*VolumeMatching*(1-CommissionRate)
 		# 开始处理
 		# 计算新的订单记录的字段
 		Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,OrderNum,Mkt,Account,Config=Code_Old,Direction_Old,Price_Old,Volume_Old,VolumeMatched_Old,State_Old,AvgMatchingPrice_Old,OrderTime_Old,OrderNum_Old,Mkt_Old,Account_Old,Config_Old
@@ -186,8 +186,6 @@ class Exchange(object):
 		# 市场数据
 		Price4Trd=MktInfo['Price4Trd']
 		Volume4Trd=MktInfo['Volume4Trd']
-		# 柜台数据
-		CostRatio=self.OrderPool[OrderID].loc['Account'].AccPar['CostRatio']
 		# 撮合设置数据（暂时先放到柜台的参数中）
 		Slippage=self.OrderPool[OrderID].loc['Account'].AccPar['Slippage']
 		# 计算订单未成交量

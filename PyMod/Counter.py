@@ -3,20 +3,24 @@
 import pandas as pd
 import uuid
 import datetime
+import Common as cm
 
 # Position：证券代码，持仓量，可用量，冻结量，股票实际，成本价，市价，市值，浮动盈亏，盈亏比例，币种，交易市场，账户
 POSITION_INDEX=['Code','Vol','VolA','VolF','StockActualVol','AvgCost','PriceNow','MktValue','FloatingProfit','ProfitRatio','Currency','Mkt','Account','Config']
 # Order：证券代码，方向，委托价格，委托数量，成交数量，备注（成交状态），成交均价，委托时间，订单编号，交易市场，账户
 ORDER_INDEX=['Code','Direction','Price','Volume','VolumeMatched','State','AvgMatchingPrice','OrderTime','OrderNum','Mkt','Account','AddPar']
+# 冻结资金明细
+CASHFDETIAL_INDEX=['ID','Reason','Amt','Body','Fee']
 
-ACCOUNTPAR_DAFAULT={'CostRatio':0,'Slippage':0}
+ACCOUNTPAR_DAFAULT={'CommissionRate':0,'Slippage':0}
 
 class Account(object):
 	# 初始化,账户持仓信息中暂时没考虑多空双向持仓
 	def __init__(self,Usr=None,Pwd=None,AddPar=None,Type='Stock',AccPar=ACCOUNTPAR_DAFAULT,MktSliNow=None,Exchange=None):
 		self.Position=pd.DataFrame(index=POSITION_INDEX)
 		self.Order=pd.DataFrame(index=ORDER_INDEX)
-		self.CashInfo={'Cash':0,'InitCash':0,'CashA':0,'CashF':0}
+		self.OrderRec=pd.DataFrame(index=ORDER_INDEX)
+		self.CashInfo={'Cash':0,'InitCash':0,'CashA':0,'CashF':0,'CashFDetial':pd.DataFrame(index=CASHFDETIAL_INDEX)}
 		self.AccPar=AccPar # 柜台账户参数数据，如账户手续费，保证金等数据
 		self.MktSliNow=MktSliNow # 当前行情切片，作为一个外部数据源供柜台模块引用
 		self.Exchange=Exchange # 交易所对象，用于柜台发送订单进行撮合等
@@ -57,8 +61,8 @@ class Account(object):
 	# 获取订单数据
 	def GetOrderByID(self,OrderID,Item=ORDER_INDEX):
 		if type(Item) is not list:Item=[Item]
-		if OrderID in self.Order.columns:
-			return list(self.Order[OrderID].loc[Item])
+		if OrderID in self.OrderRec.columns:
+			return list(self.OrderRec[OrderID].loc[Item])
 		else:
 			return [None]*len(Item)
 
@@ -94,9 +98,9 @@ class Account(object):
 		PriceMatching=MatchInfo['PriceMatching']
 		VolumeMatching=MatchInfo['VolumeMatching']
 		# 柜台数据
-		CostRatio=self.AccPar['CostRatio']
+		CommissionRate=self.AccPar['CommissionRate']
 		# 成交金额计算
-		CashMatching=PriceMatching*VolumeMatching*(1+CostRatio) if Direction_Old==1 else PriceMatching*VolumeMatching*(1-CostRatio)
+		CashMatching=PriceMatching*VolumeMatching*(1+CommissionRate) if Direction_Old==1 else PriceMatching*VolumeMatching*(1-CommissionRate)
 		# 开始处理
 		# 计算新的订单记录的字段
 		Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,OrderNum,Mkt,Account,Config=Code_Old,Direction_Old,Price_Old,Volume_Old,VolumeMatched_Old,State_Old,AvgMatchingPrice_Old,OrderTime_Old,OrderNum_Old,Mkt_Old,Account_Old,Config_Old
@@ -112,23 +116,24 @@ class Account(object):
 			State='WaitToMatch'
 		# 成交均价
 		AvgMatchingPrice=(VolumeMatched_Old*AvgMatchingPrice_Old+CashMatching)/VolumeMatched
-		# 回写数据到OrderList
+		# 回写数据到Order及OrderRec
 		self.Order[OrderID]=[Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,OrderNum,Mkt,Account,Config]
+		self.OrderRec[OrderID]=[Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,OrderNum,Mkt,Account,Config]
 		# 检查订单状态（如订单全部成交则需要取消等）
 		ret,msg=self.CheckOrderByID(OrderID)
 		return 1,''
 
 	# 根据成交回报处理PositionList
-	def DealMatchRetInPositionList(self,OrderInfo,MatchInfo):
+	def DealMatchRetInPositionList(self,OrderID,MatchInfo):
 		# 订单数据
-		Code_Order,Direction_Order,Price_Order,Volume_Order,VolumeMatched_Order,State_Order,AvgMatchingPrice_Order,OrderTime_Order,OrderNum_Order,Mkt_Order,Account_Order,Config_Order=OrderInfo
+		Code_Order,Direction_Order,Price_Order,Volume_Order,VolumeMatched_Order,State_Order,AvgMatchingPrice_Order,OrderTime_Order,OrderNum_Order,Mkt_Order,Account_Order,Config_Order=self.GetOrderByID(OrderID)
 		# 成交数据
 		PriceMatching=MatchInfo['PriceMatching']
 		VolumeMatching=MatchInfo['VolumeMatching']
 		# 柜台数据
-		CostRatio=self.AccPar['CostRatio']
+		CommissionRate=self.AccPar['CommissionRate']
 		# 成交金额计算
-		CashMatching=PriceMatching*VolumeMatching*(1+CostRatio) if Direction_Order==1 else PriceMatching*VolumeMatching*(1-CostRatio)
+		CashMatching=PriceMatching*VolumeMatching*(1+CommissionRate) if Direction_Order==1 else PriceMatching*VolumeMatching*(1-CommissionRate)
 		# 判断是否已有持仓
 		if Code_Order in list(self.Position.columns):
 			Code_Position,Vol_Position,VolA_Position,VolF_Position,StockActualVol_Position,AvgCost_Position,PriceNow_Position,MktValue_Position,FloatingProfit_Position,ProfitRatio_Position,Currency_Position,Mkt_Position,Account_Position,Config_Position=self.GetPositionByCode(Code_Order)
@@ -161,16 +166,16 @@ class Account(object):
 		return 1,''
 
 	# 更新资金信息CashInfo 
-	def DealMatchRetInCashInfo(self,OrderInfo,MatchInfo):
+	def DealMatchRetInCashInfo(self,OrderID,MatchInfo):
 		# 订单数据
-		Code_Order,Direction_Order,Price_Order,Volume_Order,VolumeMatched_Order,State_Order,AvgMatchingPrice_Order,OrderTime_Order,OrderNum_Order,Mkt_Order,Account_Order,Config_Order=OrderInfo
+		Code_Order,Direction_Order,Price_Order,Volume_Order,VolumeMatched_Order,State_Order,AvgMatchingPrice_Order,OrderTime_Order,OrderNum_Order,Mkt_Order,Account_Order,Config_Order=self.GetOrderByID(OrderID)
 		# 成交数据
 		PriceMatching=MatchInfo['PriceMatching']
 		VolumeMatching=MatchInfo['VolumeMatching']
 		# 柜台数据
-		CostRatio=self.AccPar['CostRatio']
+		CommissionRate=self.AccPar['CommissionRate']
 		# 成交金额计算
-		CashMatching=PriceMatching*VolumeMatching*(1+CostRatio) if Direction_Order==1 else PriceMatching*VolumeMatching*(1-CostRatio)
+		CashMatching=PriceMatching*VolumeMatching*(1+CommissionRate) if Direction_Order==1 else PriceMatching*VolumeMatching*(1-CommissionRate)
 		# 资金数据
 		Cash_Old=self.CashInfo['Cash']
 		InitCash_Old=self.CashInfo['InitCash']
@@ -210,13 +215,12 @@ class Account(object):
 		
 	# 出来订单成交回报
 	def DealMatchRet(self,OrderID,MatchInfo,MatchTime):
-		OrderInfo=self.GetOrderByID(OrderID)
 		# 更新订单列表
 		ret,msg=self.DealMatchRetInOrderList(OrderID,MatchInfo)
 		# 更新持仓列表
-		ret,msg=self.DealMatchRetInPositionList(OrderInfo,MatchInfo)
+		ret,msg=self.DealMatchRetInPositionList(OrderID,MatchInfo)
 		# 更新资金列表
-		ret,msg=self.DealMatchRetInCashInfo(OrderInfo,MatchInfo)
+		ret,msg=self.DealMatchRetInCashInfo(OrderID,MatchInfo)
 		return 1,''
 
 	# 账户下单
@@ -228,10 +232,10 @@ class Account(object):
 		if ret==0:
 			return ret,msg,''
 		else:
-			# 资金冻结
-			ret,msg=self.FrozenNewOrder(Order)
 			# 记录订单
 			OrderID=self.LogNewOrder(Order)
+			# 资金冻结
+			ret,msg=self.FrozenNewOrder(OrderID)
 			# 发送到交易所撮合
 			ret,msg=self.SendNewOrderToMatch(OrderID)
 		return ret,msg,OrderID
@@ -258,13 +262,13 @@ class Account(object):
 			return ret,msg
 		# 其他判断
 		if Direction==1:
-			CostRatio=self.AccPar['CostRatio']
+			CommissionRate=self.AccPar['CommissionRate']
 			# 判断是不是市价下单,是的话，价格按涨停价格下单冻结资金
 			if Price==0:
 				Price2Frozen=MktInfo['Price_LimitUp']
 			else:
 				Price2Frozen=Price
-			if Volume*Price2Frozen*(1+CostRatio)>self.CashInfo['CashA']:
+			if Volume*Price2Frozen*(1+CommissionRate)>self.CashInfo['CashA']:
 				ret=0
 				msg='可用资金不足，订单无效'
 				return ret,msg
@@ -278,21 +282,12 @@ class Account(object):
 	# 冻结资金持仓等
 	# 验单通过的订单进行冻结资金的操作
 	# 这里没有数据锁，可能出现验单通过实际冻结的时候却不足的问题吗？
-	def FrozenNewOrder(self,Order):
-		Code=Order['Code']
-		Direction=Order['Direction']
-		Price=Order['Price']
-		Volume=Order['Volume']
-		AddPar=Order['AddPar']	
+	def FrozenNewOrder(self,OrderID):
+		Code,Volume,Direction=self.GetOrderByID(OrderID,['Code','Volume','Direction'])
 		# 买入冻结资金
 		if Direction==1:
-			CostRatio=self.AccPar['CostRatio']
-			# 判断是不是市价下单,是的话，价格按涨停价格下单冻结资金
-			if Price==0:
-				Price2Frozen=MktInfo['Price_LimitUp']
-			else:
-				Price2Frozen=Price
-			CashFrozen=Volume*Price2Frozen*(1+CostRatio) # 冻结资金=数量*价格*（1+手续费）
+			FeeCalc=self.CalcOrderFee(OrderID)
+			CashFrozen=FeeCalc['CashBody']+FeeCalc['Fee']
 			self.CashInfo['CashA']=self.CashInfo['CashA']-CashFrozen
 			self.CashInfo['CashF']=self.CashInfo['CashF']+CashFrozen
 		elif Direction==0:
@@ -309,7 +304,9 @@ class Account(object):
 		AddPar=Order['AddPar']
 		# 生成订单编号
 		OrderID=str(uuid.uuid1())
+		# 记录订单
 		self.Order[OrderID]=[Code,Direction,Price,Volume,0,'WaitToMatch',0,self.CreateOrderTime(),OrderID,'Mkt',self,AddPar]
+		self.OrderRec[OrderID]=[Code,Direction,Price,Volume,0,'WaitToMatch',0,self.CreateOrderTime(),OrderID,'Mkt',self,AddPar]
 		return OrderID
 	
 	# 发送新订单到“虚拟交易所”进行撮合
@@ -318,12 +315,48 @@ class Account(object):
 		ret,msg=self.Exchange.DealNewOrder(OrderID,Order)	
 		return ret,msg
 
+	# 计算订单手续费等
+	def CalcOrderFee(self,OrderID,MatchInfo=None):
+		# 订单数据
+		Code_Order,Direction_Order,Price_Order,Volume_Order,VolumeMatched_Order,State_Order,AvgMatchingPrice_Order,OrderTime_Order,OrderNum_Order,Mkt_Order,Account_Order,Config_Order=self.GetOrderByID(OrderID)	
+		# 柜台数据
+		CommissionRate=self.AccPar['CommissionRate']
+		# 市场数据
+		Price_LimitUp=self.MktSliNow.GetDataByCode(Code_Order,'Price_LimitUp')
+		Price_LimitDown=self.MktSliNow.GetDataByCode(Code_Order,'Price_LimitDown')
+		# 开始计算
+		# 根据计算时机不同而不同，可能在下单冻结计算或在成交清算计算
+		if MatchInfo!=None:
+			Price2Calc=MatchInfo['PriceMatching']
+			Volume2Calc=MatchInfo['VolumeMatching']
+		elif Price_Order==0:
+			Price2Calc=Price_LimitUp
+			Volume2Calc=Volume_Order
+		else:
+			Price2Calc=Price_Order
+			Volume2Calc=Volume_Order
+		# 费用主体
+		CashBody=Price2Calc*Volume2Calc
+		# 佣金
+		CommissionFee=5 if CashBody*CommissionRate<5 else CashBody*CommissionRate
+		# 印花税费=卖出成交额*0.001
+		StampFee=CashBody*0.001 if Direction_Order==0 else 0
+		# 过户费，仅上海股票
+		if cm.GetExchangeByCode(Code_Order)=='SHSE':
+			TransferFee=1 if Volume2Match/1000<1 else Volume2Match/1000
+		else:
+			TransferFee=0
+		# 所有费用
+		Fee=CommissionFee+StampFee+TransferFee
+		# 返回结果
+		return {'CashBody':CashBody,'Fee':Fee,'CommissionFee':CommissionFee,'StampFee':StampFee,'TransferFee':TransferFee}
+
 if __name__=='__main__':
 	# 验单函数的测试
 	import Exchange
 	import Market
 	Account=Account('usr','pwd','AddPar',MktSliNow=Market.MktSliNow())
-	Account.AccPar['CostRatio']=0.01
+	Account.AccPar['CommissionRate']=0.01
 	Account.AccPar['Slippage'] = 0.1
 	Account.CashInfo={'Cash': 10000, 'CashF': 0, 'InitCash': 10000, 'CashA': 10000}
 	Account.Position['000001.SZSE']=['000001.SZSE',1200,600,600,0,0,'PriceNow',0,0,0,'CNY','Mkt',Account,{}]
