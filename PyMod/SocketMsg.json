@@ -1,0 +1,16 @@
+[{"MsgType":"PlaceOrder","Order":{"Code":"000001.SZSE","Direction":1,"Price":12,"Volume":6000,"AddPar":{}},"OrderID":"1200000001"},
+{"MsgType":"CancelOrder","Order":{"Code":"000001.SZSE","Direction":1,"Price":0,"Volume":150,"AddPar":{}},"OrderID":"1200000001"},
+{"Code": "000001.SZSE", "Direction": 1, "Price": 9, "Volume": 300, "AddPar": {}},
+{
+	"CommissionRate":0.1,
+	"Slippage": 0,
+	"CashInfo":{"Cash": 100000, "CashF": 0, "InitCash": 100000, "CashA": 100000},
+	"000001.SZSE":["000001.SZSE",1000,500,500,0,11,"PriceNow",0,0,0,"CNY","SZSE"]
+},
+{"Code": "000001.SZSE", "Direction": 1, "Price": 0, "Volume": 600, "AddPar": {}},
+{"MsgType":"TransactionReturn",	"OrderID":"e51346dc-5841-11e9-ae42-08606e0f5471","MatchInfo":{"PriceMatching":10,"VolumeMatching":100},"OrderState":"AllMatched","MatchTime":"2019-04-04"},
+{"MsgType":"CancelOrderReturn",	"OrderID":"4314c624-5841-11e9-b5c1-08606e0f5471","ret":1,"msg":"","CancelTime":"2019-04-04"}
+
+]
+
+	

@@ -1,0 +1,38 @@
+{
+	"version":1,
+	"formatters":{
+		"fmt":{
+			"format":"[%(asctime)s][%(thread)d][%(levelname)s][%(filename)s][%(lineno)d] %(message)s",
+			"datefmt":"%Y-%m-%d %H:%M:%S"
+		}
+	},
+	"handlers":{
+		"consoleHandler":{
+			"class":"logging.StreamHandler",
+			"formatter":"fmt",
+			"level":"INFO",
+			"stream":"ext://sys.stdout"
+		},
+		"fileHandler":{
+			"class":"logging.handlers.RotatingFileHandler",
+			"formatter":"fmt",
+			"level":"INFO",
+			"filename":"../Log/ExchangeServer.log",
+			"mode":"a",
+			"maxBytes":52428800,
+			"backupCount":20,
+			"encoding":"utf-8"
+		}
+	},
+	"loggers":{
+		"ExchangeServerLogger":{
+			"level":"DEBUG",
+			"handlers":["consoleHandler","fileHandler"]
+		},
+		"ClientLogger":{
+			"level":"DEBUG",
+			"handlers":["consoleHandler","fileHandler"]
+		}
+
+	}		
+}

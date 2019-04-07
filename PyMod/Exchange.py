@@ -23,7 +23,6 @@ import TradeMod # 交易模块
 # import StrategyMod.StrategyMod as StrategyMod # 策略模块
 import EventMod
 import GeneralMod
-Log=GeneralMod.Log()
 
 ################################################ 变量定义 ###############################################################
 # 编辑常量

@@ -1,0 +1,10 @@
+{
+	"ExchangeServerSetting":{
+		"ExchangeServerHost":"0.0.0.0",
+		"ExchangeServerPort":9501,
+		"ExchangeServerListenLimit":5,
+		"ClientLogInTimeLimit":10,
+		"LoggingConfigFile":"../Setting/ExchangeServerLoggingConfig.json"
+	}
+	
+}
