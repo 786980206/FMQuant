@@ -23,7 +23,7 @@ BUFFSIZE=1024 #接收消息缓存区大小，如果以后传的消息多了会�
 
 class Account(object):
 	# 初始化,账户持仓信息中暂时没考虑多空双向持仓
-	def __init__(self,Usr=None,Pwd=None,AddPar=None,Type='Stock',AccPar=ACCOUNTPAR_DAFAULT,MktSliNow=None):
+	def __init__(self,Usr=None,Pwd=None,AddPar=None,Type='Stock',AccPar=ACCOUNTPAR_DAFAULT,MktSliNow=None,ClientGui=None):
 		global A
 		ClientLogger.info("柜台账户初始化...")
 		# 柜台信息
@@ -43,6 +43,8 @@ class Account(object):
 		self.ConnectionClient=None
 		self.ConnectState=0
 		self.LogInState=0
+		# Gui信息
+		self.ClientGui=ClientGui
 		# 开始连接服务器
 		ret,msg=self.Connect(AddPar)
 		ClientLogger.info("连接结果:{},{}".format(ret,msg))
@@ -58,7 +60,6 @@ class Account(object):
 			# 开始发送登录请求
 			ret,msg=self.LogIn(Usr, Pwd)
 			ClientLogger.debug("登录请求发送结果:{},{}".format(ret,msg))
-
 
 	# 接收消息
 	def RecMsg(self):

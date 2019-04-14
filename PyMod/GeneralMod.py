@@ -21,7 +21,7 @@ pd.set_option('expand_frame_repr', False)
 ################################################ 变量定义 ###############################################################
 #  常量
 LOG_CONFIG_PATH='..\\Setting\\Log.ini'
-BASE_SETTING_FILE='..\\Setting\\BaseSetting.json'
+BASE_SETTING_FILE='..\\Setting\\ExchangeServerSetting.json'
 BASE_LOGGINF_SETTING="""
     {
         "version":1,
@@ -66,6 +66,20 @@ def LoadJsonFile(FilePath):
     with open(FilePath) as f:
         ret=json.load(f)
     return ret
+
+def LoadJsonStr(Str):
+    try:
+        ret=json.loads(Str)
+    except:
+        print("Json转化失败：{}".format(Str))
+        ret=None
+    return ret
+# 保存配置文件的函数-----------------------------------------------------------------
+def SaveJsonFile(FilePath,Data):
+    FilePath=PathJoin(FilePath)
+    str=json.dumps(Data)
+    with open(FilePath,"w") as f:
+        f.write(str)
 
 def LoadJsonStr(Str):
     try:
