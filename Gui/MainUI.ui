@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>731</width>
-    <height>603</height>
+    <width>715</width>
+    <height>615</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -48,6 +48,18 @@
           <string>下单</string>
          </attribute>
          <layout class="QGridLayout" name="gridLayout">
+          <property name="leftMargin">
+           <number>9</number>
+          </property>
+          <property name="topMargin">
+           <number>9</number>
+          </property>
+          <property name="rightMargin">
+           <number>9</number>
+          </property>
+          <property name="bottomMargin">
+           <number>9</number>
+          </property>
           <item row="1" column="0" rowspan="2">
            <widget class="QGroupBox" name="GB_CancelOrder">
             <property name="title">
@@ -78,6 +90,34 @@
             </layout>
            </widget>
           </item>
+          <item row="0" column="2" rowspan="3">
+           <widget class="QGroupBox" name="GB_Log">
+            <property name="title">
+             <string>日志</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_5">
+             <item>
+              <widget class="QListWidget" name="LV_LogList"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="4" column="0" colspan="3">
+           <widget class="QGroupBox" name="GB_Position">
+            <property name="title">
+             <string>持仓</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_9">
+             <item>
+              <widget class="QTableWidget" name="TV_PositionList">
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
           <item row="0" column="0">
            <widget class="QGroupBox" name="GB_PlaceOrder">
             <property name="title">
@@ -85,14 +125,14 @@
             </property>
             <layout class="QGridLayout" name="gridLayout_3">
              <item row="2" column="1">
-              <widget class="QPushButton" name="pushButton_2">
+              <widget class="QPushButton" name="BT_PlaceOrder">
                <property name="text">
                 <string>下单</string>
                </property>
               </widget>
              </item>
              <item row="2" column="0">
-              <widget class="QPushButton" name="pushButton_3">
+              <widget class="QPushButton" name="BT_Reset">
                <property name="text">
                 <string>重置</string>
                </property>
@@ -128,7 +168,11 @@
                 </widget>
                </item>
                <item row="2" column="1">
-                <widget class="QLineEdit" name="CB_PlaceOrder_Price"/>
+                <widget class="QLineEdit" name="CB_PlaceOrder_Price">
+                 <property name="clearButtonEnabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
                </item>
                <item row="3" column="0">
                 <widget class="QLabel" name="Label_3">
@@ -151,6 +195,18 @@
                 <widget class="QLineEdit" name="CB_PlaceOrder_AddPar"/>
                </item>
               </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="3">
+           <widget class="QGroupBox" name="GB_OrderList">
+            <property name="title">
+             <string>委托</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <item>
+              <widget class="QTableWidget" name="TV_OrderList"/>
              </item>
             </layout>
            </widget>
@@ -250,42 +306,6 @@
             </layout>
            </widget>
           </item>
-          <item row="4" column="0" colspan="3">
-           <widget class="QGroupBox" name="GB_Position">
-            <property name="title">
-             <string>持仓</string>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_9">
-             <item>
-              <widget class="QTableView" name="TV_Position"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="3" column="0" colspan="3">
-           <widget class="QGroupBox" name="GB_OrderList">
-            <property name="title">
-             <string>委托</string>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_6">
-             <item>
-              <widget class="QTableView" name="TV_OrderList"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="0" column="2" rowspan="3">
-           <widget class="QGroupBox" name="GB_Log">
-            <property name="title">
-             <string>日志</string>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_5">
-             <item>
-              <widget class="QListView" name="LV_LogList"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
          </layout>
         </widget>
         <widget class="QWidget" name="Tab_Order">
@@ -296,6 +316,18 @@
           <string>委托</string>
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout_4">
+          <property name="leftMargin">
+           <number>9</number>
+          </property>
+          <property name="topMargin">
+           <number>9</number>
+          </property>
+          <property name="rightMargin">
+           <number>9</number>
+          </property>
+          <property name="bottomMargin">
+           <number>9</number>
+          </property>
           <item>
            <layout class="QVBoxLayout" name="TabOrderLO" stretch="0">
             <property name="spacing">
@@ -332,6 +364,18 @@
           <string>持仓</string>
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout_8">
+          <property name="leftMargin">
+           <number>9</number>
+          </property>
+          <property name="topMargin">
+           <number>9</number>
+          </property>
+          <property name="rightMargin">
+           <number>9</number>
+          </property>
+          <property name="bottomMargin">
+           <number>9</number>
+          </property>
           <item>
            <layout class="QVBoxLayout" name="TabPositionLO" stretch="0">
             <property name="spacing">
@@ -368,6 +412,18 @@
           <string>成交</string>
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout_7">
+          <property name="leftMargin">
+           <number>9</number>
+          </property>
+          <property name="topMargin">
+           <number>9</number>
+          </property>
+          <property name="rightMargin">
+           <number>9</number>
+          </property>
+          <property name="bottomMargin">
+           <number>9</number>
+          </property>
           <item>
            <layout class="QVBoxLayout" name="TabTransactionLO" stretch="0">
             <property name="spacing">
@@ -410,7 +466,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>731</width>
+     <width>715</width>
      <height>23</height>
     </rect>
    </property>
@@ -433,6 +489,7 @@
      <string>登录</string>
     </property>
     <addaction name="Menu_LogIn_Action"/>
+    <addaction name="Menu_LogOut_Action"/>
    </widget>
    <addaction name="Menu_Sys"/>
    <addaction name="Menu_Common"/>
@@ -443,7 +500,7 @@
     <bool>true</bool>
    </property>
    <property name="layoutDirection">
-    <enum>Qt::RightToLeft</enum>
+    <enum>Qt::LeftToRight</enum>
    </property>
   </widget>
   <action name="Menu_Setting">
@@ -456,6 +513,11 @@
     <string>登录</string>
    </property>
   </action>
+  <action name="Menu_LogOut_Action">
+   <property name="text">
+    <string>退出</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>
@@ -466,8 +528,8 @@
    <slot>clearMessage()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>156</x>
-     <y>45</y>
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
      <x>365</x>

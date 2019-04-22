@@ -21,9 +21,11 @@ CASHFDETIAL_INDEX=['ID','Reason','Amt','Body','Fee']
 ACCOUNTPAR_DAFAULT={'CommissionRate':0,'Slippage':0}
 BUFFSIZE=1024 #接收消息缓存区大小，如果以后传的消息多了会修改
 
+Lock=threading.Lock()
+
 class Account(object):
 	# 初始化,账户持仓信息中暂时没考虑多空双向持仓
-	def __init__(self,Usr=None,Pwd=None,AddPar=None,Type='Stock',AccPar=ACCOUNTPAR_DAFAULT,MktSliNow=None,ClientGui=None):
+	def __init__(self,Usr=None,Pwd=None,AddPar=None,Type='Stock',AccPar=ACCOUNTPAR_DAFAULT,MktSliNow=None,ClientPutQueue=None,ClientGetQueue=None):
 		global A
 		ClientLogger.info("柜台账户初始化...")
 		# 柜台信息
@@ -44,22 +46,81 @@ class Account(object):
 		self.ConnectState=0
 		self.LogInState=0
 		# Gui信息
-		self.ClientGui=ClientGui
+		self.ClientPutQueue=ClientPutQueue
+		self.ClientGetQueue = ClientGetQueue
+
+	# 连接和登录
+	def ConnectAndLogin(self,ListenFromGui=False):
 		# 开始连接服务器
-		ret,msg=self.Connect(AddPar)
+		ret,msg=self.Connect(self.AddPar)
 		ClientLogger.info("连接结果:{},{}".format(ret,msg))
 		# 连接成功，开始登录和监听接收消息
 		if ret==1:
-			# 开启监听服务器回报的线程
-			# MsgRecThread = multiprocessing.Process(target=RecMsg)
-			MsgRecThread = threading.Thread(target=self.RecMsg)
-			# 子线程为守护线程
-			MsgRecThread.daemon = True
-			MsgRecThread.start()
-			ClientLogger.debug("客户端消息监听线程启动")
-			# 开始发送登录请求
-			ret,msg=self.LogIn(Usr, Pwd)
-			ClientLogger.debug("登录请求发送结果:{},{}".format(ret,msg))
+			try:
+				# 开启监听服务器回报的线程
+				# MsgRecThread = multiprocessing.Process(target=RecMsg)
+				MsgRecThread = threading.Thread(target=self.RecMsg)
+				# 子线程为守护线程
+				MsgRecThread.daemon = True
+				MsgRecThread.start()
+				ClientLogger.debug("客户端消息监听线程启动")
+				# 开始发送登录请求
+				ret,msg=self.LogIn(self.Usr, self.Pwd)
+				ClientLogger.debug("登录请求发送结果:{},{}".format(ret,msg))
+				if ListenFromGui:
+					self.ListenFromGui()
+			except Exception as e:
+				print(e)
+		elif ret==0:
+			self.SendMsgToGui({"MsgType": "LogInReturn", "ret": 0, "msg": "连接失败"})
+
+	# 监听接收界面消息
+	def ListenFromGui(self):
+		# while self.ConnectState:
+		while 1:
+			Msg=self.ClientGetQueue.get()
+			self.DealRecMsgFromGui(Msg)
+
+	# 处理界面传递的消息
+	def DealRecMsgFromGui(self,Msg):
+		ClientLogger.debug("接收GUI消息:{}".format(Msg))
+		if Msg["MsgType"]=="GetAccountInfo":
+			self.RefreshOrderMsgForGui()
+			self.RefreshPositionMsgForGui()
+			self.RefreshCashInfoMsgForGui()
+		if Msg["MsgType"] == "GetOrderInfo":
+			self.RefreshOrderMsgForGui()
+		if Msg["MsgType"] == "GetPositionInfo":
+			self.RefreshPositionMsgForGui()
+		if Msg["MsgType"] == "GetCashInfo":
+			self.RefreshCashInfoMsgForGui()
+		if Msg["MsgType"] == "PlaceOrder":
+			self.PlaceOrder(*Msg["Order"])
+
+	# 更新GUI的信息
+	def RefreshOrderMsgForGui(self):
+		OrderList=self.GetOrderList()
+		Item=[x for x in ORDER_INDEX if x!="Account"]
+		ret=[self.GetOrderByID(x,Item) for x in OrderList]
+		MsgRet = {"MsgType": "RetOrderList", "Order": ret}
+		self.SendMsgToGui(MsgRet)
+	def RefreshPositionMsgForGui(self):
+		PositionList=self.GetPositionList()
+		Item=[x for x in POSITION_INDEX if x!="Account"]
+		ret=[self.GetPositionByCode(x,Item) for x in PositionList]
+		MsgRet = {"MsgType": "RetPositionList", "Position": ret}
+		self.SendMsgToGui(MsgRet)
+	def RefreshCashInfoMsgForGui(self):
+		ret=self.GetCashInfoByItem(["Cash","CashA","CashF"])
+		MsgRet = {"MsgType": "RetCashInfo", "CashInfo": ret}
+		self.SendMsgToGui(MsgRet)
+
+	# 发送消息给Gui
+	def SendMsgToGui(self,Msg):
+		if self.ClientPutQueue!=None:
+			self.ClientPutQueue.put(Msg)
+			ClientLogger.debug("向Gui发送消息:{}".format(Msg))
+
 
 	# 接收消息
 	def RecMsg(self):
@@ -90,6 +151,8 @@ class Account(object):
 	# 处理接收消息的函数
 	def DealRecMsg(self,Msg):
 		ClientLogger.debug("处理消息:{}".format(Msg))
+		# 发送到Gui
+		self.SendMsgToGui(Msg)
 		# 测试打印字符串
 		if Msg['MsgType']=="Print":
 			print('处理接收消息的线程打印：{}'.format(Msg))
@@ -115,7 +178,7 @@ class Account(object):
 
 	# 退出
 	def Exit(self):
-		pass
+		exit(0)
 
 	# 生成柜台编号
 	def CreateAccountID(self):
@@ -154,8 +217,10 @@ class Account(object):
 					self.CounterType = 'XXCounter'
 					self.ConnectState=1
 					self.ConnectionClient=ConnectionClient
+					# print("连接成功")
 					return 1,"连接成功"
-				except:
+				except Exception as e:
+					print(e)
 					ClientLogger.warning("连接失败:{},{},等待{}s后重新连接...".format(AddPar["ExchangeServerHost"], AddPar["ExchangeServerPort"],AddPar["WaitTimeAfterTryConnect"]))
 					time.sleep(AddPar["WaitTimeAfterTryConnect"])
 			return 0, "连接失败"
@@ -167,11 +232,13 @@ class Account(object):
 		self.ConnectState = 0
 		self.LogInState = 0
 		ClientLogger.debug("断连成功")
+		self.SendMsgToGui({"MsgType":"Disconnect"})
 
 	# 重连
 	def ReConnect(self):
 		self.DisConnect()
 		ClientLogger.info("开始重新连接...")
+		self.SendMsgToGui({"MsgType": "Reconnect"})
 		ret,msg=self.Connect(self.AddPar)
 		if ret==1:
 			ClientLogger.info("重连成功")
@@ -179,7 +246,8 @@ class Account(object):
 			ClientLogger.debug("登录请求发送结果:{},{}".format(ret,msg))
 			if ret==1:self.RecMsg()
 		else:
-			exit(0)
+			self.SendMsgToGui({"MsgType": "LogOut"})
+			self.Exit()
 
 	# 检查连接登录状态
 	def CheckConnection(self):
@@ -255,12 +323,14 @@ class Account(object):
 		if OrderID in self.Order.columns:
 			self.Order.drop(labels=OrderID, axis=1, inplace=True)
 			ClientLogger.info("清除订单成功:{}".format(OrderID))
+			self.RefreshOrderMsgForGui()
 
 	# 删除持仓
 	def DelPositionByCode(self,Code):
 		if Code in self.Position.columns:
 			self.Position.drop(labels=Code, axis=1, inplace=True)
 			ClientLogger.info("清除持仓成功:{}".format(Code))
+			self.RefreshPositionMsgForGui()
 
 	# 检查持仓数据（如无效持仓需要清理等）
 	def CheckPositionByCode(self,Code):
@@ -468,6 +538,9 @@ class Account(object):
 		Price=Order['Price']
 		Volume=Order['Volume']
 		AddPar=Order['AddPar']
+		# 判断代码是否有效
+		ret=cm.CheckCode(Code)
+		if ret==0:return ret,"代码无效"
 		# 判断是否在涨跌停价格以内
 		if Price!=0 and (Price>MktInfo['Price_LimitUp'] or Price<MktInfo['Price_LimitDown']):
 			ret=0
@@ -650,6 +723,7 @@ class Account(object):
 			self.Order[OrderID][Item]=Value
 			self.OrderRec[OrderID][Item] = Value
 		ClientLogger.debug("更新订单状态:{}".format(self.GetOrderByID(OrderID)))
+		self.RefreshOrderMsgForGui()
 
 	# 更新持仓状态的函数
 	def SetPositionValue(self,Code,Item,Value):
@@ -659,6 +733,7 @@ class Account(object):
 		else:
 			self.Position[Code][Item] = Value
 		ClientLogger.debug("更新持仓状态:{}".format(self.GetPositionByCode(Code)))
+		self.RefreshPositionMsgForGui()
 
 	# 更新资金状态的函数
 	def SetCashInfoValue(self,Item,Value):
@@ -667,6 +742,7 @@ class Account(object):
 		if type(Value) is not list: Value = [Value]
 		for x in Item:
 			self.CashInfo[x]=Value[Item.index(x)]
+		self.RefreshCashInfoMsgForGui()
 
 	# 查询资金状态的函数
 	def GetCashInfoByItem(self,Item=['Cash','InitCash','CashA','CashF','CashFDetial']):
@@ -674,8 +750,6 @@ class Account(object):
 		if type(Item) is not list: Item = [Item]
 		Value=[self.CashInfo[x] for x in Item]
 		return Value
-
-
 
 	# 处理订单回报
 	def DealOrderRet(self,OrderID,ret,msg,OrderTime):
@@ -687,7 +761,11 @@ class Account(object):
 	def GetOrderList(self):
 		return list(self.Order.columns)
 
-	# 检验撤单是否有效
+	# 获取持仓列表
+	def GetPositionList(self):
+		return list(self.Position.columns)
+
+	# 检验准备撤的单是否有效
 	def CheckCancelOrder(self,OrderID):
 		if OrderID in self.GetOrderList():
 			return 1
@@ -720,8 +798,6 @@ class Account(object):
 			self.CheckOrderByID(OrderID)
 
 
-
-
 if __name__=='__main__':
 	import Market
 	Mkt = Market.MktSliNow()
@@ -732,6 +808,7 @@ if __name__=='__main__':
 		"WaitTimeAfterTryConnect": 2
 	}
 	Account=Account("Usr","Pwd",AddPar)
+	Account.ConnectAndLogin()
 	Order = {'Code': '000001.SZSE', 'Direction': 1, 'Price': 9, 'Volume': 300, 'AddPar': {}}
 	Account.PlaceOrder(**Order)
 	while 1:

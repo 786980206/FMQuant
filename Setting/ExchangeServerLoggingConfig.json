@@ -10,13 +10,13 @@
 		"consoleHandler":{
 			"class":"logging.StreamHandler",
 			"formatter":"fmt",
-			"level":"INFO",
+			"level":"DEBUG",
 			"stream":"ext://sys.stdout"
 		},
 		"fileHandler":{
 			"class":"logging.handlers.RotatingFileHandler",
 			"formatter":"fmt",
-			"level":"INFO",
+			"level":"DEBUG",
 			"filename":"../Log/ExchangeServer.log",
 			"mode":"a",
 			"maxBytes":52428800,

@@ -30,6 +30,7 @@ AddPar = {
 	"WaitTimeAfterTryConnect": 2
 }
 Account=Counter.Account('usr','pwd',AddPar,MktSliNow=Mkt)
+Account.ConnectAndLogin()
 # SendMsg(s,Msg)
 while Account.LogInState==0:
 	time.sleep(1)

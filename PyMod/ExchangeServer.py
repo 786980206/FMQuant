@@ -133,17 +133,17 @@ def Init():
 		# # 如果没有在指定时间内登录，那么结束掉客户端连接
 		# if Client.AccountID==None:Client.Exit()
 		# 用于调试===============================================================
-		while 1:
-			# from SocketCliTest import GetMsg
-			time.sleep(1)
-			x = input(">>>").strip()
-			try:
-				if x[0] == 's' or x == 'S':
-					Msg = GetMsg(x[1])
-					# print(Msg)
-					ExchangeCore.SendMsg(Client,Msg)
-			except Exception as e:
-				print(e)
+		# while 1:
+		# 	# from SocketCliTest import GetMsg
+		# 	time.sleep(1)
+		# 	x = input(">>>").strip()
+		# 	try:
+		# 		if x[0] == 's' or x == 'S':
+		# 			Msg = GetMsg(x[1])
+		# 			# print(Msg)
+		# 			ExchangeCore.SendMsg(Client,Msg)
+		# 	except Exception as e:
+		# 		print(e)
 		# 用于调试===============================================================
 
 ################################################ 类定义 ###############################################################
@@ -411,4 +411,4 @@ class Exchange(object):
 
 
 if __name__=='__main__':
-		Init()
+	Init()

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'WD_Login.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.6
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -17,12 +17,14 @@ class Ui_WD_LogIn(object):
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
         self.tabWidget = QtWidgets.QTabWidget(WD_LogIn)
+        self.tabWidget.setToolTip("")
         self.tabWidget.setStatusTip("")
         self.tabWidget.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.tabWidget.setObjectName("tabWidget")
         self.tabWidgetPage1 = QtWidgets.QWidget()
         self.tabWidgetPage1.setObjectName("tabWidgetPage1")
         self.formLayout = QtWidgets.QFormLayout(self.tabWidgetPage1)
+        self.formLayout.setContentsMargins(9, 9, 9, 9)
         self.formLayout.setObjectName("formLayout")
         self.Label = QtWidgets.QLabel(self.tabWidgetPage1)
         self.Label.setObjectName("Label")
@@ -41,6 +43,7 @@ class Ui_WD_LogIn(object):
         self.tabWidgetPage2 = QtWidgets.QWidget()
         self.tabWidgetPage2.setObjectName("tabWidgetPage2")
         self.formLayout_2 = QtWidgets.QFormLayout(self.tabWidgetPage2)
+        self.formLayout_2.setContentsMargins(9, 9, 9, 9)
         self.formLayout_2.setObjectName("formLayout_2")
         self.Label_3 = QtWidgets.QLabel(self.tabWidgetPage2)
         self.Label_3.setObjectName("Label_3")
@@ -82,6 +85,7 @@ class Ui_WD_LogIn(object):
         self.tabWidgetPage3 = QtWidgets.QWidget()
         self.tabWidgetPage3.setObjectName("tabWidgetPage3")
         self.formLayout_3 = QtWidgets.QFormLayout(self.tabWidgetPage3)
+        self.formLayout_3.setContentsMargins(9, 9, 9, 9)
         self.formLayout_3.setObjectName("formLayout_3")
         self.Label_4 = QtWidgets.QLabel(self.tabWidgetPage3)
         self.Label_4.setObjectName("Label_4")
@@ -103,13 +107,12 @@ class Ui_WD_LogIn(object):
         self.verticalLayout_2.addLayout(self.verticalLayout)
 
         self.retranslateUi(WD_LogIn)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(WD_LogIn)
 
     def retranslateUi(self, WD_LogIn):
         _translate = QtCore.QCoreApplication.translate
         WD_LogIn.setWindowTitle(_translate("WD_LogIn", "登录"))
-        self.tabWidget.setToolTip(_translate("WD_LogIn", "<html><head/><body><p><br/></p></body></html>"))
         self.Label.setText(_translate("WD_LogIn", "用户："))
         self.Label_2.setText(_translate("WD_LogIn", "密码："))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabWidgetPage1), _translate("WD_LogIn", "用户登录"))
