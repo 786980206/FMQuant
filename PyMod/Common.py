@@ -12,5 +12,5 @@ def GetExchangeByCode(Code):
 # 校验交易代码
 def CheckCode(Code):
 	if type(Code) is not str:return 0
-	if "." not in Code:return 0
+	if "." not in Code :return 0
 	return 1

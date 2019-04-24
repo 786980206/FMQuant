@@ -162,6 +162,7 @@ setting=LoadJsonFile(FilePath) if PathConfirm(FilePath) else BASE_LOGGINF_SETTIN
 logging.config.dictConfig(setting)
 ExchangeServerLogger=logging.getLogger("ExchangeServerLogger")
 ClientLogger=logging.getLogger("ClientLogger")
+GuiLogger=logging.getLogger("GuiLogger")
 
 ################################################ Ö÷º¯Êý #################################################################
 if __name__ =='__main__':

@@ -96,6 +96,8 @@ class Account(object):
 			self.RefreshCashInfoMsgForGui()
 		if Msg["MsgType"] == "PlaceOrder":
 			self.PlaceOrder(*Msg["Order"])
+		if Msg["MsgType"] == "CancelOrder":
+			self.CancelOrder(Msg["OrderID"])
 
 	# 更新GUI的信息
 	def RefreshOrderMsgForGui(self):
@@ -113,6 +115,11 @@ class Account(object):
 	def RefreshCashInfoMsgForGui(self):
 		ret=self.GetCashInfoByItem(["Cash","CashA","CashF"])
 		MsgRet = {"MsgType": "RetCashInfo", "CashInfo": ret}
+		self.SendMsgToGui(MsgRet)
+
+	# 向Gui发送验单回报
+	def SendOrderCheckRet(self,ret,msg):
+		MsgRet={"MsgType":"RetCheckOrder", "ret":ret,"msg":msg}
 		self.SendMsgToGui(MsgRet)
 
 	# 发送消息给Gui
@@ -199,7 +206,7 @@ class Account(object):
 		else:
 			return 1, "登录请求发送失败"
 
-	# 发送消息
+	# 向交易所发送消息
 	def SendMsg(self,Msg):
 		Msg = GeneralMod.MakeSendMsg(Msg)
 		self.ConnectionClient.send(str(Msg).encode('utf-8'))
@@ -277,6 +284,8 @@ class Account(object):
 		if type(Item) is str:
 			if Code in self.Position.columns:
 				return self.Position[Code].loc[Item]
+			else:
+				return None
 		if type(Item) is not list:Item=[Item]
 		if Code in self.Position.columns:
 			return list(self.Position[Code].loc[Item])
@@ -288,6 +297,8 @@ class Account(object):
 		if type(Item) is str:
 			if OrderID in self.OrderRec.columns:
 				return self.OrderRec[OrderID].loc[Item]
+			else:
+				return None
 		if type(Item) is not list:Item=[Item]
 		if OrderID in self.OrderRec.columns:
 			return list(self.OrderRec[OrderID].loc[Item])
@@ -462,11 +473,14 @@ class Account(object):
 			CashA=CashA_Old
 			CashF=CashF_Old-CashCalc
 		elif Direction_Order==0:
+			# CashCalc=CashBody-Fee
 			Cash=Cash_Old+CashCalc
 			InitCash=InitCash_Old
 			CashA=CashA_Old+CashCalc
-			# 卖出的话冻结资金要减去冻结的费用
+			# 费用确认：卖出的话冻结资金要减去冻结的费用,可用资金要加上费用（可用资金在下单的时候就扣除了，成交时不用扣除）
 			CashF=CashF_Old-Fee
+			CashA=CashA+Fee
+
 		# 回写数据
 		# self.CashInfo['Cash']=Cash
 		# self.CashInfo['InitCash']=InitCash
@@ -516,6 +530,9 @@ class Account(object):
 		MktInfo={'Price_LimitUp':self.MktSliNow.GetDataByCode(Code,'Price_LimitUp'),'Price_LimitDown':self.MktSliNow.GetDataByCode(Code,'Price_LimitDown')}
 		ret,msg=self.CheckNewOrder(Order,MktInfo)
 		ClientLogger.info("验单结果:{},{}".format(ret,msg))
+		self.SendOrderCheckRet(ret,msg)
+		print(self.CashInfo)
+		print("============================================================================================================================================")
 		if ret==0:
 			return ret,msg,''
 		else:
@@ -623,16 +640,16 @@ class Account(object):
 		# 买入解冻资金
 		if Direction==1:
 			CashFrozen,FeeFrozen=AddPar["CashFrozen"],AddPar["FeeFrozen"]
-			self.SetCashInfoValue('CashA', self.GetCashInfoByItem('CashA') - CashFrozen)
-			self.SetCashInfoValue('CashF', self.GetCashInfoByItem('CashF') + CashFrozen)
+			self.SetCashInfoValue('CashA', self.GetCashInfoByItem('CashA') + CashFrozen)
+			self.SetCashInfoValue('CashF', self.GetCashInfoByItem('CashF') - CashFrozen)
 			AddPar["CashFrozen"], AddPar["FeeFrozen"]=0,0
 			self.SetOrderValue(OrderID,"AddPar",AddPar)
 		elif Direction==0:
 			VolumeFrozen,FeeFrozen=AddPar["VolumeFrozen"],AddPar["FeeFrozen"]
 			self.SetPositionValue(Code,["VolA"],self.GetPositionByCode(Code,"VolA")+VolumeFrozen)
 			self.SetPositionValue(Code, ["VolF"], self.GetPositionByCode(Code, "VolF") - VolumeFrozen)
-			self.SetCashInfoValue('CashA', self.GetCashInfoByItem('CashA') - FeeFrozen)
-			self.SetCashInfoValue('CashF', self.GetCashInfoByItem('CashF') + FeeFrozen)
+			self.SetCashInfoValue('CashA', self.GetCashInfoByItem('CashA') + FeeFrozen)
+			self.SetCashInfoValue('CashF', self.GetCashInfoByItem('CashF') - FeeFrozen)
 			AddPar["VolumeFrozen"], AddPar["FeeFrozen"]=0,0
 			self.SetOrderValue(OrderID, "AddPar", AddPar)
 		return 1,'资金持仓解冻成功！'
@@ -780,7 +797,7 @@ class Account(object):
 
 	# 发送撤单信息
 	def SendOrderToCancel(self,OrderID):
-		ClientLogger.info("发送测单信息:{}".format(OrderID))
+		ClientLogger.info("发送撤单信息:{}".format(OrderID))
 		Msg={
 			"MsgType":"CancelOrder",
 			"OrderID":OrderID

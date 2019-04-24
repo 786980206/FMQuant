@@ -13,11 +13,31 @@
 			"level":"DEBUG",
 			"stream":"ext://sys.stdout"
 		},
-		"fileHandler":{
+		"ExchangeServerfileHandler":{
 			"class":"logging.handlers.RotatingFileHandler",
 			"formatter":"fmt",
 			"level":"DEBUG",
 			"filename":"../Log/ExchangeServer.log",
+			"mode":"a",
+			"maxBytes":52428800,
+			"backupCount":20,
+			"encoding":"utf-8"
+		},
+		"ClientfileHandler":{
+			"class":"logging.handlers.RotatingFileHandler",
+			"formatter":"fmt",
+			"level":"DEBUG",
+			"filename":"../Log/Client.log",
+			"mode":"a",
+			"maxBytes":52428800,
+			"backupCount":20,
+			"encoding":"utf-8"
+		},
+		"GuifileHandler":{
+			"class":"logging.handlers.RotatingFileHandler",
+			"formatter":"fmt",
+			"level":"DEBUG",
+			"filename":"../Log/Gui.log",
 			"mode":"a",
 			"maxBytes":52428800,
 			"backupCount":20,
@@ -27,11 +47,15 @@
 	"loggers":{
 		"ExchangeServerLogger":{
 			"level":"DEBUG",
-			"handlers":["consoleHandler","fileHandler"]
+			"handlers":["consoleHandler","ExchangeServerfileHandler"]
 		},
 		"ClientLogger":{
 			"level":"DEBUG",
-			"handlers":["consoleHandler","fileHandler"]
+			"handlers":["consoleHandler","ClientfileHandler"]
+		},
+		"GuiLogger":{
+			"level":"DEBUG",
+			"handlers":["consoleHandler","GuifileHandler"]
 		}
 
 	}		

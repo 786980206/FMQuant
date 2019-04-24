@@ -12,6 +12,7 @@ import datetime
 
 import MainUI,WD_LogIn
 from PyMod import Counter,Market
+from GeneralMod import GuiLogger
 
 Lock=threading.Lock()
 MainWindow=None
@@ -67,23 +68,28 @@ class FMQMainWindow(QMainWindow):
         self.ui.CB_PlaceOrder_Volume.setValidator(QIntValidator())
 
 
-        # 更新界面账户状态显示
+    # 更新界面账户状态显示
     def RefleshStatePresent(self, Usr,State):
         self.StatusBarItem[3].setText(str(Usr))
         self.StatusBarItem[4].setText(str(State))
 
     # 绑定事件
     def SetConnect(self):
+        # 登录菜单按钮
         self.ui.Menu_LogIn_Action.triggered.connect(self.LogInWD.show)
+        # 登出菜单按钮
         self.ui.Menu_LogOut_Action.triggered.connect(self.OnLogOut)
+        # 下单按钮
         self.ui.BT_PlaceOrder.clicked.connect(self.PlaceOrder)
+        # 撤单按钮
+        self.ui.BT_CancelOrder.clicked.connect(self.CancelOrder)
 
         # self.ui.Menu_Setting.triggered.connect(self.Reset)
 
     # 处理从后台服务接收的消息
     def DealMsgFromBST(self,Msg):
         try:
-            print("GUI开始处理消息:{}".format(Msg))
+            GuiLogger.debug("GUI开始处理消息:{}".format(Msg))
             self.RefreashLogList(Msg)
             if Msg["MsgType"]=="LogInReturn":
                 self.OnLogInReturn(Msg)
@@ -100,8 +106,10 @@ class FMQMainWindow(QMainWindow):
                 self.RefreshPosition(Msg["Position"])
             elif Msg["MsgType"]=="RetCashInfo":
                 self.RefreshCashInfo(Msg["CashInfo"])
+            elif Msg["MsgType"]=="RetCheckOrder":
+                self.OnCheckOrderReturn(Msg["ret"],Msg["msg"])
         except Exception as e:
-            print(e)
+            GuiLogger.error(e)
 
     # 向LogList添加消息
     def RefreashLogList(self,Msg,Mod="add"):
@@ -137,6 +145,11 @@ class FMQMainWindow(QMainWindow):
         self.Account = None
         # 更新状态
         self.LogInState = 0
+
+    # 订单检验回执
+    def OnCheckOrderReturn(self,ret,msg):
+        if ret==0:
+            QMessageBox.information(self, "提示","下单失败：{}".format(msg),QMessageBox.Yes)
 
     # 更新状态栏消息
     def RefreashStatusBarMsg(self,Msg,sec=0):
@@ -203,7 +216,24 @@ class FMQMainWindow(QMainWindow):
             Order=[Code,Direction,Price,Volume,AddPar]
             return Order
         except Exception as e:
-            print(e)
+            GuiLogger.error(e)
+    # 撤单函数
+    def CancelOrder(self):
+        if self.LogInState==1:
+            Msg={"MsgType":"CancelOrder"}
+            OrderID=self.GetOrderCancelInfo()
+            Msg["OrderID"]=OrderID
+            self.SendMsgToBST(Msg)
+        else:
+            QMessageBox.information(self, "提示","用户未登录！",QMessageBox.Yes)
+
+    # 从界面获取测单信息
+    def GetOrderCancelInfo(self):
+        try:
+            OrderID=self.ui.CB_CancelOrder_IDChose.currentText()
+            return str(OrderID)
+        except Exception as e:
+            QMessageBox.information(self, "提示",str(e),QMessageBox.Yes)
 
     # 测试方法，重置
     def Reset(self):
@@ -292,7 +322,7 @@ class FMQDialogLogin(QDialog):
             ListenFromBackgroundServerThread.start()
             BackgroundServerThread.start()
         except Exception as e:
-            print(e)
+            GuiLogger.error(e)
 
 # 后台监听消息线程
 class ListenThread(QThread):
@@ -303,16 +333,16 @@ class ListenThread(QThread):
         self.MainWindow=MainWindow
 
     def run(self):
-        print("========================================监听BST========================================")
+        GuiLogger.debug("========================================监听BST========================================")
         if self.MainWindow.BackgroundServerThread!=None:
             while self.MainWindow.BackgroundServerThread!=None:
                 try:
                     Msg=self.MainWindow.GetQueue.get()
                     # 通过信号槽发送到Gui
-                    print("从Queue中收到消息:{}".format(Msg))
+                    GuiLogger.debug("从Queue中收到消息:{}".format(Msg))
                     self.DealMsg.emit(Msg)
                 except Exception as e:
-                    print(e)
+                    GuiLogger.error(e)
 
 
 
@@ -327,7 +357,7 @@ def CounterInit():
     }
     Account = Counter.Account('usr', 'pwd', AddPar, MktSliNow=Mkt)
     while Account.LogInState != 1:
-        print("等待登录中！")
+        GuiLogger.debug("等待登录中！")
         time.sleep(2)
     Init(Mkt,Account)
 
@@ -340,11 +370,9 @@ def Init(Mkt, Account):
     Account.AccPar['CommissionRate'] = 0.01
     Account.AccPar['Slippage'] = 0.1
     Account.CashInfo = {'Cash': 10000, 'CashF': 0, 'InitCash': 10000, 'CashA': 10000}
-    Account.Position['000001.SZSE'] = ['000001.SZSE', 1200, 600, 600, 0, 0, 'PriceNow', 0, 0, 0, 'CNY', 'Mkt',
-                                       Account, {}]
-    Account.Order['AAA'] = ['000001.SZSE', 1, 0, 100, 0, "Wait2Matched", 0,"2019-04-19 17:00:00", "AAA",'Mkt',Account, {}]
-    Account.OrderRec['AAA'] = ['000001.SZSE', 1, 0, 100, 0, "Wait2Matched", 0, "2019-04-19 17:00:00", "AAA", 'Mkt',
-                            Account, {}]
+    Account.Position['000001.SZSE'] = ['000001.SZSE', 10000, 5000, 5000, 0, 10, '10', 0, 0, 0, 'CNY', 'Mkt',Account, {}]
+    # Account.Order['AAA'] = ['000001.SZSE', 1, 0, 100, 0, "Wait2Matched", 0,"2019-04-19 17:00:00", "AAA",'Mkt',Account, {}]
+    # Account.OrderRec['AAA'] = ['000001.SZSE', 1, 0, 100, 0, "Wait2Matched", 0, "2019-04-19 17:00:00", "AAA", 'Mkt',Account, {}]
 
 
 if __name__ == '__main__':
