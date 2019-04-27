@@ -134,10 +134,11 @@ def PathConfirm(Path):
 # 把Json等对象转化成str的函数
 def ToStr(Item):
     if type(Item) is dict:
-        Item=json.dumps(Item)
+        ret=Item
+        ret=json.dumps(ret)
     else:
-        Item=str(Item)
-    return Item
+        ret=str(Item)
+    return ret
 
 # 构造发送消息的函数
 def MakeSendMsg(Msg):

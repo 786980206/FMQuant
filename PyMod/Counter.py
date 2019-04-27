@@ -26,7 +26,7 @@ Lock=threading.Lock()
 class Account(object):
 	# 初始化,账户持仓信息中暂时没考虑多空双向持仓
 	def __init__(self,Usr=None,Pwd=None,AddPar=None,Type='Stock',AccPar=ACCOUNTPAR_DAFAULT,MktSliNow=None,ClientPutQueue=None,ClientGetQueue=None):
-		global A
+		print(self)
 		ClientLogger.info("柜台账户初始化...")
 		# 柜台信息
 		self.AccountID=self.CreateAccountID()
@@ -35,6 +35,7 @@ class Account(object):
 		self.AddPar=AddPar
 		# 业务信息
 		self.Position=pd.DataFrame(index=POSITION_INDEX)
+		print(self.Position)
 		self.Order=pd.DataFrame(index=ORDER_INDEX)
 		self.OrderRec=pd.DataFrame(index=ORDER_INDEX)
 		self.CashInfo={'Cash':0,'InitCash':0,'CashA':0,'CashF':0,'CashFDetial':pd.DataFrame(index=CASHFDETIAL_INDEX)}
@@ -107,6 +108,7 @@ class Account(object):
 		MsgRet = {"MsgType": "RetOrderList", "Order": ret}
 		self.SendMsgToGui(MsgRet)
 	def RefreshPositionMsgForGui(self):
+		print(self)
 		PositionList=self.GetPositionList()
 		Item=[x for x in POSITION_INDEX if x!="Account"]
 		ret=[self.GetPositionByCode(x,Item) for x in PositionList]
@@ -185,6 +187,7 @@ class Account(object):
 
 	# 退出
 	def Exit(self):
+
 		exit(0)
 
 	# 生成柜台编号

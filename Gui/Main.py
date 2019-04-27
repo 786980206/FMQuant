@@ -17,8 +17,14 @@ from GeneralMod import GuiLogger
 Lock=threading.Lock()
 MainWindow=None
 
+# 弹窗消息
+
+
+
 # 主窗口类
 class FMQMainWindow(QMainWindow):
+    def ShowMsg(self):
+        QMessageBox.information(self, "提示", "Test", QMessageBox.Yes)
     def __init__(self,ui,ClientAppSetting):
         super().__init__()
         # 初始化数据
@@ -54,6 +60,14 @@ class FMQMainWindow(QMainWindow):
         self.ui.TV_PositionList.setEditTriggers(QTableView.NoEditTriggers)  # 不可编辑
         self.ui.TV_PositionList.setSelectionBehavior(QAbstractItemView.SelectRows);  # 设置只有行选中
         self.ui.TV_PositionList.setHorizontalHeaderLabels(["证券代码","持仓量","可用量","冻结量","股票实际","成本价","市价","市值","浮动盈亏","盈亏比例","币种","交易市场","附加参数"])
+
+        self.ui.TV_Position_Main.setColumnCount(13)
+        self.ui.TV_Position_Main.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)  # 所有列自动拉伸，充满界面
+        self.ui.TV_Position_Main.setSelectionMode(QAbstractItemView.SingleSelection)  # 设置只能选中一行
+        self.ui.TV_Position_Main.setEditTriggers(QTableView.NoEditTriggers)  # 不可编辑
+        self.ui.TV_Position_Main.setSelectionBehavior(QAbstractItemView.SelectRows);  # 设置只有行选中
+        self.ui.TV_Position_Main.setHorizontalHeaderLabels(["证券代码", "持仓量", "可用量", "冻结量", "股票实际", "成本价", "市价", "市值", "浮动盈亏", "盈亏比例", "币种", "交易市场", "附加参数"])
+
         # 设置委托列表
         self.ui.TV_OrderList.setColumnCount(11)
         self.ui.TV_OrderList.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)  # 所有列自动拉伸，充满界面
@@ -61,6 +75,14 @@ class FMQMainWindow(QMainWindow):
         self.ui.TV_OrderList.setEditTriggers(QTableView.NoEditTriggers)  # 不可编辑
         self.ui.TV_OrderList.setSelectionBehavior(QAbstractItemView.SelectRows);  # 设置只有行选中
         self.ui.TV_OrderList.setHorizontalHeaderLabels(["证券代码","方向","委托价格","委托数量","成交数量","订单状态","成交均价","委托时间","订单编号","交易市场","附加参数"])
+
+        self.ui.TV_OrderList_Main.setColumnCount(11)
+        self.ui.TV_OrderList_Main.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)  # 所有列自动拉伸，充满界面
+        self.ui.TV_OrderList_Main.setSelectionMode(QAbstractItemView.SingleSelection)  # 设置只能选中一行
+        self.ui.TV_OrderList_Main.setEditTriggers(QTableView.NoEditTriggers)  # 不可编辑
+        self.ui.TV_OrderList_Main.setSelectionBehavior(QAbstractItemView.SelectRows);  # 设置只有行选中
+        self.ui.TV_OrderList_Main.setHorizontalHeaderLabels(["证券代码", "方向", "委托价格", "委托数量", "成交数量", "订单状态", "成交均价", "委托时间", "订单编号", "交易市场", "附加参数"])
+
         # 设置订单方向
         self.ui.CB_PlaceOrder_Direction.addItems(["买入","卖出"])
         # 设置输入校验
@@ -83,6 +105,12 @@ class FMQMainWindow(QMainWindow):
         self.ui.BT_PlaceOrder.clicked.connect(self.PlaceOrder)
         # 撤单按钮
         self.ui.BT_CancelOrder.clicked.connect(self.CancelOrder)
+        # 点击委托
+        self.ui.TV_OrderList.itemClicked.connect(self.OrderListClicked)
+        # 点击成交
+        self.ui.TV_PositionList.itemClicked.connect(self.PositionListClicked)
+        # 重置下单区域
+        self.ui.BT_Reset.clicked.connect(self.ResetPlaceOrder)
 
         # self.ui.Menu_Setting.triggered.connect(self.Reset)
 
@@ -167,22 +195,28 @@ class FMQMainWindow(QMainWindow):
     # 更新持仓列表
     def RefreshPosition(self,PositionList):
         self.ui.TV_PositionList.setRowCount(len(PositionList))  # 行数
+        self.ui.TV_Position_Main.setRowCount(len(PositionList))  # 行数
         for i in range(len(PositionList)):  # 注意上面列表中数字加单引号，否则下面不显示(或者下面str方法转化一下即可)
             item = PositionList[i]
             for j in range(len(item)):
                 item = QTableWidgetItem(str(PositionList[i][j]))
+                item2 = QTableWidgetItem(str(PositionList[i][j]))
                 self.ui.TV_PositionList.setItem(i, j, item)
+                self.ui.TV_Position_Main.setItem(i, j, item2)
 
     # 更新委托列表
     def RefreshOrder(self,OrderList):
         self.ui.CB_CancelOrder_IDChose.clear()
         self.ui.TV_OrderList.setRowCount(len(OrderList))  # 行数
+        self.ui.TV_OrderList_Main.setRowCount(len(OrderList))  # 行数
         for i in range(len(OrderList)):  # 注意上面列表中数字加单引号，否则下面不显示(或者下面str方法转化一下即可)
             item = OrderList[i]
             self.ui.CB_CancelOrder_IDChose.addItem(OrderList[i][8])
             for j in range(len(item)):
                 item = QTableWidgetItem(str(OrderList[i][j]))
+                item2 = QTableWidgetItem(str(OrderList[i][j]))
                 self.ui.TV_OrderList.setItem(i, j, item)
+                self.ui.TV_OrderList_Main.setItem(i, j, item2)
 
     #  更新资金状态
     def RefreshCashInfo(self,CashInfo):
@@ -235,9 +269,53 @@ class FMQMainWindow(QMainWindow):
         except Exception as e:
             QMessageBox.information(self, "提示",str(e),QMessageBox.Yes)
 
-    # 测试方法，重置
-    def Reset(self):
-        pass
+    # 持仓列表点击事件
+    def PositionListClicked(self):
+        # 获取代码，可用量，市价
+        CurRow=self.ui.TV_PositionList.currentRow()
+        Code=str(self.ui.TV_PositionList.item(CurRow,0).text())
+        Direction=0
+        Vol=int(self.ui.TV_PositionList.item(CurRow,2).text())
+        Price=float(self.ui.TV_PositionList.item(CurRow,6).text())
+        AddPar=''
+        # 填写到下单区域
+        self.SetPlaceOrderPresent(Code,Direction,Price,Vol,AddPar)
+
+    # 委托列表点击事件
+    def OrderListClicked(self):
+        # 获取代码，可用量，市价
+        CurRow=self.ui.TV_OrderList.currentRow()
+        Code=str(self.ui.TV_OrderList.item(CurRow,0).text())
+        Direction=0 if self.ui.TV_OrderList.item(CurRow,1).text()=="0" else 1
+        Price=float(self.ui.TV_OrderList.item(CurRow,2).text())
+        Vol = int(self.ui.TV_OrderList.item(CurRow, 3).text())
+        AddPar=''
+        OrderID=str(self.ui.TV_OrderList.item(CurRow,8).text())
+        # 填写到下单区域
+        self.SetPlaceOrderPresent(Code,Direction,Price,Vol,AddPar)
+        # 填写到测单区域
+        self.SetCancelOrderPresent(OrderID)
+
+    # 设置下单区域控件值
+    def SetPlaceOrderPresent(self,Code,Direction,Price,Volume,AddPar):
+        try:
+            self.ui.CB_PlaceOrder_Code.setText(str(Code))
+            self.ui.CB_PlaceOrder_Direction.setCurrentIndex(0) if Direction==1 else self.ui.CB_PlaceOrder_Direction.setCurrentIndex(1)
+            self.ui.CB_PlaceOrder_Price.setText(str(Price))
+            self.ui.CB_PlaceOrder_Volume.setText(str(Volume))
+            self.ui.CB_PlaceOrder_AddPar.setText(str(AddPar))
+        except Exception as e:
+            GuiLogger.error(e)
+
+    # 重置下单
+    def ResetPlaceOrder(self):
+        # 默认买入，其他为空
+        self.SetPlaceOrderPresent("",1,"","","")
+
+    # 撤单区域显示
+    def SetCancelOrderPresent(self,OrderID):
+        self.ui.CB_CancelOrder_IDChose.setCurrentText(OrderID)
+
 
 # 对话窗口基类
 class FMQDialogLogin(QDialog):
@@ -333,8 +411,8 @@ class ListenThread(QThread):
         self.MainWindow=MainWindow
 
     def run(self):
-        GuiLogger.debug("========================================监听BST========================================")
         if self.MainWindow.BackgroundServerThread!=None:
+            GuiLogger.debug("========================================监听BST========================================")
             while self.MainWindow.BackgroundServerThread!=None:
                 try:
                     Msg=self.MainWindow.GetQueue.get()

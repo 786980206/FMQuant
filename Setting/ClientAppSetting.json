@@ -1,1 +1,1 @@
-{"CommissionRate": 0.0, "CounterType": "Stock", "Pwd": "Pwd", "Mkt": {"MktServerHost": "127.0.0.1", "MktServerPort": 9501}, "Usr": "Usr", "AddPar": {"ExchangeServerHost": "127.0.0.1", "ExchangeServerPort": 9501, "MaxConnnectTryTime": 5, "WaitTimeAfterTryConnect": 2}}
+{"AddPar": {"MaxConnnectTryTime": 5, "WaitTimeAfterTryConnect": 2, "ExchangeServerHost": "127.0.0.1", "ExchangeServerPort": 9501}, "Usr": "Usr", "CounterType": "Stock", "Mkt": {"MktServerPort": 9501, "MktServerHost": "127.0.0.1"}, "Pwd": "Pwd", "CommissionRate": 0.0}
