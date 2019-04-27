@@ -49,7 +49,7 @@ class PublisherThread(threading.Thread):
 		ask = [random.random() * random.randint(1, 100) for x in range(c)]
 
 		data = [qlist(time, qtype=QTIME_LIST), qlist(instr, qtype=QSYMBOL_LIST), qlist(src, qtype=QSYMBOL_LIST), qlist(ask, qtype=QFLOAT_LIST)]
-		# print(data)
+		print(data)
 		return data
 
 
