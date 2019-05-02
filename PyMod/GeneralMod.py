@@ -7,6 +7,7 @@ import logging.config
 import ctypes
 import json
 import os
+import numpy as np
 FOREGROUND_WHITE = 0x0007
 FOREGROUND_BLUE = 0x01 # text color contains blue.
 FOREGROUND_GREEN= 0x02 # text color contains green.
@@ -131,11 +132,23 @@ def PathConfirm(Path):
     Path=PathJoin(Path)
     return  os.path.exists(Path)
 
+# 定义一个Json序列化类对Numpy处理
+class NpEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        else:
+            return super(NpEncoder, self).default(obj)
+
 # 把Json等对象转化成str的函数
-def ToStr(Item):
+def ToStr(Item)->str:
     if type(Item) is dict:
         ret=Item
-        ret=json.dumps(ret)
+        ret=json.dumps(ret,cls=NpEncoder)
     else:
         ret=str(Item)
     return ret

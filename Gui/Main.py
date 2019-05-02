@@ -9,10 +9,12 @@ from PyQt5.QtGui import *
 import GeneralMod
 from multiprocessing import Process,Queue
 import datetime
+import pandas as pd
 
 import MainUI,WD_LogIn
 from PyMod import Counter,Market
 from GeneralMod import GuiLogger
+import PyMod.DataDef as DataDef
 
 Lock=threading.Lock()
 MainWindow=None
@@ -160,11 +162,16 @@ class FMQMainWindow(QMainWindow):
 
     # 登出消息回执
     def OnLogOut(self, Msg):
+        # 向后台发送登出消息
+        Msg={
+            "MsgType":"LogOut"
+        }
+        self.SendMsgToBST(Msg)
         # 更新界面元素
         self.LogInWD.ui.BT_LogIn.setEnabled(True)
         self.RefreashStatusBarMsg("未连接")
         self.RefleshStatePresent("未登录","未连接")
-        self.RefreshCashInfo(["","",""])
+        self.RefreshCashInfo(["","","",""])
         self.RefreshOrder([])
         self.RefreshPosition([])
         # 清理进程资源
@@ -194,35 +201,41 @@ class FMQMainWindow(QMainWindow):
 
     # 更新持仓列表
     def RefreshPosition(self,PositionList):
-        self.ui.TV_PositionList.setRowCount(len(PositionList))  # 行数
-        self.ui.TV_Position_Main.setRowCount(len(PositionList))  # 行数
-        for i in range(len(PositionList)):  # 注意上面列表中数字加单引号，否则下面不显示(或者下面str方法转化一下即可)
-            item = PositionList[i]
-            for j in range(len(item)):
-                item = QTableWidgetItem(str(PositionList[i][j]))
-                item2 = QTableWidgetItem(str(PositionList[i][j]))
+        PositionList=pd.DataFrame(PositionList,columns=DataDef.POSITION_INDEX)
+        AimMat=PositionList[['Code', 'Vol', 'VolA', 'VolF', 'StockActualVol', 'AvgCost', 'PriceNow','MktValue', 'FloatingProfit', 'ProfitRatio', 'Currency', 'Mkt', 'AddPar']]
+        self.ui.TV_PositionList.setRowCount(len(AimMat))  # 行数
+        self.ui.TV_Position_Main.setRowCount(len(AimMat))  # 行数
+        for i in  range(len(AimMat)):  # 注意上面列表中数字加单引号，否则下面不显示(或者下面str方法转化一下即可)
+            for j in range(len(AimMat.columns)):
+                item = QTableWidgetItem(str(AimMat.iloc[i][j]))
+                item2 = QTableWidgetItem(str(AimMat.iloc[i][j]))
                 self.ui.TV_PositionList.setItem(i, j, item)
                 self.ui.TV_Position_Main.setItem(i, j, item2)
 
     # 更新委托列表
     def RefreshOrder(self,OrderList):
+        # ORDER_INDEX = ['AccountID', 'OrderID', 'Code', 'Direction', 'Price', 'Volume', 'VolumeMatched', 'State','AvgMatchingPrice', 'OrderTime', 'Mkt', 'AddPar']
         self.ui.CB_CancelOrder_IDChose.clear()
-        self.ui.TV_OrderList.setRowCount(len(OrderList))  # 行数
-        self.ui.TV_OrderList_Main.setRowCount(len(OrderList))  # 行数
-        for i in range(len(OrderList)):  # 注意上面列表中数字加单引号，否则下面不显示(或者下面str方法转化一下即可)
-            item = OrderList[i]
-            self.ui.CB_CancelOrder_IDChose.addItem(OrderList[i][8])
-            for j in range(len(item)):
-                item = QTableWidgetItem(str(OrderList[i][j]))
-                item2 = QTableWidgetItem(str(OrderList[i][j]))
+        OrderList=pd.DataFrame(OrderList,columns=DataDef.ORDER_INDEX)
+        AimMat = OrderList[
+            ['Code', 'Direction', 'Price', 'Volume', 'VolumeMatched', 'State',
+             'AvgMatchingPrice', 'OrderTime','OrderID', 'Mkt', 'AddPar']]
+        self.ui.TV_OrderList.setRowCount(len(AimMat))  # 行数
+        self.ui.TV_OrderList_Main.setRowCount(len(AimMat))  # 行数
+        for i in  range(len(AimMat)):  # 注意上面列表中数字加单引号，否则下面不显示(或者下面str方法转化一下即可)
+            self.ui.CB_CancelOrder_IDChose.addItem(str(AimMat.iloc[i][8]))
+            for j in range(len(AimMat.columns)):
+                item = QTableWidgetItem(str(AimMat.iloc[i][j]))
+                item2 = QTableWidgetItem(str(AimMat.iloc[i][j]))
                 self.ui.TV_OrderList.setItem(i, j, item)
                 self.ui.TV_OrderList_Main.setItem(i, j, item2)
 
     #  更新资金状态
     def RefreshCashInfo(self,CashInfo):
-        self.StatusBarItem[0].setText(str(CashInfo[0]))
-        self.StatusBarItem[1].setText(str(CashInfo[1]))
-        self.StatusBarItem[2].setText(str(CashInfo[2]))
+        # CASHINFO_INDEX=["AccountID","Cash","CashA","CashF","InitCash"]
+        self.StatusBarItem[0].setText(str(CashInfo[1]))
+        self.StatusBarItem[1].setText(str(CashInfo[2]))
+        self.StatusBarItem[2].setText(str(CashInfo[3]))
 
     # 下单函数
     def PlaceOrder(self):
@@ -251,6 +264,7 @@ class FMQMainWindow(QMainWindow):
             return Order
         except Exception as e:
             GuiLogger.error(e)
+
     # 撤单函数
     def CancelOrder(self):
         if self.LogInState==1:
@@ -385,10 +399,10 @@ class FMQDialogLogin(QDialog):
             self.ParentWindow.RefreashStatusBarMsg("登录中...")
             # 初始化连接对象
             Mkt = Market.MktSliNow()
-            Account=Counter.Account(self.ClientAppSetting["Usr"],self.ClientAppSetting["Pwd"],self.ClientAppSetting["AddPar"],MktSliNow=Mkt,ClientPutQueue=self.ParentWindow.GetQueue,ClientGetQueue=self.ParentWindow.PutQueue)
+            Account=Counter.Account(self.ClientAppSetting["Usr"],self.ClientAppSetting["Pwd"],self.ClientAppSetting["AddPar"],WithGui=True,MktSliNow=Mkt,ClientPutQueue=self.ParentWindow.GetQueue,ClientGetQueue=self.ParentWindow.PutQueue)
             self.Account=Account
             Init(Mkt,Account)
-            BackgroundServerThread=Process(target=Account.ConnectAndLogin,args=(True,))
+            BackgroundServerThread=Process(target=Account.ConnectAndLogin)
             self.ParentWindow.BackgroundServerThread = BackgroundServerThread
             # 开启消息监听线程
             # ListenFromBackgroundServerThread=threading.Thread(target=self.ParentWindow.ListenFromBST)
@@ -447,12 +461,12 @@ def Init(Mkt, Account):
     # 设置账户信息
     Account.AccPar['CommissionRate'] = 0.01
     Account.AccPar['Slippage'] = 0.1
-    Account.CashInfo = {'Cash': 10000, 'CashF': 0, 'InitCash': 10000, 'CashA': 10000}
-    Account.Position['000001.SZSE'] = ['000001.SZSE', 10000, 5000, 5000, 0, 10, '10', 0, 0, 0, 'CNY', 'Mkt',Account, {}]
-    # Account.Order['AAA'] = ['000001.SZSE', 1, 0, 100, 0, "Wait2Matched", 0,"2019-04-19 17:00:00", "AAA",'Mkt',Account, {}]
-    # Account.OrderRec['AAA'] = ['000001.SZSE', 1, 0, 100, 0, "Wait2Matched", 0, "2019-04-19 17:00:00", "AAA", 'Mkt',Account, {}]
-
-
+    # [Account.DelOrderByID(x) for x in Account.GetOrderList()]
+    # [Account.DelOrderRecByID(x) for x in Account.GetAllOrderList()]
+    # [Account.DelPositionByCode(x) for x in Account.GetPositionList()]
+    # Account.UpdateCashInfo({"Cash": 1000000, "CashA": 500000, "CashF": 500000})
+    # Account.AddPosition("000002.SZSE")
+    # Account.UpdatePositionByCode("000002.SZSE", {"Vol": 1000, "VolA": 1000})
 if __name__ == '__main__':
     ClientAppSetting=GeneralMod.LoadJsonFile(GeneralMod.PathJoin("../Setting/ClientAppSetting.json"))
     # 启动GUI

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+import os,sys
+sys.path.append("..\\")
 import socket
 import multiprocessing
 import threading
@@ -11,42 +12,38 @@ import uuid
 import Market
 import GeneralMod
 from GeneralMod import ExchangeServerLogger
-
-
-def GetMsg(X):
-	with open('SocketMsg.json') as f:
-		Msg=json.load(f)
-	return Msg[int(X)]
-
-
-# 常量定义
-POSITION_INDEX=['Code','Vol','VolA','VolFrozen','StockActualVol','AvgCost','PriceNow','MktValue','FloatingProfit','ProfitRatio','Currency','Mkt','Account','Config']
-ORDER_INDEX=['Code','Direction','Price','Volume','VolumeMatched','State','AvgMatchingPrice','OrderTime','OrderNum','Mkt','Account','Config']
-BUFFSIZE=1024 #接收消息缓存区大小，如果以后传的消息多了会修改
+import DataServer.QOperation as Q
+import Common as cm
+import DataDef as DataDef
 
 # 客户端连接类
 class ClientConnection(object):
-	def __init__(self,conn,addr,ExchangeCore,ClientPool):
+	def __init__(self,conn,addr:str,ExchangeCore,ClientPool:{},Q:Q.Q)->None:
 		self.addr=addr
 		self.conn=conn
 		self.ExchangeCore=ExchangeCore
-		self.ClientID=str(uuid.uuid1())
+		self.ClientID=uuid.uuid1()
 		self.ClientPool=ClientPool
 		self.AccountID=None
 		ExchangeServerLogger.info("连接成功:{}".format(self.addr))
+		self.Q=Q
+		self.ConnectInfoTable="Exchange_ConnectInfo"
+
 	# 退出
-	def Exit(self):
+	def Exit(self)->None:
 		self.conn.close()
 		del self.ClientPool[self.ClientID]
+		self.Q.Del(self.ConnectInfoTable,'ClientID="G"$("{}")'.format(self.ClientID))
 		ExchangeServerLogger.info("连接断开:{}".format(self.addr))
 		exit(0)
+
 	# 接收消息
 	def RecMsg(self):
 		Lock=threading.Lock()
 		Msg=''
 		while True:
 			try:
-				RecData=self.conn.recv(BUFFSIZE).decode('utf-8')
+				RecData=self.conn.recv(DataDef.BUFFSIZE).decode('utf-8')
 				ExchangeServerLogger.debug("读取缓冲区数据:{}".format(RecData))
 			except:
 				ExchangeServerLogger.warning("接收缓冲区数据失败!")
@@ -55,11 +52,11 @@ class ClientConnection(object):
 			Msglist,Msg=GeneralMod.AnalyzeMsg(Msg,RecData)
 			for AimMsg in Msglist:
 				try:
-					Lock.acquire()
-					self.DealRecMsg(AimMsg)
-					Lock.release()
+					with Lock:
+						self.DealRecMsg(AimMsg)
 				except Exception as e:
 					ExchangeServerLogger.error("处理消息出错:{},{}".format(AimMsg,e))
+
 	# 发送消息
 	def SendMsg(self,Msg):
 		Msg=GeneralMod.MakeSendMsg(Msg)
@@ -78,11 +75,11 @@ class ClientConnection(object):
 			self.Exit()
 		# 新订单请求
 		if Msg['MsgType']=="PlaceOrder":
-			OrderID,Order=Msg['OrderID'],Msg['Order']
+			OrderID,Order=uuid.UUID(Msg['OrderID']),Msg['Order']
 			self.ExchangeCore.DealNewOrder(OrderID,Order,self)
 		# 撤单请求
 		if Msg['MsgType']=="CancelOrder":
-			OrderID=Msg['OrderID']
+			OrderID=uuid.UUID(Msg['OrderID'])
 			self.ExchangeCore.CancelOrder(OrderID,self)
 		# 账户登录
 		if Msg['MsgType']=="LogIn":
@@ -92,35 +89,59 @@ class ClientConnection(object):
 			self.Exit()
 		# 清除订单池
 		if Msg['MsgType']=="Clear":
-			self.ExchangeCore.OrderPool=pd.DataFrame(index=ORDER_INDEX)
+			[self.ExchangeCore.DelOrderByID(x) for x in self.ExchangeCore.GetOrderList()]
 			ExchangeServerLogger.debug("清除ExchangeCore.OrderPool成功")
+
 	# 登录检查
 	def CheckLogIn(self,Msg):
 		ExchangeServerLogger.info("客户端登录:{}".format(Msg))
 		if self.CheckUsr(Msg["Usr"],Msg["Pwd"]):
-			self.AccountID=Msg['AccountID']
-			Msg={'MsgType':'LogInReturn','ret':1,'msg':'登录成功','session':'XXXXXXX'}
+			self.AccountID=self.MakeAccountID(Msg["Usr"])
+			LogInTime=self.CreateTime()
+			ValueList={
+				"ClientID":[self.ClientID],
+				"Usr":[Msg["Usr"]],
+				"AccountID":[self.AccountID],
+				"ConnectState":[1],
+				"Addr":[self.addr],
+				"ConnectTime":[LogInTime]
+			}
+			self.Q.Insert(self.ConnectInfoTable,ValueList)
+			Msg={'MsgType':'LogInReturn','ret':1,'msg':'登录成功','session':'XXXXXXX','AccountID':str(self.AccountID)}
 			ExchangeServerLogger.info("发送登录回执:{}".format(Msg))
 			self.SendMsg(Msg)
+
+	# 生成AccountID
+	def MakeAccountID(self,Usr:str)->uuid.UUID:
+		return uuid.uuid3(DataDef.NAMESPACE_ACCOUNTID,Usr)
+
 	# 用户信息检查
 	def CheckUsr(self,Usr,Pwd):
 		ExchangeServerLogger.debug("验证用户身份:{},{}".format(Usr,Pwd))
 		return 1
 
+	# 生成登录时间
+	def CreateTime(self)->str:
+		return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
 
 # 初始化
 def Init():
 	ExchangeServerSetting=GeneralMod.LoadJsonFile(GeneralMod.PathJoin(GeneralMod.BASE_SETTING_FILE))["ExchangeServerSetting"]
-	ExchangeCore=Exchange()
+	# 初始化KDB操作对象
+	# 初始化连接池
+	ClientPool = {}
+	# 初始化交易所对象
+	ExchangeCore=Exchange(DataDef.DataOperationObject,ClientPool)
+	# 初始化服务连接监听对象
 	ExchangeServer=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 	ExchangeServer.bind((ExchangeServerSetting["ExchangeServerHost"],ExchangeServerSetting["ExchangeServerPort"]))
 	ExchangeServer.listen(ExchangeServerSetting["ExchangeServerListenLimit"])
-	ClientPool={}
 	ExchangeServerLogger.info("启动成功:ExchangeServer")
+	# 开始监听
 	while True:
 		ExchangeServerLogger.debug("等待新连接:ExchangeServer")
 		conn,addr=ExchangeServer.accept()
-		Client=ClientConnection(conn,addr,ExchangeCore,ClientPool)
+		Client=ClientConnection(conn,addr,ExchangeCore,ClientPool,DataDef.DataOperationObject)
 		ClientPool[Client.ClientID]=Client
 		# ClientThread=multiprocessing.Process(name="ClientThread({})".format(Client.ClientID),target=Client.RecMsg)
 		ClientThread = threading.Thread(name="ClientThread({})".format(Client.ClientID), target=Client.RecMsg)
@@ -147,27 +168,136 @@ def Init():
 		# 用于调试===============================================================
 
 ################################################ 类定义 ###############################################################
-class Exchange(object):
+# ExchangeBase：交易所基类，只提供与Client的交互和其他基础方法
+class ExchangeBase(object):
 	# 初始化
-	def __init__(self,MktSliNow=None,OrderPool=None):
-		self.OrderPool=OrderPool if OrderPool!=None else pd.DataFrame(index=ORDER_INDEX)
+	def __init__(self,DateaOperationObject,ClientPool:dict,MktSliNow=None):
 		self.MktSliNow=MktSliNow if MktSliNow!=None else Market.MktSliNow()
 		self.Slippage=0
+		# kdb连接信息
+		self.ORDER_INDEX = DataDef.ORDER_INDEX
+		self.Q=DateaOperationObject
+		self.OrderPoolTable="Exchange_OrderPool"
+		# 连接池信息
+		self.ConnectInfoTable="Exchange_ConnectInfo"
+		self.ClientPool=ClientPool
+		# 清空连接池
+		self.ClearConnectInfo()
+		# 清空订单池
+		self.ClearOrderPool()
+
+	# 清空连接池
+	def ClearConnectInfo(self):
+		self.Q.Del(self.ConnectInfoTable)
+
+	# 清空订单池
+	def ClearOrderPool(self):
+		self.Q.Del(self.OrderPoolTable)
 
 	# 向客户端发送消息
-	def SendMsg(self,Client,Msg):
+	def SendMsg(self, Client:ClientConnection, Msg:str):
 		ExchangeServerLogger.debug("发送消息:{}".format(Msg))
 		Client.SendMsg(Msg)
 
-	# 报单回报
-	def SendOrderReturn(self,OrderID,Client,ret,msg):
+	# 通过AccountID来找到客户端连接
+	def GetClientByAccountID(self,AccountID:uuid.UUID)->ClientConnection:
+		pd_ret=self.Q.Query(self.ConnectInfoTable,["ClientID"],'AccountID="G"$("{}")'.format(AccountID))
+		ret=list(pd_ret["ClientID"])
+		ClientList=[self.ClientPool[x] for x in ret]
+		ExchangeServerLogger.debug("获取到{}对应的{}个客户端连接".format(AccountID,len(ClientList)))
+		return ClientList
+
+	# 生成订单下单时间
+	def CreateOrderTime(self)->str:
+		return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+
+	# 生成撮合成交时间
+	def CreateMatchTime(self)->str:
+		return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+
+	# 生成撤单时间
+	def CreateCancelTime(self)->str:
+		return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+
+	# 获取订单ID列表
+	def GetOrderIDList(self)->[uuid.UUID]:
+		pd_ret=self.Q.Query(self.OrderPoolTable,["OrderID"])
+		ret=list(pd_ret["OrderID"])
+		return ret
+
+	# 获取订单数据
+	def GetOrderByID(self,OrderID:uuid.UUID,Field:list=DataDef.ORDER_INDEX)->list:
+		if OrderID in self.GetOrderIDList():
+			# 从kdb+获取数据
+			pd_ret = self.Q.Query(self.OrderPoolTable,Field,'OrderID="G"$("{}")'.format(OrderID))
+			ret=list(pd_ret.iloc[0])
+			return ret
+		else:
+			return [None] * len(Field)
+
+	# 删除订单
+	def DelOrderByID(self,OrderID:uuid.UUID)->[int,str]:
+		ExchangeServerLogger.info("删除订单:{}".format(OrderID))
+		if OrderID not in self.GetOrderIDList():
+			return 0, '删除订单失败，订单不存在'
+		self.Q.Del(self.OrderPoolTable, 'OrderID="G"$("{}")'.format(OrderID))
+		return 1, '删除订单成功'
+
+	# 记录新订单，将新订单加入订单记录中并生成订单id
+	def AddOrder(self,OrderID:uuid.UUID,Order:dict,Client:ClientConnection)->[int,str]:
+		ExchangeServerLogger.info("记录新报单:{},{}".format(OrderID,Order))
+		Code=Order['Code']
+		Direction=Order['Direction']
+		Price=Order['Price']
+		Volume=Order['Volume']
+		AddPar=Order['AddPar']
+		AccountID=Client.AccountID
+		# 记录订单
+		self.Q.Insert(self.OrderPoolTable,{
+			"OrderID": [OrderID],
+			"Code": [Code],
+			"Direction": [Direction],
+			"Price": [Price],
+			"Volume": [Volume],
+			"VolumeMatched":[0],
+			"State": ['WaitToMatch'],
+			"AvgMatchingPrice":[0],
+			"OrderTime": [self.CreateOrderTime()],
+			"Mkt": [cm.GetExchangeByCode(Code)],
+			"AccountID": [AccountID],
+			"AddPar": [AddPar]
+		})
+		return 1,'下单成功'
+
+	# 修改订单内容
+	def UpdateOrderByID(self,OrderID:uuid.UUID,ValueDict:dict)->[int,str]:
+		if "AddPar" in ValueDict:ValueDict["AddPar"]=GeneralMod.ToStr(ValueDict["AddPar"])
+		self.Q.Update(self.OrderPoolTable,ValueDict,'OrderID="G"$("{}")'.format(OrderID))
+
+	# 判断订单状态（如订单全部成交则需要取消等）
+	def CheckOrderByID(self,OrderID:uuid.UUID)->[int,str]:
+		ExchangeServerLogger.debug("检查订单状态:{}".format(OrderID))
+		# 订单数据
+		AccountID,OrderID,Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,Mkt,AddPar=self.GetOrderByID(OrderID)
+		if OrderID==None:
+			return 0,"订单不存在"
+		# 判断是否全部成交
+		elif Volume==VolumeMatched and State=='AllMatched':
+			# 清除订单
+			ret,msg=self.DelOrderByID(OrderID)
+		else:
+			ret,msg=1,"订单正常"
+		return ret,msg
+
+	# 发送下单单回报
+	def SendOrderReturn(self,OrderID:uuid.UUID,Client:ClientConnection,ret:int,msg:str)->None:
 		if ret==1:
-			OrderTime=self.OrderPool[OrderID][7]
+			OrderTime=self.GetOrderByID(OrderID,["OrderTime"])[0]
 		else:
 			OrderTime=self.CreateOrderTime()
 		Msg={
 			'MsgType':'OrderReturn',
-			'OrderID':OrderID,
+			'OrderID':str(OrderID),
 			'ret':ret,
 			'msg':msg,
 			'OrderTime':OrderTime
@@ -175,11 +305,11 @@ class Exchange(object):
 		ExchangeServerLogger.info("发送报单回执:{}".format(Msg))
 		self.SendMsg(Client,Msg)
 
-	# 成交回报
-	def SendTransactionReturn(self,OrderID,Client,MatchInfo,OrderState,MatchTime):
+	# 发送成交回报
+	def SendTransactionReturn(self,OrderID:uuid.UUID,Client:ClientConnection,MatchInfo:dict,OrderState:str,MatchTime:str)->None:
 		Msg={
 			'MsgType':'TransactionReturn',
-			'OrderID':OrderID,
+			'OrderID':str(OrderID),
 			'MatchInfo':MatchInfo,
 			'OrderState':OrderState,
 			'MatchTime':MatchTime
@@ -187,11 +317,11 @@ class Exchange(object):
 		ExchangeServerLogger.info("发送成交回执:{}".format(Msg))
 		self.SendMsg(Client,Msg)
 
-	# 撤单回报
-	def SendCancelOrderReturn(self,Client,OrderID,ret,msg,CancelTime):
+	# 发送撤单回报
+	def SendCancelOrderReturn(self,OrderID:uuid.UUID,Client:ClientConnection,ret:int,msg:str,CancelTime:str)->None:
 		Msg={
 			'MsgType':'CancelOrderReturn',
-			'OrderID':OrderID,
+			'OrderID':str(OrderID),
 			'ret':ret,
 			'msg':msg,
 			'CancelTime':CancelTime
@@ -199,119 +329,79 @@ class Exchange(object):
 		ExchangeServerLogger.info("发送撤单回执:{}".format(Msg))
 		self.SendMsg(Client, Msg)
 
-	# 获取订单数据
-	def GetOrderByID(self,OrderID,Item=ORDER_INDEX):
-		if type(Item) is not list:Item=[Item]
-		if OrderID in self.OrderPool.columns:
-			return list(self.OrderPool[OrderID].loc[Item])
-		else:
-			return [None]*len(self.OrderPool.columns)
-
-	# 生成撮合成交时间
-	def CreateMatchTime(self):
-		return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
-
-	# 生成撤单时间
-	def CreateCancelTime(self):
-		return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
-
-	# 判断订单状态（如订单全部成交则需要取消等）
-	def CheckOrderByID(self,OrderID):
-		ExchangeServerLogger.debug("检查订单状态:{}".format(OrderID))
-		# 订单数据
-		Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,OrderNum,Mkt,Account,Config=self.GetOrderByID(OrderID)
-		# 判断是否全部成交
-		if Volume==VolumeMatched and State=='AllMatched':
-			# 清除订单
-			ret,msg=self.DelOrderByID(OrderID)
-		else:
-			ret,msg=1,"订单正常"
-		return ret,msg
-
-	# 删除订单
-	def DelOrderByID(self,OrderID):
-		ExchangeServerLogger.info("删除订单:{}".format(OrderID))
-		if OrderID not in self.OrderPool:
-			return 0,'删除订单失败，订单不存在'
-		self.OrderPool.drop(labels=OrderID, axis=1, inplace=True)
-		return 1,'删除订单成功'
-
-	# 生成订单下单时间
-	def CreateOrderTime(self):
-		return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
-
 	# 检查新订单
-	def CheckNewOrder(self,OrderID,Order,Client):
+	def CheckNewOrder(self,OrderID:uuid.UUID,Order:dict,Client:ClientConnection)->[int,str]:
 		ExchangeServerLogger.debug("检查新报单:{},{}".format(OrderID, Order))
-		if OrderID in self.OrderPool:
+		if OrderID in self.GetOrderIDList():
 			ret,msg=0, '订单编码重复'
 			return ret,msg
-		if Client.AccountID==None:
+		if self.CheckAccount(Client)==0:
 			return 0,'账户ID异常'
-		ret,msg=self.LogNewOrder(OrderID,Order,Client)
+		return 1,"订单有效"
+
+	# 检查账户信息
+	def CheckAccount(self,Client:ClientConnection)->[int,str]:
+		if Client.AccountID == None:
+			return 0
+		else:
+			return 1
+
+	# 检查撤单信息
+	def CheckCancelOrder(self,OrderID,Client):
+		if self.CheckAccount(Client)==0:
+			return 0,'账户ID异常'
+		if Client.AccountID!=self.GetOrderByID(OrderID,["AccountID"])[0]:
+			return 0,"账户ID不匹配"
+		ret,msg=self.CheckOrderByID(OrderID)
 		return ret,msg
 
-	# 记录新订单，将新订单加入订单记录中并生成订单id
-	def LogNewOrder(self,OrderID,Order,Client):
-		ExchangeServerLogger.info("记录新报单:{},{}".format(OrderID,Order))
-		Code=Order['Code']
-		Direction=Order['Direction']
-		Price=Order['Price']
-		Volume=Order['Volume']
-		AddPar=Order['AddPar']
-		# 记录订单
-		self.OrderPool[OrderID]=[Code,Direction,Price,Volume,0,'WaitToMatch',0,self.CreateOrderTime(),OrderID,'Mkt',Client,AddPar]
-		return 1,'下单成功'
-
+# Exchange:拓展类
+class Exchange(ExchangeBase):
 	# 处理从柜台新推过来的订单数据
-	def DealNewOrder(self,OrderID,Order,Client,MarkeSliNow=None):
+	def DealNewOrder(self,OrderID:uuid.UUID,Order:dict,Client:ClientConnection,MarkeSliNow=None)->[int,str]:
 		ExchangeServerLogger.info("处理新报单:{},{}".format(OrderID,Order))
 		# 检查新订单
 		ret,msg=self.CheckNewOrder(OrderID,Order,Client)
 		ExchangeServerLogger.debug("检查报单结果:{},{}".format(ret,msg))
+		# 加入订单池
+		if ret==1:ret,msg = self.AddOrder(OrderID, Order, Client)
 		# 发送订单回报
 		self.SendOrderReturn(OrderID,Client,ret,msg)
-		# ExchangeServerLogger.debug("发送订单回报结果:{},{}".format(ret, msg))
 		# 检查不通过则退出
 		if ret==0:return
 		# 开始撮合
 		ret,msg=self.MatchOrderByID(OrderID)
 		return ret,msg
 
-	# 处理撮合结果
-	def DealMatchRetInOrderPool(self,OrderID,MatchInfo):
-		ExchangeServerLogger.debug("OrderPool处理撮合结果:{},{}".format(OrderID,MatchInfo))
-		# 订单数据
-		Code_Old,Direction_Old,Price_Old,Volume_Old,VolumeMatched_Old,State_Old,AvgMatchingPrice_Old,OrderTime_Old,OrderNum_Old,Mkt_Old,Account_Old,Config_Old=self.GetOrderByID(OrderID)
-		# 成交数据
-		PriceMatching=MatchInfo['PriceMatching']
-		VolumeMatching=MatchInfo['VolumeMatching']
-		# 开始处理
-		# 计算新的订单记录的字段
-		Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,OrderNum,Mkt,Account,Config=Code_Old,Direction_Old,Price_Old,Volume_Old,VolumeMatched_Old,State_Old,AvgMatchingPrice_Old,OrderTime_Old,OrderNum_Old,Mkt_Old,Account_Old,Config_Old
-		# 已成交量
-		VolumeMatched=VolumeMatched_Old+VolumeMatching
-		# 状态
-		# 如果已成=订单量
-		if VolumeMatched==Volume_Old:
-			State='AllMatched'
-		elif VolumeMatched<Volume_Old and VolumeMatched!=0:
-			State='PartMatched'
-		else:
-			State='WaitToMatch'
-		# 回写数据到OrderPool
-		self.OrderPool[OrderID]=[Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,OrderNum,Mkt,Account,Config]
-		# 检查订单状态（如订单全部成交则需要删除等）
-		ret,msg=self.CheckOrderByID(OrderID)
-		ExchangeServerLogger.debug("检查订单结果:{},{}".format(ret, msg))
-		return 1,State
+	# 撮合订单以及处理撮合结果
+	def MatchOrderByID(self,OrderID:uuid.UUID)->[int,str]:
+		ExchangeServerLogger.info("撮合订单:{}".format(OrderID))
+		# 获取订单标的代码和柜台客户端
+		Code,AccountID=self.GetOrderByID(OrderID,['Code','AccountID'])
+		MktInfo = {'Price4Trd': self.MktSliNow.GetDataByCode(Code, 'Price'),
+				   'Volume4Trd': self.MktSliNow.GetDataByCode(Code, 'Volume4Trd')}
+		ret, msg, MatchInfo = self.MatchSimulation(OrderID, MktInfo)
+		ExchangeServerLogger.debug("撮合结果:{},{},{}".format(ret, msg, MatchInfo))
+		# 判断是否成交
+		if MatchInfo['VolumeMatching'] == 0:
+			return 1, '无成交'
+		# 处理撮合结果
+		# OrderPool更新
+		ret,OrderState = self.DealMatchRetInOrderPool(OrderID, MatchInfo)
+		ExchangeServerLogger.debug("OrderPool更新:{},{},{}".format(OrderID,ret, OrderState))
+		# 市场行情切片也要处理撮合结果（扣除成交量等）
+		self.MktSliNow.DealMatchRet(Code,MatchInfo)
+		# 通知柜台处理成交回报
+		ClientList=self.GetClientByAccountID(AccountID)
+		[self.SendTransactionReturn(OrderID, Client, MatchInfo, OrderState, self.CreateMatchTime()) for Client in ClientList]
+		return 1,''
 
 	# 仿真撮合订单的函数
 	# 需要用到订单数据，市场数据，柜台数据（费率等），其他撮合数据（如滑点，最大成交比例等）
-	def MatchSimulation(self,OrderID,MktInfo):
+	def MatchSimulation(self,OrderID:uuid.UUID,MktInfo:dict)->[int,str,dict]:
 		ExchangeServerLogger.debug("仿真撮合:{},{}".format(OrderID,MktInfo))
 		# 订单数据
-		Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,OrderNum,Mkt,Account,Config=self.GetOrderByID(OrderID)
+		AccountID,OrderID,Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,Mkt,AddPar=self.GetOrderByID(OrderID)
 		# 市场数据
 		Price4Trd=MktInfo['Price4Trd']
 		Volume4Trd=MktInfo['Volume4Trd']
@@ -346,31 +436,40 @@ class Exchange(object):
 			return 0,'成交量比对时出错！',{'PriceMatching':0,'VolumeMatching':0}
 		return 1,'',{'PriceMatching':PriceMatching,'VolumeMatching':VolumeMatching}
 
-	# 撮合订单以及处理撮合结果
-	def MatchOrderByID(self,OrderID):
-		ExchangeServerLogger.info("撮合订单:{}".format(OrderID))
-		# 获取订单标的代码和柜台客户端
-		Code,Client=self.GetOrderByID(OrderID,['Code','Account'])
-		MktInfo = {'Price4Trd': self.MktSliNow.GetDataByCode(Code, 'Price'),
-				   'Volume4Trd': self.MktSliNow.GetDataByCode(Code, 'Volume4Trd')}
-		ret, msg, MatchInfo = self.MatchSimulation(OrderID, MktInfo)
-		# 判断是否成交
-		if MatchInfo['VolumeMatching'] == 0:
-			return 1, '无成交'
-		# 处理撮合结果
-		# OrderPool更新
-		ret,OrderState = self.DealMatchRetInOrderPool(OrderID, MatchInfo)
-		ExchangeServerLogger.debug("OrderPool更新:{},{},{}".format(OrderID,ret, OrderState))
-		# 市场行情切片也要处理撮合结果（扣除成交量等）
-		self.MktSliNow.DealMatchRet(Code, MatchInfo)
-		# 生成成交时间
-		MatchTime = self.CreateMatchTime()
-		# 通知柜台处理成交回报
-		self.SendTransactionReturn(OrderID, Client, MatchInfo, OrderState, MatchTime)
-		return 1,''
+	# 处理撮合结果
+	def DealMatchRetInOrderPool(self,OrderID:uuid.UUID,MatchInfo:dict)->[int,str]:
+		ExchangeServerLogger.debug("OrderPool处理撮合结果:{},{}".format(OrderID,MatchInfo))
+		# 订单数据
+		AccountID_Old,OrderID_Old,Code_Old,Direction_Old,Price_Old,Volume_Old,VolumeMatched_Old,State_Old,AvgMatchingPrice_Old,OrderTime_Old,Mkt_Old,AddPar_Old=self.GetOrderByID(OrderID)
+		# 成交数据
+		PriceMatching=MatchInfo['PriceMatching']
+		VolumeMatching=MatchInfo['VolumeMatching']
+		# 开始处理
+		# 计算新的订单记录的字段
+		OrderID,Code,Direction,Price,Volume,VolumeMatched,State,AvgMatchingPrice,OrderTime,Mkt,AccountID,AddPar=OrderID_Old,Code_Old,Direction_Old,Price_Old,Volume_Old,VolumeMatched_Old,State_Old,AvgMatchingPrice_Old,OrderTime_Old,Mkt_Old,AccountID_Old,AddPar_Old
+		# 已成交量
+		VolumeMatched=VolumeMatched_Old+VolumeMatching
+		# 状态
+		# 如果已成=订单量
+		if VolumeMatched==Volume_Old:
+			State='AllMatched'
+		elif VolumeMatched<Volume_Old and VolumeMatched!=0:
+			State='PartMatched'
+		else:
+			State='WaitToMatch'
+		# 回写数据到OrderPool
+		ValueDict={
+			"VolumeMatched": VolumeMatched,
+			"State": State
+		}
+		self.UpdateOrderByID(OrderID,ValueDict)
+		# 检查订单状态（如订单全部成交则需要删除等）
+		ret,msg=self.CheckOrderByID(OrderID)
+		ExchangeServerLogger.debug("检查订单结果:{},{}".format(ret, msg))
+		return 1,State
 
 	# 撤单函数
-	def CancelOrder(self,OrderID,Client):
+	def CancelOrder(self,OrderID:uuid.UUID,Client:ClientConnection)->[int,str]:
 		ExchangeServerLogger.info("撤销订单:{}".format(OrderID))
 		# 生成撤单时间
 		CancelTime=self.CreateCancelTime()
@@ -378,26 +477,15 @@ class Exchange(object):
 		ret,msg=self.CheckCancelOrder(OrderID,Client)
 		ExchangeServerLogger.debug("检查撤单是否有效:{},{}".format(ret,msg))
 		if ret==0:
-			self.SendCancelOrderReturn(Client,OrderID,ret,msg,CancelTime)
+			self.SendCancelOrderReturn(OrderID,Client,ret,msg,CancelTime)
 			return 0,'撤单失败'
 		# 删除订单
 		ret,msg=self.DelOrderByID(OrderID)
 		if ret==1:
 			msg='撤单成功'
 		# 发送撤单回报
-		self.SendCancelOrderReturn(Client,OrderID,ret,msg,CancelTime)
-
-	# 检查撤单信息
-	def CheckCancelOrder(self,OrderID,Client):
-		if Client.AccountID==None:
-			return 0,'账户ID异常'
-		if OrderID not in self.OrderPool:
-			return 0,'无效订单编码'
-		return 1,'检查撤单成功'
-
-	# 获取订单ID列表
-	def GetOrderIDList(self):
-		return list(self.OrderPool.columns)
+		self.SendCancelOrderReturn(OrderID,Client,ret,msg,CancelTime)
+		return ret,msg
 
 	# 新行情来了，要逐订单开始撮合
 	def OnNewQuoteComing(self):
@@ -408,7 +496,17 @@ class Exchange(object):
 		for OrderID in OrderIDList:
 			self.MatchOrderByID(OrderID)
 
-
-
 if __name__=='__main__':
 	Init()
+	# E=ExchangeBase()
+	# Order={
+	# 		"Code": "000001.SZSE",
+	# 		"Direction": 1,
+	# 		"Price": 10.0,
+	# 		"Volume": 100,
+	# 		"AddPar":{'FeeFrozen': 10.0, 'CashBodyFrozenWhenOrdering': 1000.0, 'CashFrozen': 1010.0, 'FeeFrozenWhenOrdering': 10.0, 'CashFrozenWhenOrdering': 1010.0}
+	# 	}
+	# Client=ClientConnection(1,2,3,4)
+	# Client.AccountID=uuid.uuid1()
+	# E.AddOrder(uuid.uuid1(),Order,Client)
+	# a=1
