@@ -1,3 +1,4 @@
+# coding=utf-8
 import numpy
 import threading
 import sys
@@ -49,7 +50,7 @@ if __name__ == '__main__':
         print('Press <ENTER> to close application')
 
         # subscribe to tick
-        response = q.sendSync('.u.sub', numpy.string_('trade'), numpy.string_(''))
+        response = q.sendSync('.u.sub', numpy.string_('fmq_sts'), numpy.string_(''))
         # get table model
         if isinstance(response[1], QTable):
             print('%s table data model: %s' % (response[0], response[1].dtype))

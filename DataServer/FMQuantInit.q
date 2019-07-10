@@ -1,3 +1,18 @@
+// load in u.q from tick
+upath:"w32/tick/u.q"
+@[system;"l ",upath;{-2"Failed to load u.q from ",x," : ",y, 
+		       ". Please make sure u.q is accessible.",
+                       " kdb+tick can be downloaded from http://code.kx.com/wsvn/code/kx/kdb+tick";
+		       exit 2}[upath]]
+
+// initialise pubsub 
+// all tables in the top level namespace (`.) become publish-able
+// tables that can be published can be seen in .u.w
+.u.init[]
+ask:([]time:`symbol$(); sym:`symbol$();test1:`symbol$();Price:`float$())
+
+
+
 /`初始化脚本
 show `$"FMQuant DataServer Init...";
 
@@ -41,8 +56,6 @@ show `$"Data init..."
 `CashInfo insert ("G"$("44c12f24-68d4-11e9-92f0-08606e0f5471";"50d1dd40-68d4-11e9-b96e-08606e0f5471";"5753d902-68d4-11e9-a281-08606e0f5471");1000000.0 1000000.0 1000000.0;0.0 0.0 0.0;1000000.0 1000000.0 1000000.0;0.0 0.0 0.0);
 
 `Client_CashInfo insert ("G"$("d09e1270-f38d-35f0-aad3-e23d2b2354e7");1000000.0;0.0;1000000.0 ; 0.0);
-
-
 
 
 /`启动服务
